@@ -1,8 +1,8 @@
 galaxy_info:
   author: Hitesh Nayak
-  description: developer
+  description: Utilities
   company: '-'
-  # issue_tracker_url: http://example.com/issue/tracker
+  issue_tracker_url: https://github.com/hiteshnayak305/ansible-homelab/issues
   license: license (MIT)
   min_ansible_version: '2.1'
   platforms:

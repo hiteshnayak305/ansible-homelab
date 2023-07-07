@@ -53,3 +53,8 @@
   ansible.builtin.include_role:
     name: utility
     tasks_from: set_htop_config
+
+- name: Set timezone
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: set_timezone

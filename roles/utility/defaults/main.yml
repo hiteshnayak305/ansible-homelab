@@ -43,3 +43,6 @@ k8s_install_j2s: []
 
 #htop users
 htop_users: []
+
+# timezone
+timezone: 'Etc/UTC'

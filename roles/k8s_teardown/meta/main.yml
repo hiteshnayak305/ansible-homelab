@@ -1,12 +1,14 @@
 galaxy_info:
   author: Hitesh Nayak
-  description: developer
+  description: Tear down K8s cluster
   company: '-'
-  license: license (MIT,)
+  issue_tracker_url: https://github.com/hiteshnayak305/ansible-homelab/issues
+  license: license (MIT)
   min_ansible_version: '2.1'
   platforms:
   - name: Ubuntu
     versions:
     - all
-  galaxy_tags: []
+  galaxy_tags: 
+    - K8s Cluster
 dependencies: []

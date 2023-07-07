@@ -104,7 +104,7 @@ gitea:
   ## @param gitea.admin.email Email for the Gitea admin user
   admin:
     existingSecret: gitea-admin-secret
-    email: hiteshnayak305@gitea.hitesh.com
+    email: gitea@gitea.hitesh.com
 
   ## @param gitea.config  Configuration for the Gitea server,ref: [config-cheat-sheet](https://docs.gitea.io/en-us/config-cheat-sheet/)
   config: 

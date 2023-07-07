@@ -43,7 +43,7 @@ controller:
   # When enabling LDAP or another non-Jenkins identity source, the built-in admin account will no longer exist.
   # If you disable the non-Jenkins identity store and instead use the Jenkins internal one,
   # you should revert controller.adminUser to your preferred admin user:
-  adminUser: "admin"
+  adminUser: "jenkins"
   # adminPassword: <defaults to random>
   admin:
     existingSecret: "jenkins-admin-secret"
@@ -92,7 +92,7 @@ controller:
   # jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
   jenkinsUrl: "https://jenkins.hitesh.com"
-  jenkinsAdminEmail: admin@jenkins.hitesh.com
+  jenkinsAdminEmail: jenkins@jenkins.hitesh.com
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
   
@@ -210,11 +210,17 @@ controller:
         enableCaptcha: false
         users:
         - id: "${chart-admin-username}"
+          name: "Jenkins Admin"
+          password: "${chart-admin-password}"
+          properties:
+            - mailer:
+                emailAddress: "jenkins@jenkins.hitesh.com"
+        - id: hiteshnayak305
           name: "Hitesh Nayak"
           password: "${chart-admin-password}"
           properties:
             - mailer:
-                emailAddress: "hiteshnayak305@jenkins.hitesh.com"
+                emailAddress: "hiteshnayak305@gmail.com"
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     authorizationStrategy: |-
       loggedInUsersCanDoAnything:
