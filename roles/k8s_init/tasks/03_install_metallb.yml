@@ -1,0 +1,32 @@
+- name: Add metalLB helm repository
+  kubernetes.core.helm_repository:
+    name: metallb
+    repo_url: https://metallb.github.io/metallb
+
+- name: Install metallb namespace
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls: 
+      - files/metallb_namespace.yml
+
+- name: Deploy latest version of MetalLB chart
+  kubernetes.core.helm:
+    name: metallb
+    chart_ref: metallb/metallb
+    chart_version: v0.13.10
+    update_repo_cache: true
+    release_namespace: metallb-system
+    create_namespace: false
+    wait: true
+  when: not ansible_check_mode
+
+- name: Install ip address pool and l2 advertisement file
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls: 
+      - files/metallb_ip_address_pool.yml
+      - files/metallb_l2_advertisement.yml

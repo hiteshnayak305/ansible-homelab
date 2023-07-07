@@ -1,0 +1,8 @@
+- name: Remove pip modules
+  become: true
+  become_user: root
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ pip_remove }}"
+  

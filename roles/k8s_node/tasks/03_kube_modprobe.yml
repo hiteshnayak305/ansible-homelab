@@ -1,0 +1,7 @@
+- name: Enable modprobe 'overlay'
+  ansible.builtin.modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: 
+    - overlay
+    - br_netfilter

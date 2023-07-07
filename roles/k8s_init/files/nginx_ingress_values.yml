@@ -1,0 +1,50 @@
+## nginx configuration
+## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/index.md
+##
+
+controller:
+    extraArgs:
+        default-ssl-certificate: "nginx-system/ingress-nginx-default-tls"
+    service:
+        # -- Used by cloud providers to connect the resulting `LoadBalancer` to a pre-existing static IP according to https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+        annotations: 
+          metallb.universe.tf/loadBalancerIPs: 172.16.0.50
+        enableHttp: true
+        enableHttps: true
+        ports:
+            http: 80
+            https: 443
+        targetPorts:
+            http: http
+            https: https
+        type: LoadBalancer
+        ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it.
+        ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
+        externalTrafficPolicy: "Local"
+
+        ## Must be either "None" or "ClientIP" if set. Kubernetes will default to "None".
+        ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
+        sessionAffinity: "ClientIP"
+
+## Default 404 backend
+##
+defaultBackend:
+    ##
+    enabled: false
+
+# -- TCP service key-value pairs
+## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md
+##
+tcp:
+  22: "gitea-system/gitea-ssh:22"
+
+# -- UDP service key-value pairs
+## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md
+##
+udp: {}
+#  53: "kube-system/kube-dns:53"
+
+# -- (string) A base64-encoded Diffie-Hellman parameter.
+# This can be generated with: `openssl dhparam 4096 2> /dev/null | base64`
+## Ref: https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/ssl-dh-param
+dhParam: LS0tLS1CRUdJTiBESCBQQVJBTUVURVJTLS0tLS0KTUlJQ0NBS0NBZ0VBdVhzQUZtRVc1bWVOMjNFOVdnZExUcHMrdVArMGw1d1Ixdks5RnRPc2lOTXlXalU0VW55OAptYzFpemV2Rng4ZGcyQ3RoTjFVOEhRUml4aVdTQjZqenc0TjhTSVRsbGRzRmVvaVZpWEhOYXlkS0NreXdoWU9yCnk4UGdyTVNwVzdKRE5JK084b3FBVmdSdXBQQ1VYNWZYQjdPMDFJNUdTUzkwdWxWTExvakRuZHNkS2lFWUhNdW8KWStJRGF4RFN5TzNGU1hQV0o1K2pzUHBObmFIV1RMeGlzUVRpa3hCVnJ1SDJJcHF3MURCWXZvekNIY01JZkxyVQpReG1pTUhMMG5mYlJZRndoL3Qvbzkwc0xGelA4ZHZVRXNKOEFFa0xXU2tmL2tPRVpZY3RMZjIrdVVCVjEzbVo1CndyNlVkZmZQTXo4c1prZUE4TXRrekU2ZEhCRlorTFgzVjZHSUZEVVh6ck01OVVoZ2kwN01ScUFYaEJXSUVwZ2kKZE9sT25lcmdiNGdiTS9pMWg2OGpsWXBvb082U1VQS1l3NVNJNjljTVhDVlorYjVyQVdlK0g5ME9QOUNtNitKOApmZ2ZCV3VmdG5tcU5tL3lsOUU5M0ZyMGFvREVSaGE1ODBPT2h3TVFMOGdma1Iydm4rdTgvUmNPczcvZlBBdXFYCkR1TWVlenN6ckZUZGdnREh4NVJHTHBWSkZjSVRieFVrNkVjblVPb2NFOWIzWDJNaUE5VStEeXNXVFlVSW01ZG8KSE1jTlNNOHg2Qnh5ZWFDZ2dqdFlmMzF0SDVESS82NnZPTmNtKzI1dGE2cFAzU2o2Y2hVbnRnbEIvUWdQbnVPaworVGFSZ0lVWVJLQ0orSWloQmVRU2RLZXRCTGJLZVNaZ3hmNTFmRkduWHBoSU95by8rUjF5cnQ4Q0FRST0KLS0tLS1FTkQgREggUEFSQU1FVEVSUy0tLS0tCg==

@@ -1,0 +1,49 @@
+## Number of replicas
+replicaCount: 1
+
+## Here annotations can be added to the kubernetes dashboard deployment
+annotations: {}
+## Here labels can be added to the kubernetes dashboard deployment
+labels: {}
+
+## Additional container arguments
+##
+extraArgs:
+  # - --enable-skip-login
+  - --enable-insecure-login
+  - --system-banner="Welcome to Kubernetes"
+
+## Serve application over HTTP without TLS
+##
+## Note: If set to true, you may want to add --enable-insecure-login to extraArgs
+protocolHttp: true
+
+service:
+  type: ClusterIP
+  # Dashboard service port
+  externalPort: 80
+
+# Global dashboard settings
+settings:
+  {}
+  ## Cluster name that appears in the browser window title if it is set
+  # clusterName: ""
+  ## Max number of items that can be displayed on each list page
+  # itemsPerPage: 10
+  ## Number of seconds between every auto-refresh of logs
+  # logsAutoRefreshTimeInterval: 5
+  ## Number of seconds between every auto-refresh of every resource. Set 0 to disable
+  # resourceAutoRefreshTimeInterval: 5
+  ## Hide all access denied warnings in the notification panel
+  # disableAccessDeniedNotifications: false
+
+## Pinned CRDs that will be displayed in dashboard's menu
+pinnedCRDs:
+  []
+  # - kind: customresourcedefinition
+  ##  Fully qualified name of a CRD
+  #   name: prometheuses.monitoring.coreos.com
+  ##  Display name
+  #   displayName: Prometheus
+  ##  Is this CRD namespaced?
+  #   namespaced: true

@@ -1,0 +1,48 @@
+- name: Install nginx system namespace
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls: 
+      - files/nginx_ingress_namespace.yml
+      - files/nginx_ingress_service_public.yml
+
+- name: Add nginx-ingress helm repository
+  kubernetes.core.helm_repository:
+    name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+
+- name: copy ingress values file
+  ansible.builtin.copy:
+    src: files/nginx_ingress_values.yml
+    dest: "{{ tmpdir }}/nginx_ingress_values.yml"
+  changed_when: false
+
+- name: Deploy latest version of nginx-ingress chart
+  kubernetes.core.helm:
+    name: ingress-nginx
+    chart_ref: ingress-nginx/ingress-nginx
+    chart_version: 4.7.0
+    update_repo_cache: true
+    release_namespace: nginx-system
+    create_namespace: false
+    values_files:
+      - "{{ tmpdir }}/nginx_ingress_values.yml"
+    wait: true
+  when: not ansible_check_mode
+
+- name: Remove temp files (delete file)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+    - "{{ tmpdir }}/nginx_ingress_values.yml"
+  changed_when: false
+
+- name: Install nginx tls secret
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_j2
+  vars:
+    k8s_install_j2s: 
+      - secret/nginx_ingress_secret.j2

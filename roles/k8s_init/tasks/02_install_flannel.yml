@@ -1,0 +1,40 @@
+- name: Add Flannel helm repository
+  kubernetes.core.helm_repository:
+    name: flannel
+    repo_url: https://flannel-io.github.io/flannel/
+
+- name: Install kube-flannel namespace
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls: 
+      - files/flannel_namespace.yml
+
+- name: Copy values file
+  ansible.builtin.copy:
+    src: files/flannel_values.yml
+    dest: "{{ tmpdir }}/flannel_values.yml"
+  changed_when: false
+
+- name: Deploy latest version of flannel chart
+  kubernetes.core.helm:
+    name: flannel
+    chart_ref: flannel/flannel
+    chart_version: v0.22.0
+    update_repo_cache: true
+    release_namespace: kube-flannel
+    create_namespace: false
+    values_files:
+      - "{{ tmpdir }}/flannel_values.yml"
+    wait: true
+  when: not ansible_check_mode
+
+- name: Remove temp files (delete file)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+    - "{{ tmpdir }}/flannel_values.yml"
+  changed_when: false
+

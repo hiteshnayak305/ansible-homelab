@@ -1,0 +1,45 @@
+---
+# tmpdir
+tmpdir: /tmp
+
+# Make users sudoer
+sudoers: []
+
+# Install apt packages
+apt_install: []
+
+# Remove apt packages
+apt_remove: []
+
+# Install pip packages
+pip_install: []
+
+# Remove pip packages
+pip_remove: []
+
+# Systemctl restart service
+systemctl_restart: []
+
+# Install CA Certificates
+ca_certificates: []
+
+# Set hostname
+hostname: "default-hostname"
+
+# Custom hosts entries to be added
+hosts_entries: []
+
+# Custom host file snippets to be added
+hosts_file_snippets: []
+
+# YMLs to install
+k8s_install_ymls: []
+
+# YMLs remote to install
+k8s_install_urls: []
+
+# j2 template k8s manifests
+k8s_install_j2s: []
+
+#htop users
+htop_users: []

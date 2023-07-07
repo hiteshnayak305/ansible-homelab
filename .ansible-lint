@@ -1,0 +1,5 @@
+---
+exclude_paths:
+  - tests
+  - venv
+  - roles/generator/files

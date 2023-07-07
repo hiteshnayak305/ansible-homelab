@@ -1,0 +1,26 @@
+---
+# tasks file for k8s_node
+- name: execute role k8s_node
+  become: true
+  become_user: root
+  block:
+    - name: Create User
+      include_tasks: 01_kube_sudoer.yml
+
+    - name: Mount shared NFS
+      include_tasks: 02_kube_nfs_mount.yml
+
+    - name: Enable modprobe Modules
+      include_tasks: 03_kube_modprobe.yml
+
+    - name: Disable Swap
+      include_tasks: 04_kube_disable_swap.yml
+
+    - name: Configure Sysctl
+      include_tasks: 05_kube_configure_sysctl.yml
+
+    - name: Configure Containerd
+      include_tasks: 06_kube_configure_containerd.yml
+
+    - name: Install Kubernetes
+      include_tasks: 07_kube_install_binaries.yml

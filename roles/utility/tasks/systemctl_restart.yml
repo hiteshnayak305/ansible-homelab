@@ -1,0 +1,8 @@
+- name: Restart services
+  become: true
+  become_user: root
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  with_items: "{{ systemctl_restart }}"

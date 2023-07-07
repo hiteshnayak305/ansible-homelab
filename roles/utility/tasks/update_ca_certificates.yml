@@ -1,0 +1,22 @@
+- name: Install CA Certificates
+  become: true
+  become_user: root
+  block:
+    - name: Create directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ usr_ca_cert_path }}"
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: Copy CA Certificates
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ usr_ca_cert_path }}/{{ item | basename }}"
+      with_items: "{{ ca_certificates }}"
+      register: add_cert
+
+    - name: Update CA Certificates
+      ansible.builtin.command: update-ca-certificates
+      when: add_cert is changed

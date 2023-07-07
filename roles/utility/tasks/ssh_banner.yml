@@ -1,0 +1,23 @@
+- name: Install ssh banner
+  become: true
+  become_user: root
+  block:
+    - name: Add banner info in sshd.conf
+      ansible.builtin.lineinfile:
+        dest: "{{ sshd_config_path }}"
+        regexp: '#Banner /etc/issue.net'
+        line: "Banner /etc/issue.net"
+      register: config
+
+    - name: Update ssh banner
+      ansible.builtin.template: 
+        src: etc/ssh_banner.j2 
+        dest: /etc/issue.net
+      register: template
+
+- name: Restart SSH Service
+  include_tasks: systemctl_restart.yml
+  vars:
+    systemctl_restart:
+      - ssh
+  when: config is changed or template is changed

@@ -1,0 +1,8 @@
+- name: Allow use sudo without needing a password
+  become: true
+  become_user: root
+  ansible.builtin.lineinfile:
+    dest: "{{ sudoers_file_path }}"
+    line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'
+  with_items: "{{ sudoers }}"

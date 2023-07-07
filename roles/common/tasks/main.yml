@@ -1,0 +1,55 @@
+---
+- name: Alow user root without password
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: sudoers
+
+- name: Install PIP Packages
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: pip_install
+
+- name: Remove PIP Packages
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: pip_remove
+
+- name: Upgrade APT Packages
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: apt_upgrade
+
+- name: Install APT Packages
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: apt_install
+
+- name: Remove APT Packages
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: apt_remove
+
+- name: Update /etc/hosts file
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: set_hosts
+
+- name: Update hostname
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: set_hostname
+
+- name: Update CA certificates
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: update_ca_certificates
+
+- name: Update SSH Banner
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: ssh_banner
+
+- name: Install htop config file for users
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: set_htop_config

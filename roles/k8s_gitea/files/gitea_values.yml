@@ -1,0 +1,180 @@
+# Default values for gitea.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## @param replicaCount number of replicas for the statefulset
+replicaCount: 1
+
+## @param clusterDomain cluster domain
+clusterDomain: cluster.local
+
+## @section Service
+service:
+  ## @param service.http.type Kubernetes service type for web traffic
+  ## @param service.http.port Port number for web traffic
+  ## @param service.http.clusterIP ClusterIP setting for http autosetup for statefulset is None
+  ## @param service.http.loadBalancerIP LoadBalancer IP setting
+  ## @param service.http.nodePort NodePort for http service
+  ## @param service.http.externalTrafficPolicy If `service.http.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable source IP preservation
+  ## @param service.http.externalIPs External IPs for service
+  ## @param service.http.ipFamilyPolicy HTTP service dual-stack policy
+  ## @param service.http.ipFamilies HTTP service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/).
+  ## @param service.http.loadBalancerSourceRanges Source range filter for http loadbalancer
+  ## @param service.http.annotations HTTP service annotations
+  http:
+    type: ClusterIP
+    port: 3000
+
+  ## @param service.ssh.type Kubernetes service type for ssh traffic
+  ## @param service.ssh.port Port number for ssh traffic
+  ## @param service.ssh.clusterIP ClusterIP setting for ssh autosetup for statefulset is None
+  ## @param service.ssh.loadBalancerIP LoadBalancer IP setting
+  ## @param service.ssh.nodePort NodePort for ssh service
+  ## @param service.ssh.externalTrafficPolicy If `service.ssh.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable source IP preservation
+  ## @param service.ssh.externalIPs External IPs for service
+  ## @param service.ssh.ipFamilyPolicy SSH service dual-stack policy
+  ## @param service.ssh.ipFamilies SSH service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/).
+  ## @param service.ssh.hostPort HostPort for ssh service
+  ## @param service.ssh.loadBalancerSourceRanges Source range filter for ssh loadbalancer
+  ## @param service.ssh.annotations SSH service annotations
+  ssh:
+    type: ClusterIP
+    port: 22
+    clusterIP: None
+
+## @section StatefulSet
+#
+## @param resources Kubernetes resources
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 300m
+    memory: 170Mi
+
+## @section Persistence
+#
+## @param persistence.enabled Enable persistent storage
+## @param persistence.existingClaim Use an existing claim to store repository information
+## @param persistence.size Size for persistence to store repo information
+## @param persistence.accessModes AccessMode for persistence
+## @param persistence.labels Labels for the persistence volume claim to be created
+## @param persistence.annotations Annotations for the persistence volume claim to be created
+## @param persistence.storageClass Name of the storage class to use
+## @param persistence.subPath Subdirectory of the volume to mount at
+persistence:
+  enabled: true
+  existingClaim: pvc-gitea
+  size: 10Gi
+
+## @param extraVolumes Additional volumes to mount to the Gitea statefulset
+extraVolumes:
+- name: gitea-custom-root-ca-cert-vol
+  secret:
+    secretName: gitea-custom-root-ca-cert
+
+## @param extraContainerVolumeMounts Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.
+extraContainerVolumeMounts:
+  - mountPath: "/etc/ssl/certs"
+    name: gitea-custom-root-ca-cert-vol
+    readOnly: true
+
+# Configure commit/action signing prerequisites
+## @section Signing
+#
+## @param signing.enabled Enable commit/action signing
+## @param signing.gpgHome GPG home directory
+## @param signing.privateKey Inline private gpg key for signed Gitea actions
+## @param signing.existingSecret Use an existing secret to store the value of `signing.privateKey`
+signing:
+  enabled: true
+  existingSecret: gitea-gpg-key
+
+## @section Gitea
+#
+gitea:
+  ## @param gitea.admin.username Username for the Gitea admin user
+  ## @param gitea.admin.existingSecret Use an existing secret to store admin user credentials
+  ## @param gitea.admin.password Password for the Gitea admin user
+  ## @param gitea.admin.email Email for the Gitea admin user
+  admin:
+    existingSecret: gitea-admin-secret
+    email: hiteshnayak305@gitea.hitesh.com
+
+  ## @param gitea.config  Configuration for the Gitea server,ref: [config-cheat-sheet](https://docs.gitea.io/en-us/config-cheat-sheet/)
+  config: 
+    server: 
+      DOMAIN: gitea.hitesh.com
+      ROOT_URL: https://gitea.hitesh.com/
+      SSH_DOMAIN: gitea.hitesh.com
+    repository.signing:
+      SIGNING_KEY: 7BC3C3533076A13F
+      SIGNING_NAME: Gitea
+      SIGNING_EMAIL: gitea@gitea.hitesh.com
+    webhook:
+      ALLOWED_HOST_LIST: '*.hitesh.com'
+
+## @section PostgreSQL
+#
+## @param postgresql.enabled Enable PostgreSQL
+## @param postgresql.global.postgresql.auth.password Password for the `gitea` user (overrides `auth.password`)
+## @param postgresql.global.postgresql.auth.database Name for a custom database to create (overrides `auth.database`)
+## @param postgresql.global.postgresql.auth.username Name for a custom user to create (overrides `auth.username`)
+## @param postgresql.global.postgresql.service.ports.postgresql PostgreSQL service port (overrides `service.ports.postgresql`)
+## @param postgresql.primary.persistence.size PVC Storage Request for PostgreSQL volume
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        postgresPassword: gitea # avoid password issue when upgrade
+  primary:
+    ## PostgreSQL Primary resource requests and limits
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ## @param primary.resources.limits The resources limits for the PostgreSQL Primary containers
+    ## @param primary.resources.requests.memory The requested memory for the PostgreSQL Primary containers
+    ## @param primary.resources.requests.cpu The requested cpu for the PostgreSQL Primary containers
+    ##
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 250m
+      requests:
+        memory: 256Mi
+        cpu: 250m
+    ## PostgreSQL Primary persistence configuration
+    ##
+    persistence:
+      ## @param primary.persistence.enabled Enable PostgreSQL Primary data persistence using PVC
+      ##
+      enabled: true
+      ## @param primary.persistence.existingClaim Name of an existing PVC to use
+      ##
+      existingClaim: pvc-gitea-postgresql-primary
+      ## @param primary.persistence.size PVC Storage Request for PostgreSQL volume
+      ##
+      size: 1Gi
+
+## @section Memcached
+#
+## @param memcached.enabled Enable Memcached
+memcached:
+  enabled: true
+  ## Memcached resource requests and limits
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ## @param resources.limits The resources limits for the Memcached containers
+  ## @param resources.requests.memory The requested memory for the Memcached containers
+  ## @param resources.requests.cpu The requested cpu for the Memcached containers
+  ##
+  resources:
+    limits:
+      memory: 256Mi
+      cpu: 250m
+    requests:
+      memory: 256Mi
+      cpu: 250m

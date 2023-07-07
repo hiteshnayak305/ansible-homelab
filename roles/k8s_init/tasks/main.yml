@@ -1,0 +1,32 @@
+---
+- name: execute postinstallation for k8s
+  become: true
+  become_user: "{{ kubernetes_user }}"
+  block:
+    - name: Configure coredns
+      include_tasks: 00_config_coredns.yml
+
+    - name: Installing Helm
+      include_tasks: 01_install_helm.yml
+
+    - name: Installing Flannel Network Plugin
+      include_tasks: 02_install_flannel.yml
+
+    - name: Installing MetalLB
+      include_tasks: 03_install_metallb.yml
+      
+    - name: Installing Nginx Ingress
+      include_tasks: 04_install_nginx_ingress.yml
+
+    # - name: Installing Weave Scope
+    #   include_tasks: 05_install_weave_scope.yml
+
+    - name: Installing Kubernetes Dashboard
+      include_tasks: 05_install_kubernetes_dashboard.yml
+      
+    # - name: Installing skooner
+    #   include_tasks: 05_install_skooner.yml
+
+    - name: Installing NFS Subdirectory External Provisioner
+      include_tasks: 06_install_nfs-subdir-external-provisioner.yml
+  

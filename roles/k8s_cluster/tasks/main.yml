@@ -1,0 +1,21 @@
+---
+# tasks file for k8s_cluster
+- name: execute role k8s_cluster
+  become: true
+  become_user: "{{ kubernetes_user }}"
+  block:
+    - name: Create Cluster
+      include_tasks: 01_master_init.yml
+      when: inventory_hostname == 'k8s-master-01'
+
+    - name: Run join for other master nodes
+      include_tasks: 02_master_join.yml
+      when: inventory_hostname in groups['k8s_master'] and inventory_hostname != 'k8s-master-01'
+
+    - name: Run join for workers
+      include_tasks: 03_worker_join.yml
+      when: inventory_hostname in groups['k8s_worker']
+
+    - name: Cleanup join commands
+      include_tasks: 04_cleanup.yml
+

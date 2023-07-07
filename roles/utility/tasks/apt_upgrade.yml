@@ -1,0 +1,13 @@
+- name: Apt update, upgrade, reboot
+  become: true
+  become_user: root
+  block:
+    - name: Upgrade all APT packages
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+      register: upgrade
+
+    - name: Reboot Machine
+      include_tasks: reboot.yml
+      when: upgrade is changed

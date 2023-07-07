@@ -1,0 +1,15 @@
+---
+# defaults file for k8s_gitea
+
+# tmpdir
+tmpdir: /tmp
+
+#admin user
+gitea_admin_username: admin
+gitea_admin_password: password
+
+# ca cert
+root_ca_crt: ''
+
+# system gpg key
+gitea_gpg_key: ''

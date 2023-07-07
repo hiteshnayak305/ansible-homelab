@@ -1,0 +1,27 @@
+- name: Make sure the folder exists => /etc/modules-load.d
+  ansible.builtin.file:
+    path: /etc/modules-load.d
+    state: directory
+
+- name: Copy the kube modules
+  ansible.builtin.copy:
+    src: "files/etc/modules-load.d/k8s.conf"
+    dest: "/etc/modules-load.d/k8s.conf"
+
+- name: Make sure the folder exists => /etc/sysctl.d
+  ansible.builtin.file:
+    path: /etc/sysctl.d
+    state: directory
+
+- name: Copy the kube sysctl conf
+  ansible.builtin.copy:
+    src: "files/etc/sysctl.d/k8s.conf"
+    dest: "/etc/sysctl.d/k8s.conf"
+
+- name: set ipv4 forward to 1
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true

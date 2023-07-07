@@ -1,0 +1,28 @@
+- name: Make sure the folder exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: nobody
+    group: nogroup
+  with_items: 
+    - "/home/{{ kubernetes_user }}/nfs/ssd_0"
+    - "/home/{{ kubernetes_user }}/nfs/hdd_0"
+
+- name: Mount NFS volume ssd_0
+  ansible.builtin.mount:
+    src: "{{ nfs_server }}:/mnt/nfs/ssd_0"
+    path: "/home/{{ kubernetes_user }}/nfs/ssd_0"
+    opts: rw,sync,hard
+    state: mounted
+    fstype: nfs
+  when: nfs_server is defined
+
+- name: Mount NFS volume hdd_0
+  ansible.builtin.mount:
+    src: "{{ nfs_server }}:/mnt/nfs/hdd_0"
+    path: "/home/{{ kubernetes_user }}/nfs/hdd_0"
+    opts: rw,sync,hard
+    state: mounted
+    fstype: nfs
+  when: nfs_server is defined
+  

@@ -1,0 +1,38 @@
+---
+- name: Execute role nfs server
+  become: true
+  become_user: root
+  block:
+    - name: Ensuring All Paths Exist
+      ansible.builtin.file:
+        dest: "{{ item['path'] }}"
+        owner: "{{ nfs_server_owner }}"
+        group: "{{ nfs_server_group }}"
+        mode: "{{ item['mode']|default(omit) }}"
+        state: "directory"
+      with_items: '{{ nfs_server_exports }}'
+      when: nfs_server_exports is defined
+
+    - name: Configuring /etc/exports
+      ansible.builtin.template:
+        src: "etc/exports.j2"
+        dest: "/etc/exports"
+        owner: "root"
+        group: "root"
+        mode: "u=rw,g=r,o=r"
+      notify:
+        - exportfs a
+        - restart nfs-kernel-server
+
+    - name: Remove swapfile from /etc/fstab
+      ansible.builtin.mount:
+        name: "{{ item }}"
+        fstype: swap
+        state: absent
+      with_items:
+        - swap
+        - none
+
+    - name: Disable swap
+      ansible.builtin.command: swapoff -a
+      when: ansible_swaptotal_mb > 0

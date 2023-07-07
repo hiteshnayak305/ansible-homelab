@@ -1,0 +1,15 @@
+- name: Install weave scope
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_urls: 
+      - https://github.com/weaveworks/scope/releases/download/v1.13.2/k8s-scope.yaml
+
+- name: Install ingress for weave scope
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls: 
+      - files/weave_ingress.yml

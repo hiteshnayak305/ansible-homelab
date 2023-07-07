@@ -1,0 +1,19 @@
+- name: Apt update, install, cleanup
+  become: true
+  become_user: root
+  block:
+    - name: Update package repositories
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install APT Packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ apt_install }}"
+
+    - name: Remove useless packages from the cache
+      ansible.builtin.apt:
+        autoclean: yes
+        autoremove: yes
+        clean: yes

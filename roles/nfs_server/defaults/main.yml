@@ -1,0 +1,32 @@
+---
+# defaults file for nfs_server
+nfs_server_owner: nobody
+nfs_server_group: nogroup
+nfs_server_exports: []
+  # - export:
+  #   access:
+  #     # - hostname: '172.16.24.0/24'
+  #     #   options:
+  #     #     - 'ro'
+  #     #     - 'sync'
+  #     #     - 'no_subtree_check'
+  #     #     - 'no_root_squash'
+  #     - hostname: '192.168.250.0/24'
+  #       options:
+  #         - 'rw'
+  #         - 'sync'
+  #         - 'no_subtree_check'
+  #         - 'no_root_squash'
+  #   mode: "u=rwx,g=rx,o=rx"
+  #   path: '/opt/nfs/test1'
+  # - export:
+  #   access:
+  #     - hostname: '*'
+  #       options:
+  #         - 'rw'
+  #         - 'sync'
+  #         - 'no_subtree_check'
+  #         - 'no_root_squash'
+  #   mode: "u=rwx,g=rwx,o=rwx"
+  #   path: '/opt/nfs/test2'
+  

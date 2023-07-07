@@ -1,0 +1,19 @@
+- name: pip install modules
+  become: true
+  become_user: root
+  block:
+    - name: Install Python pip3
+      include_tasks: apt_install.yml
+      vars:
+        apt_install:
+          - python3-pip
+
+    - name: Install pip modules
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        state: present
+        umask: "0022"
+      with_items: "{{ pip_install }}"
+
+
+  
