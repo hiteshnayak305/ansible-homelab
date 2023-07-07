@@ -168,7 +168,7 @@ agent:
       - name: kaniko
         label: jenkins-kaniko
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         containers:
           - name: kaniko
             image: gcr.io/kaniko-project/executor:debug
@@ -212,30 +212,68 @@ agent:
                   items:
                     - key: rootCA.crt
                       path: additional-ca-cert-bundle.crt
-  #   python: |
-  #     - name: python
-  #       label: jenkins-python
-  #       serviceAccount: jenkins
-  #       containers:
-  #         - name: python
-  #           image: python:3
-  #           command: "/bin/sh -c"
-  #           args: "cat"
-  #           ttyEnabled: true
-  #           privileged: true
-  #           resourceRequestCpu: "300m"
-  #           resourceRequestMemory: "512Mi"
-  #           resourceLimitCpu: "500m"
-  #           resourceLimitMemory: "1024Mi"
-  #           volumeMounts:
-  #             - name: ssl-certs-vol
-  #               mountPath: "/etc/ssl/certs"
-  #               readOnly: true
-  #       volumes:
-  #         - name: ssl-certs-vol
-  #           hostPath:
-  #             path: /etc/ssl/certs
-  #             type: Directory
+    kubectl: |
+      - name: kubectl
+        label: jenkins-kubectl
+        serviceAccount: jenkins
+        showRawYaml: false
+        containers:
+          - name: kubectl
+            image: bitnami/kubectl:latest
+            command: "/bin/bash -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "100m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "300m"
+            resourceLimitMemory: "500Mi"
+        volumes:
+          - hostPathVolume:
+              hostPath: /etc/ssl/certs
+              mountPath: /etc/ssl/certs
+              readOnly: true
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            securityContext:
+              runAsUser: 1000 # default UID of jenkins user in agent image
+            containers:
+              - name: kubectl
+                volumeMounts:
+                  - name: kubectl-config-secret-vol
+                    mountPath: "/.kube"
+                    readOnly: true
+            volumes:
+              - name: kubectl-config-secret-vol
+                secret:
+                  secretName: jenkins-credentials-secret
+                  items:
+                    - key: kubectl-config
+                      path: config
+    python: |
+      - name: python
+        label: jenkins-python
+        serviceAccount: jenkins
+        showRawYaml: false
+        containers:
+          - name: python
+            image: python:3
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "300m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "500m"
+            resourceLimitMemory: "1024Mi"
+        volumes:
+          - hostPathVolume:
+              hostPath: /etc/ssl/certs
+              mountPath: /etc/ssl/certs
+              readOnly: true
 
 # Here you can add additional agents
 # They inherit all values from `agent` so you only need to specify values which differ

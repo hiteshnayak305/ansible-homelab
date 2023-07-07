@@ -13,3 +13,6 @@ root_ca_crt: ''
 # gitea registry
 gitea_docker_config_json: '{}'
 gitea_docker_config_json_base64: ''
+
+# kubectl
+kubectl_config: ''
