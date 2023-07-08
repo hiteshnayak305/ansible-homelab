@@ -74,14 +74,24 @@ persistence:
 
 ## @param extraVolumes Additional volumes to mount to the Gitea statefulset
 extraVolumes:
-- name: gitea-custom-root-ca-cert-vol
-  secret:
-    secretName: gitea-custom-root-ca-cert
+# - name: gitea-custom-root-ca-cert-vol
+#   secret:
+#     secretName: gitea-custom-root-ca-cert
+#     items:
+#       - key: rootCA.crt
+#         path: rootCA.crt
+- name: host-ssl-vol
+  hostPath:
+    path: "/etc/ssl/certs"
+    type: Directory
 
 ## @param extraContainerVolumeMounts Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.
 extraContainerVolumeMounts:
+  # - mountPath: "/etc/ssl/certs"
+  #   name: gitea-custom-root-ca-cert-vol
+  #   readOnly: true
   - mountPath: "/etc/ssl/certs"
-    name: gitea-custom-root-ca-cert-vol
+    name: host-ssl-vol
     readOnly: true
 
 # Configure commit/action signing prerequisites
