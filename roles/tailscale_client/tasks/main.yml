@@ -1,0 +1,7 @@
+---
+- name: Execute Role Tailscale Client
+  become: true
+  become_user: root
+  block:
+    - name: Install binaries
+      include_tasks: 01_install_binaries.yml

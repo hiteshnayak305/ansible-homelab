@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: ingress-weave-scope
   namespace: weave
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
   - host: weave.hitesh.com

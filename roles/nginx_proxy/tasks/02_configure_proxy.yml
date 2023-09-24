@@ -1,0 +1,38 @@
+- name: Ensuring available-modules config path exists
+  ansible.builtin.file:
+    dest: "{{ available_modules_config_file_path }}"
+    owner: "root"
+    group: "root"
+    mode: 0755
+    state: "directory"
+
+- name: Install custom config file
+  ansible.builtin.template:
+    src: etc/nginx/modules-available/hitesh.com.j2
+    dest: "{{ available_modules_config_file_path }}/hitesh.com"
+    owner: "root"
+    group: "root"
+    mode: 0755
+  register: config0
+
+- name: Disable default http config file
+  ansible.builtin.file:
+    path: "{{ enabled_sites_config_file_path }}/default"
+    state: absent
+  register: config1
+
+- name: Enable custom config file
+  ansible.builtin.file:
+    src: "{{ available_modules_config_file_path }}/hitesh.com"
+    dest: "{{ enabled_modules_config_file_path }}/hitesh.com.conf"
+    owner: "root"
+    group: "root"
+    mode: 0755
+    state: link
+  register: config2
+
+- name: Test Configuration
+  ansible.builtin.command: "nginx -t"
+  when: config0 is changed or config1 is changed or config2 is changed
+  notify: 
+    - restart nginx

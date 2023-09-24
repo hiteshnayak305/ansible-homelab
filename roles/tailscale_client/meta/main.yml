@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Hitesh Nayak
+  description: Install Tailscale Client
+  company: '-'
+  issue_tracker_url: https://github.com/hiteshnayak305/ansible-homelab/issues
+  license: license (MIT)
+  min_ansible_version: '2.1'
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags: 
+    - vpn
+    - tailscale
+dependencies: []

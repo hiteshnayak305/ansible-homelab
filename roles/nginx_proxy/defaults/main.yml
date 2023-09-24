@@ -1,0 +1,5 @@
+---
+# defaults file for nfs_server
+available_modules_config_file_path: /etc/nginx/modules-available
+enabled_modules_config_file_path: /etc/nginx/modules-enabled
+enabled_sites_config_file_path: /etc/nginx/sites-enabled

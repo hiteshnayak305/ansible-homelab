@@ -118,16 +118,16 @@ controller:
   serviceExternalTrafficPolicy:
 
   # Set to false to download the minimum required version of all dependencies.
-  installLatestPlugins: true
+  installLatestPlugins: false
 
   # Set to true to download latest dependencies of any plugin that is requested to have the latest version.
   installLatestSpecifiedPlugins: false
 
   # List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins: 
-    - gitea:latest
-    - blueocean:latest
-    - job-dsl:latest
+    - gitea:1.4.5
+    - blueocean:1.27.5.1
+    - job-dsl:1.85
 
   # Enable to initialize the Jenkins controller only once on initial installation.
   # Without this, whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates which has the potential to cause breakage.

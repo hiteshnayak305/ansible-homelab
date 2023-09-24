@@ -53,12 +53,13 @@
         - files/jenkins_values_jcas_plugins_config.yml
         - files/jenkins_values_jcas_jobs.yml
         - files/jenkins_values_agent.yml
+        - files/jenkins_values_jcas_security_config.yml
 
     - name: Deploy latest version of jenkins chart
       kubernetes.core.helm:
         name: jenkins
         chart_ref: jenkins/jenkins
-        chart_version: 4.3.29
+        chart_version: 4.6.4
         update_repo_cache: true
         release_namespace: jenkins
         create_namespace: false
@@ -68,6 +69,7 @@
           - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
           - "{{ tmpdir }}/jenkins_values_agent.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -81,4 +83,5 @@
         - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
         - "{{ tmpdir }}/jenkins_values_agent.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
       changed_when: false

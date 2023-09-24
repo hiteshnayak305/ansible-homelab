@@ -1,0 +1,31 @@
+- name: Add an apt signing key for Tailscale
+  ansible.builtin.apt_key:
+    url: https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg
+    state: present
+
+- name: Adding apt repository for Tailscale
+  ansible.builtin.apt_repository:
+    repo: deb https://pkgs.tailscale.com/stable/ubuntu jammy main
+    state: present
+    filename: tailscale.list
+
+- name: Install Tailscale binaries
+  ansible.builtin.apt: 
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - tailscale
+
+# - name: Install tailscale with shell
+#   ansible.builtin.command: "curl -fsSL https://tailscale.com/install.sh | sh"
+
+#- name: Tailscale login
+#  ansible.builtin.command: tailscale login
+
+- name: Tailscale up
+  ansible.builtin.command: "tailscale up --authkey {{ tailscale_authkey }}"
+  when: "tailscale_authkey and tailscale_authkey|length > 0"
+  notify: 
+    - restart tailscale

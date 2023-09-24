@@ -1,0 +1,9 @@
+---
+- name: Execute Role Nginx Proxy
+  become: true
+  become_user: root
+  block:
+    - name: Install binaries
+      include_tasks: 01_install_binaries.yml
+    - name: Install configuration files
+      include_tasks: 02_configure_proxy.yml

@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: ingress-jenkins
   namespace: jenkins
+  annotations: 
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
   - host: jenkins.hitesh.com
