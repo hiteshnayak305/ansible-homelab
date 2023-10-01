@@ -40,7 +40,6 @@ service:
   ssh:
     type: ClusterIP
     port: 22
-    clusterIP: None
 
 ## @section StatefulSet
 #
@@ -69,7 +68,8 @@ resources:
 ## @param persistence.subPath Subdirectory of the volume to mount at
 persistence:
   enabled: true
-  existingClaim: pvc-gitea
+  create: false
+  claimName: pvc-gitea
   size: 10Gi
 
 ## @param extraVolumes Additional volumes to mount to the Gitea statefulset
@@ -122,12 +122,88 @@ gitea:
       DOMAIN: gitea.hitesh.com
       ROOT_URL: https://gitea.hitesh.com/
       SSH_DOMAIN: gitea.hitesh.com
+      START_SSH_SERVER: false
     repository.signing:
       SIGNING_KEY: 7BC3C3533076A13F
       SIGNING_NAME: Gitea
       SIGNING_EMAIL: gitea@gitea.hitesh.com
     webhook:
       ALLOWED_HOST_LIST: '*.hitesh.com'
+    ## #356 https://gitea.com/gitea/helm-chart/issues/356
+    session:
+      PROVIDER: redis-cluster
+      PROVIDER_CONFIG: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+    cache:
+      ENABLED: true
+      ADAPTER: redis-cluster
+      HOST: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+    queue:
+      TYPE: redis
+      CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+
+## @section redis-cluster
+## @param redis-cluster.enabled Enable redis
+## @param redis-cluster.usePassword Whether to use password authentication
+redis-cluster:
+  enabled: true
+  usePassword: false
+  ## Container resource requests and limits
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ## We usually recommend not to specify default resources and to leave this as a conscious
+  ## choice for the user. This also increases chances charts run on environments with little
+  ## resources, such as Minikube. If you do want to specify resources, uncomment the following
+  ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  ## @param updateJob.resources.limits The resources limits for the container
+  ## @param updateJob.resources.requests The requested resources for the container
+  ##
+  resources:
+    limits:
+       cpu: 250m
+       memory: 256Mi
+    requests:
+       cpu: 250m
+       memory: 256Mi
+  ## Redis&reg; Cluster settings
+  ##
+  cluster:
+    ## @param cluster.nodes The number of master nodes should always be >= 3, otherwise cluster creation will fail
+    ##
+    nodes: 6
+    ## @param cluster.replicas Number of replicas for every master in the cluster
+    ## Parameter to be passed as --cluster-replicas to the redis-cli --cluster create
+    ## 1 means that we want a replica for every master created
+    ##
+    replicas: 1
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    ## @param persistence.storageClass Storage class of backing PVC
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    storageClass: "nfs-client-ssd-0"
+    ## @param persistence.size Size of data volume
+    ##
+    size: 250Mi
+
+## @section postgresql-ha
+#
+## @param postgresql-ha.enabled Enable postgresql-ha
+## @param postgresql-ha.postgresql.password Password for the `gitea` user (overrides `auth.password`)
+## @param postgresql-ha.global.postgresql.database Name for a custom database to create (overrides `auth.database`)
+## @param postgresql-ha.global.postgresql.username Name for a custom user to create (overrides `auth.username`)
+## @param postgresql-ha.global.postgresql.password Name for a custom password to create (overrides `auth.password`)
+## @param postgresql-ha.postgresql.repmgrPassword Repmgr Password
+## @param postgresql-ha.postgresql.postgresPassword postgres Password
+## @param postgresql-ha.pgpool.adminPassword pgpool adminPassword
+## @param postgresql-ha.service.ports.postgresql postgresql service port (overrides `service.ports.postgresql`)
+## @param postgresql-ha.primary.persistence.size PVC Storage Request for postgresql-ha volume
+postgresql-ha:
+  enabled: false
 
 ## @section PostgreSQL
 #
@@ -169,22 +245,3 @@ postgresql:
       ## @param primary.persistence.size PVC Storage Request for PostgreSQL volume
       ##
       size: 1Gi
-
-## @section Memcached
-#
-## @param memcached.enabled Enable Memcached
-memcached:
-  enabled: true
-  ## Memcached resource requests and limits
-  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param resources.limits The resources limits for the Memcached containers
-  ## @param resources.requests.memory The requested memory for the Memcached containers
-  ## @param resources.requests.cpu The requested cpu for the Memcached containers
-  ##
-  resources:
-    limits:
-      memory: 256Mi
-      cpu: 250m
-    requests:
-      memory: 256Mi
-      cpu: 250m
