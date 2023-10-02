@@ -222,6 +222,8 @@ controller:
           properties:
             - mailer:
                 emailAddress: "hiteshnayak305@gmail.com"
+            - timezone:
+                timeZoneName: "Asia/Kolkata"
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     authorizationStrategy: |-
       loggedInUsersCanDoAnything:
