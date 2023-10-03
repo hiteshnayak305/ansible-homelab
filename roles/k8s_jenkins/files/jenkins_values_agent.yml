@@ -97,6 +97,7 @@ agent:
         label: jenkins-kaniko
         serviceAccount: jenkins
         showRawYaml: true
+        inheritFrom: default
         containers:
           - name: kaniko
             image: gcr.io/kaniko-project/executor:debug
@@ -140,6 +141,7 @@ agent:
         label: jenkins-k8s
         serviceAccount: jenkins
         showRawYaml: true
+        inheritFrom: default
         containers:
           - name: k8s
             image: alpine/k8s:1.28.2
@@ -173,6 +175,7 @@ agent:
         label: jenkins-python
         serviceAccount: jenkins
         showRawYaml: true
+        inheritFrom: default
         containers:
           - name: python
             image: python:3
@@ -188,6 +191,7 @@ agent:
         label: jenkins-jdk17
         serviceAccount: jenkins
         showRawYaml: true
+        inheritFrom: default
         containers:
           - name: jdk17
             image: eclipse-temurin:17-jdk-alpine
