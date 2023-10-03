@@ -71,7 +71,7 @@ agent:
   # Doesn't allocate pseudo TTY by default
   TTYEnabled: false
   # Max number of spawned agent
-  containerCap: 10
+  containerCap: 3
   # Pod name
   podName: "default"
   # Allows the Pod to remain active for reuse until the configured number of
