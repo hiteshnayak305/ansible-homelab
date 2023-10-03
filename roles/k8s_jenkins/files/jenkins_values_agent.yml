@@ -77,30 +77,12 @@ agent:
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
   idleMinutes: 5
-
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
   yamlMergeStrategy: "merge"
   # Timeout in seconds for an agent to be online
   connectTimeout: 100
   # Annotations to apply to the pod.
   annotations: {}
-
-  # Add additional containers to the agents.
-  # Containers specified here are added to all agents. Set key empty to remove container from additional agents.
-  additionalContainers: []
-  #  - sideContainerName: dind
-  #    image: docker
-  #    tag: dind
-  #    command: dockerd-entrypoint.sh
-  #    args: ""
-  #    privileged: true
-  #    resources:
-  #      requests:
-  #        cpu: 500m
-  #        memory: 1Gi
-  #      limits:
-  #        cpu: 1
-  #        memory: 2Gi
 
   # Below is the implementation of custom pod templates for the default configured kubernetes cloud.
   # Add a key under podTemplates for each pod template. Each key (prior to | character) is just a label, and can be any value.
@@ -153,14 +135,14 @@ agent:
                   items:
                     - key: rootCA.crt
                       path: additional-ca-cert-bundle.crt
-    kubectl: |
-      - name: kubectl
-        label: jenkins-kubectl
+    k8s: |
+      - name: k8s
+        label: jenkins-k8s
         serviceAccount: jenkins
         showRawYaml: true
         containers:
-          - name: kubectl
-            image: bitnami/kubectl:latest
+          - name: k8s
+            image: alpine/k8s:1.28.2
             command: "/bin/bash -c"
             args: "cat"
             ttyEnabled: true
@@ -174,10 +156,10 @@ agent:
           kind: Pod
           spec:
             containers:
-              - name: kubectl
+              - name: k8s
                 volumeMounts:
                   - name: kubectl-config-secret-vol
-                    mountPath: "/.kube"
+                    mountPath: "/root/.kube"
                     readOnly: true
             volumes:
               - name: kubectl-config-secret-vol
