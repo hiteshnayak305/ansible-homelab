@@ -201,3 +201,18 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "500m"
             resourceLimitMemory: "1024Mi"
+    jdk17: |
+      - name: jdk17
+        label: jenkins-jdk17
+        serviceAccount: jenkins
+        showRawYaml: true
+        containers:
+          - name: jdk17
+            image: eclipse-temurin:17-jdk-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            ttyEnabled: true
+            resourceRequestCpu: "300m"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "500m"
+            resourceLimitMemory: "1024Mi"
