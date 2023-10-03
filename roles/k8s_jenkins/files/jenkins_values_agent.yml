@@ -1,27 +1,14 @@
 agent:
   enabled: true
-  defaultsProviderTemplate: ""
-  # URL for connecting to the Jenkins controller
-  jenkinsUrl:
-  # connect to the specified host and port, instead of connecting directly to the Jenkins controller
-  jenkinsTunnel:
-  kubernetesConnectTimeout: 5
-  kubernetesReadTimeout: 15
-  maxRequestsPerHostStr: "32"
-  namespace:
   image: "jenkins/inbound-agent"
-  tag: "3107.v665000b_51092-15"
+  tag: "latest"
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   customJenkinsLabels: []
-  # name of the secret to be used for image pulling
-  imagePullSecretName:
   componentName: "jenkins-agent"
   websocket: false
   directConnection: false
   privileged: false
-  runAsUser:
-  runAsGroup:
   hostNetworking: false
   resources:
     requests:
@@ -34,7 +21,7 @@ agent:
   alwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
   # Possible values: Always, Never, OnFailure
-  podRetention: "Never"
+  podRetention: "Always"
   # Disable if you do not want the Yaml the agent pod template to show up
   # in the job Console Output. This can be helpful for either security reasons
   # or simply to clean up the output to make it easier to read.
@@ -44,53 +31,23 @@ agent:
   # Configure the attributes as they appear in the corresponding Java class for that type
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
   volumes: 
-  # - type: ConfigMap
-  #   configMapName: myconfigmap
-  #   mountPath: /var/myapp/myconfigmap
-  # - type: EmptyDir
-  #   mountPath: /var/myapp/myemptydir
-  #   memory: false
     - type: HostPath
       hostPath: /etc/ssl/certs
       mountPath: /etc/ssl/certs
-  # - type: Nfs
-  #   mountPath: /var/myapp/mynfs
-  #   readOnly: false
-  #   serverAddress: "192.0.2.0"
-  #   serverPath: /var/lib/containers
-  # - type: PVC
-  #   claimName: mypvc
-  #   mountPath: /var/myapp/mypvc
-  #   readOnly: false
-  # - type: Secret
-  #   defaultMode: "600"
-  #   mountPath: /etc/ssl/certs
-  #   secretName: jenkins-custom-root-ca-cert
-  # Pod-wide environment, these vars are visible to any container in the agent pod
+      readOnly: true
+    - type: PVC
+      claimName: pvc-jenkins-maven
+      mountPath: /root/.m2
+      readOnly: false
 
   # You can define the workspaceVolume that you want to mount for this container
   # Allowed types are: DynamicPVC, EmptyDir, HostPath, Nfs, PVC
   # Configure the attributes as they appear in the corresponding Java class for that type
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes/workspace
-  workspaceVolume: {}
-  ## DynamicPVC example
-  # type: DynamicPVC
-  # configMapName: myconfigmap
-  ## EmptyDir example
-  # type: EmptyDir
-  # memory: false
-  ## HostPath example
-  # type: HostPath
-  # hostPath: /var/lib/containers
-  ## NFS example
-  # type: Nfs
-  # readOnly: false
-  # serverAddress: "192.0.2.0"
-  # serverPath: /var/lib/containers
-  ## PVC example
-  # type: PVC
-  # claimName: mypvc
-  # readOnly: false
+  workspaceVolume: 
+    type: DynamicPVC
+    storageClassName: nfs-client-hdd-0
+    requestsSize: 1Gi
   #
   # Pod-wide environment, these vars are visible to any container in the agent pod
   envVars: []
@@ -119,21 +76,10 @@ agent:
   podName: "default"
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
-  idleMinutes: 0
-  # Raw yaml template for the Pod. For example this allows usage of toleration for agent pods.
-  # https://github.com/jenkinsci/kubernetes-plugin#using-yaml-to-define-pod-templates
-  # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-  yamlTemplate: ""
-  # yamlTemplate: |-
-  #   apiVersion: v1
-  #   kind: Pod
-  #   spec:
-  #     tolerations:
-  #     - key: "key"
-  #       operator: "Equal"
-  #       value: "value"
+  idleMinutes: 10
+
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
-  yamlMergeStrategy: "override"
+  yamlMergeStrategy: "merge"
   # Timeout in seconds for an agent to be online
   connectTimeout: 100
   # Annotations to apply to the pod.
@@ -168,23 +114,18 @@ agent:
       - name: kaniko
         label: jenkins-kaniko
         serviceAccount: jenkins
-        showRawYaml: false
+        showRawYaml: true
         containers:
           - name: kaniko
             image: gcr.io/kaniko-project/executor:debug
             command: "/busybox/sh -c"
             args: "cat"
+            runAsUser: 0
             ttyEnabled: true
-            privileged: true
             resourceRequestCpu: "300m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "500m"
             resourceLimitMemory: "1024Mi"
-        volumes:
-          - hostPathVolume:
-              hostPath: /etc/ssl/certs
-              mountPath: /etc/ssl/certs
-              readOnly: true
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -216,30 +157,22 @@ agent:
       - name: kubectl
         label: jenkins-kubectl
         serviceAccount: jenkins
-        showRawYaml: false
+        showRawYaml: true
         containers:
           - name: kubectl
             image: bitnami/kubectl:latest
             command: "/bin/bash -c"
             args: "cat"
             ttyEnabled: true
-            privileged: true
             resourceRequestCpu: "100m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "300m"
             resourceLimitMemory: "500Mi"
-        volumes:
-          - hostPathVolume:
-              hostPath: /etc/ssl/certs
-              mountPath: /etc/ssl/certs
-              readOnly: true
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
           kind: Pod
           spec:
-            securityContext:
-              runAsUser: 1000 # default UID of jenkins user in agent image
             containers:
               - name: kubectl
                 volumeMounts:
@@ -257,40 +190,14 @@ agent:
       - name: python
         label: jenkins-python
         serviceAccount: jenkins
-        showRawYaml: false
+        showRawYaml: true
         containers:
           - name: python
             image: python:3
             command: "/bin/sh -c"
             args: "cat"
             ttyEnabled: true
-            privileged: true
             resourceRequestCpu: "300m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "500m"
             resourceLimitMemory: "1024Mi"
-        volumes:
-          - hostPathVolume:
-              hostPath: /etc/ssl/certs
-              mountPath: /etc/ssl/certs
-              readOnly: true
-
-# Here you can add additional agents
-# They inherit all values from `agent` so you only need to specify values which differ
-additionalAgents: {}
-#  maven:
-#    podName: maven
-#    customJenkinsLabels: maven
-#    # An example of overriding the jnlp container
-#    # sideContainerName: jnlp
-#    image: jenkins/jnlp-agent-maven
-#    tag: latest
-#  python:
-#    podName: python
-#    customJenkinsLabels: python
-#    sideContainerName: python
-#    image: python
-#    tag: "3"
-#    command: "/bin/sh -c"
-#    args: "cat"
-#    TTYEnabled: true

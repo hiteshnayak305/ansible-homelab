@@ -15,6 +15,7 @@
         group: 1000
       with_items: 
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-controller"
+        - "/home/{{ kubernetes_user }}/nfs/hdd_0/pv-jenkins-maven"
 
     # install prereqs
     - name: Install prereq for gitea
@@ -25,6 +26,7 @@
         k8s_install_ymls: 
           - files/jenkins_namespace.yml
           - files/pvc_jenkins.yml
+          - files/pvc_jenkins_maven.yml
           - files/jenkins_ingress.yml
 
     - name: Install prereq for jenkins 2
