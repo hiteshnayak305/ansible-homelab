@@ -26,10 +26,10 @@ controller:
                             strategyId(3)
                           }
                           giteaPullRequestDiscovery {
-                            strategyId(3)
+                            strategyId(0)
                           }
                           giteaForkDiscovery {
-                            strategyId(3)
+                            strategyId(0)
                             trust {
                               giteaTrustContributors()
                             }
