@@ -11,8 +11,10 @@
     - name: Remove useless packages from the cache
       ansible.builtin.apt:
         autoclean: yes
+
+    - name: Remove useless packages from the system
+      ansible.builtin.apt:
         autoremove: yes
-        clean: yes
 
     - name: Reboot Machine
       include_tasks: reboot.yml

@@ -45,6 +45,7 @@ controller:
                 orphanedItemStrategy {
                   discardOldItems {
                     daysToKeep(1)
+                    numToKeep(3)
                   }
                 }
               }
