@@ -109,33 +109,14 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "500m"
             resourceLimitMemory: "1024Mi"
+        volumes:
+          - secretVolume:
+              mountPath: /kaniko/.docker/
+              secretName: gitea-docker-credentials-secret
+          - secretVolume:
+              mountPath: /kaniko/ssl/certs/
+              secretName: jenkins-custom-root-ca-cert
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: kaniko
-                volumeMounts:
-                  - name: gitea-docker-registry-configjson-vol
-                    mountPath: "/kaniko/.docker"
-                    readOnly: true
-                  - name: jenkins-custom-root-ca-cert-vol
-                    mountPath: "/kaniko/ssl/certs"
-                    readOnly: true
-            volumes:
-              - name: gitea-docker-registry-configjson-vol
-                secret:
-                  secretName: jenkins-credentials-secret
-                  items:
-                    - key: gitea-docker-registry-configjson
-                      path: config.json
-              - name: jenkins-custom-root-ca-cert-vol
-                secret:
-                  secretName: jenkins-custom-root-ca-cert
-                  items:
-                    - key: rootCA.crt
-                      path: additional-ca-cert-bundle.crt
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -152,24 +133,11 @@ agent:
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "300m"
             resourceLimitMemory: "500Mi"
+        volumes:
+          - secretVolume:
+              mountPath: /root/.kube/
+              secretName: kube-credentials-secret
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: k8s
-                volumeMounts:
-                  - name: kubectl-config-secret-vol
-                    mountPath: "/root/.kube"
-                    readOnly: true
-            volumes:
-              - name: kubectl-config-secret-vol
-                secret:
-                  secretName: jenkins-credentials-secret
-                  items:
-                    - key: kubectl-config
-                      path: config
     python: |
       - name: python
         label: jenkins-python
