@@ -12,11 +12,11 @@ agent:
   hostNetworking: false
   resources:
     requests:
-      cpu: "100m"
+      cpu: "150m"
       memory: "256Mi"
     limits:
-      cpu: "512m"
-      memory: "512Mi"
+      cpu: "200m"
+      memory: "256Mi"
   # You may want to change this to true while testing a new image
   alwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
@@ -71,12 +71,12 @@ agent:
   # Doesn't allocate pseudo TTY by default
   TTYEnabled: false
   # Max number of spawned agent
-  containerCap: 3
+  containerCap: 5
   # Pod name
   podName: "default"
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
-  idleMinutes: 5
+  idleMinutes: 0
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
   yamlMergeStrategy: "merge"
   # Timeout in seconds for an agent to be online
@@ -105,10 +105,10 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
-            resourceRequestMemory: "512Mi"
-            resourceLimitCpu: "500m"
-            resourceLimitMemory: "1024Mi"
+            resourceRequestCpu: "200m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "250m"
+            resourceLimitMemory: "512Mi"
         volumes:
           - secretVolume:
               mountPath: /kaniko/.docker/
@@ -131,8 +131,8 @@ agent:
             ttyEnabled: true
             resourceRequestCpu: "100m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "300m"
-            resourceLimitMemory: "500Mi"
+            resourceLimitCpu: "150m"
+            resourceLimitMemory: "256Mi"
         volumes:
           - secretVolume:
               mountPath: /root/.kube/
@@ -150,10 +150,10 @@ agent:
             command: "/bin/sh -c"
             args: "cat"
             ttyEnabled: true
-            resourceRequestCpu: "300m"
-            resourceRequestMemory: "512Mi"
-            resourceLimitCpu: "500m"
-            resourceLimitMemory: "1024Mi"
+            resourceRequestCpu: "100m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "150m"
+            resourceLimitMemory: "256Mi"
     jdk17: |
       - name: jdk17
         label: jenkins-jdk17
@@ -166,7 +166,7 @@ agent:
             command: "/bin/sh -c"
             args: "cat"
             ttyEnabled: true
-            resourceRequestCpu: "300m"
-            resourceRequestMemory: "512Mi"
-            resourceLimitCpu: "500m"
-            resourceLimitMemory: "1024Mi"
+            resourceRequestCpu: "250m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "300m"
+            resourceLimitMemory: "512Mi"

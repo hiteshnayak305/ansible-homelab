@@ -44,8 +44,8 @@ controller:
                 displayName('test')
                 orphanedItemStrategy {
                   discardOldItems {
-                    daysToKeep(1)
-                    numToKeep(3)
+                    daysToKeep(-1)
+                    numToKeep(-1)
                   }
                 }
               }
