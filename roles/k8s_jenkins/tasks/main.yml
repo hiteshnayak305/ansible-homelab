@@ -16,6 +16,7 @@
       with_items: 
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-controller"
         - "/home/{{ kubernetes_user }}/nfs/hdd_0/pv-jenkins-maven"
+        - "/home/{{ kubernetes_user }}/nfs/hdd_0/pv-jenkins-gradle"
 
     # install prereqs
     - name: Install prereq for gitea
@@ -27,6 +28,7 @@
           - files/jenkins_namespace.yml
           - files/pvc_jenkins.yml
           - files/pvc_jenkins_maven.yml
+          - files/pvc_jenkins_gradle.yml
           - files/jenkins_ingress.yml
 
     - name: Install prereq for jenkins 2
@@ -56,7 +58,7 @@
         - files/jenkins_values_jcas_plugins_config.yml
         - files/jenkins_values_jcas_jobs.yml
         - files/jenkins_values_agent.yml
-        - files/jenkins_values_jcas_security_config.yml
+        # - files/jenkins_values_jcas_security_config.yml
 
     - name: Deploy latest version of jenkins chart
       kubernetes.core.helm:
@@ -72,7 +74,7 @@
           - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
           - "{{ tmpdir }}/jenkins_values_agent.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
+          # - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -86,5 +88,5 @@
         - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
         - "{{ tmpdir }}/jenkins_values_agent.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
+        # - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
       changed_when: false

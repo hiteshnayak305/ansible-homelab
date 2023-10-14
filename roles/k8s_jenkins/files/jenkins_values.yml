@@ -31,7 +31,7 @@ controller:
         command: 
         - "/bin/bash"
         - "-c"
-        - "update-ca-certificates && ${JAVA_HOME}/bin/keytool -import -cacerts -alias rootCA -file /usr/local/share/ca-certificates/rootCA.crt -noprompt -storepass changeit"
+        - "update-ca-certificates && ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com.root -file /usr/local/share/ca-certificates/hitesh.com.root.crt/hitesh.com.root.crt -noprompt -storepass changeit"
   disableRememberMe: false
   numExecutors: 0
   # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE
@@ -325,7 +325,7 @@ persistence:
       secret:
         secretName: jenkins-custom-root-ca-cert
   mounts:
-    - mountPath: "/usr/local/share/ca-certificates"
+    - mountPath: "/usr/local/share/ca-certificates/hitesh.com.root.crt"
       name: jenkins-custom-root-ca-cert-vol
       readOnly: true
 
