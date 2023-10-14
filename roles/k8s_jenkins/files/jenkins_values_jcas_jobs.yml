@@ -26,10 +26,10 @@ controller:
                             strategyId(3)
                           }
                           giteaPullRequestDiscovery {
-                            strategyId(0)
+                            strategyId(1)
                           }
                           giteaForkDiscovery {
-                            strategyId(0)
+                            strategyId(1)
                             trust {
                               giteaTrustContributors()
                             }
@@ -49,45 +49,45 @@ controller:
                   }
                 }
               }
-      # jobs-multibranch-pipeline-2: |
-      #   jobs:
-      #     - script: >
-      #         multibranchPipelineJob('multibranchPipelineJob-2') {
-      #           branchSources {
-      #             branchSource {
-      #               source {
-      #                 giteaSCMSource {
-      #                   serverUrl('https://gitea.hitesh.com')
-      #                   credentialsId('gitea-admin')
-      #                   repoOwner('hiteshnayak305')
-      #                   repository('test4')
-      #                   id('test4')
-      #                   traits {
-      #                     giteaBranchDiscovery {
-      #                       strategyId(2)
-      #                     }
-      #                     giteaPullRequestDiscovery {
-      #                       strategyId(2)
-      #                     }
-      #                     giteaForkDiscovery {
-      #                       strategyId(2)
-      #                       trust {
-      #                         giteaTrustContributors()
-      #                       }
-      #                     }
-      #                     giteaTagDiscovery()
-      #                   }
-      #                 }
-      #               }
-      #             }
-      #           }
-      #           description('Sample multibranch pipeline using jcas')
-      #           displayName('multibranchPipelineJob-2')
-      #           orphanedItemStrategy {
-      #             discardOldItems {
-      #               numToKeep(1)
-      #             }
-      #           }
-      #         }
-
+      jobs-cas-server: |
+        jobs:
+          - script: >
+              multibranchPipelineJob('cas-server') {
+                branchSources {
+                  branchSource {
+                    source {
+                      giteaSCMSource {
+                        serverUrl('https://gitea.hitesh.com')
+                        credentialsId('gitea-admin')
+                        repoOwner('hiteshnayak305')
+                        repository('cas-server')
+                        id('cas-server')
+                        traits {
+                          giteaBranchDiscovery {
+                            strategyId(3)
+                          }
+                          giteaPullRequestDiscovery {
+                            strategyId(1)
+                          }
+                          giteaForkDiscovery {
+                            strategyId(1)
+                            trust {
+                              giteaTrustContributors()
+                            }
+                          }
+                          giteaTagDiscovery()
+                        }
+                      }
+                    }
+                  }
+                }
+                description('Pipeline to deploy aspero cas server in local k8s')
+                displayName('cas-server')
+                orphanedItemStrategy {
+                  discardOldItems {
+                    daysToKeep(-1)
+                    numToKeep(-1)
+                  }
+                }
+              }
                     
