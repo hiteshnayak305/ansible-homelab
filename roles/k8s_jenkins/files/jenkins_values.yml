@@ -120,6 +120,13 @@ controller:
   # Use Local to preserve the client source IP and avoids a second hop for LoadBalancer and Nodeport type services,
   # but risks potentially imbalanced traffic spreading.
   serviceExternalTrafficPolicy:
+  # Enable Kubernetes Startup, Liveness and Readiness Probes
+  # if Startup Probe is supported, enable it too
+  # ~ 2 minutes to allow Jenkins to restart when upgrading plugins. Set ReadinessTimeout to be shorter than LivenessTimeout.
+  healthProbes: true
+  probes:
+    startupProbe:
+      failureThreshold: 18 # ~ 3 minutes
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false

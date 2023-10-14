@@ -8,7 +8,8 @@ agent:
   componentName: "jenkins-agent"
   websocket: false
   directConnection: false
-  privileged: false
+  privileged: true
+  runAsUser: 0
   hostNetworking: false
   resources:
     requests:
@@ -32,8 +33,8 @@ agent:
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
   volumes: 
     - type: HostPath
-      hostPath: /etc/ssl/certs
-      mountPath: /etc/ssl/certs
+      hostPath: /usr/local/share/ca-certificates/hitesh.com.root.crt
+      mountPath: /usr/local/share/ca-certificates/hitesh.com.root.crt
       readOnly: true
     - type: PVC
       claimName: pvc-jenkins-maven
@@ -64,21 +65,31 @@ agent:
   # jenkins-agent: v1
 
   # Executed command when side container gets started
-  command:
-  args: "${computer.jnlpmac} ${computer.name}"
+  # command:
+  # args: "${computer.jnlpmac} ${computer.name}"
   # Side container name
-  sideContainerName: "jnlp"
+  sideContainerName: jnlp
   # Doesn't allocate pseudo TTY by default
-  TTYEnabled: false
+  TTYEnabled: true
   # Max number of spawned agent
   containerCap: 5
   # Pod name
-  podName: "default"
+  podName: default
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
-  idleMinutes: 0
+  idleMinutes: 15
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
-  yamlMergeStrategy: "merge"
+  yamlMergeStrategy: merge
+  yamlTemplate: |-
+    apiVersion: v1
+    kind: Pod
+    spec:
+      containers:
+        - name: jnlp
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "update-ca-certificates"]
   # Timeout in seconds for an agent to be online
   connectTimeout: 100
   # Annotations to apply to the pod.
@@ -117,6 +128,16 @@ agent:
               mountPath: /kaniko/ssl/certs/
               secretName: jenkins-custom-root-ca-cert
         yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: kaniko
+                lifecycle:
+                  postStart:
+                    exec:
+                      command: ["/bin/sh", "-c", "update-ca-certificates"]
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -128,6 +149,7 @@ agent:
             image: alpine/k8s:1.28.2
             command: "/bin/bash -c"
             args: "cat"
+            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "100m"
             resourceRequestMemory: "256Mi"
@@ -138,6 +160,16 @@ agent:
               mountPath: /root/.kube/
               secretName: kube-credentials-secret
         yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: k8s
+                lifecycle:
+                  postStart:
+                    exec:
+                      command: ["/bin/sh", "-c", "update-ca-certificates"]
     python: |
       - name: python
         label: jenkins-python
@@ -149,11 +181,23 @@ agent:
             image: python:3
             command: "/bin/sh -c"
             args: "cat"
+            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "100m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "150m"
             resourceLimitMemory: "256Mi"
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: python
+                lifecycle:
+                  postStart:
+                    exec:
+                      command: ["/bin/sh", "-c", "update-ca-certificates"]
     jdk17: |
       - name: jdk17
         label: jenkins-jdk17
@@ -165,8 +209,20 @@ agent:
             image: eclipse-temurin:17-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
+            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "250m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "300m"
             resourceLimitMemory: "512Mi"
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jdk17
+                lifecycle:
+                  postStart:
+                    exec:
+                      command: ["/bin/sh", "-c", "update-ca-certificates"]
