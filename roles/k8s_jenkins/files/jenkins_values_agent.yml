@@ -1,3 +1,12 @@
+## volumes permissions :
+# 4 -r; 2 - w; x 1
+#
+# Octal   Decimal   String
+# 0777    511       ?rwxrwxrwx
+# 0700    448       ?rwx------
+# 0644    420       ?rw-r--r--
+# 0400    256       ?r--------
+
 agent:
   enabled: true
   image: "jenkins/inbound-agent"
@@ -34,7 +43,7 @@ agent:
   volumes: 
     - type: Secret
       secretName: jenkins-custom-root-ca-cert
-      mountPath: /usr/local/share/ca-certificates/hitesh.com.root.crt
+      mountPath: /mnt/ca-certificates/hitesh.com
     - type: PVC
       claimName: pvc-jenkins-maven
       mountPath: /root/.m2
@@ -127,10 +136,11 @@ agent:
           - secretVolume:
               mountPath: /kaniko/.docker/
               secretName: gitea-docker-credentials-secret
-              defaultMode: 400
-          - secretVolume:
+              defaultMode: 256
+          - hostPathVolume:
               mountPath: /kaniko/ssl/certs/
-              secretName: jenkins-custom-root-ca-cert
+              hostPath: /etc/ssl/certs/
+              readOnly: true
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -141,12 +151,20 @@ agent:
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
               - name: kaniko
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "mkdir -p /usr/local/share/ca-certificates && \
+                          ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -168,7 +186,7 @@ agent:
           - secretVolume:
               mountPath: /root/.kube/
               secretName: kube-credentials-secret
-              defaultMode: 400
+              defaultMode: 256
               optional: false
         yamlMergeStrategy: merge
         yaml: |
@@ -180,12 +198,20 @@ agent:
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
               - name: k8s
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
     python: |
       - name: python
         label: jenkins-python
@@ -213,12 +239,20 @@ agent:
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
               - name: python
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
     jdk17: |
       - name: jdk17
         label: jenkins-jdk17
@@ -246,9 +280,17 @@ agent:
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
               - name: jdk17
                 lifecycle:
                   postStart:
                     exec:
-                      command: ["/bin/sh", "-c", "update-ca-certificates"]
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                          update-ca-certificates"
