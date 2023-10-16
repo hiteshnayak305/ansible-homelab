@@ -7,6 +7,10 @@ tmpdir: /tmp
 jenkins_admin_username: admin
 jenkins_admin_password: password
 
+# mail cerdential
+mail_admin_username: admin
+mail_admin_password: password
+
 # ca crt
 root_ca_crt: ''
 

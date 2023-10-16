@@ -15,8 +15,8 @@
         group: 1000
       with_items: 
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-controller"
-        - "/home/{{ kubernetes_user }}/nfs/hdd_0/pv-jenkins-maven"
-        - "/home/{{ kubernetes_user }}/nfs/hdd_0/pv-jenkins-gradle"
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-maven"
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-gradle"
 
     # install prereqs
     - name: Install prereq for gitea
@@ -41,6 +41,7 @@
           - secret/jenkins_custom_root_ca_cert.j2
           - secret/gitea_credentials_secret.j2
           - secret/kube_credentials_secret.j2
+          - secret/mail_credentials_secret.j2
 
     - name: Add Jenkins helm repository
       kubernetes.core.helm_repository:

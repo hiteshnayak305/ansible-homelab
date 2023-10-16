@@ -9,7 +9,7 @@ spec:
     - ReadWriteOnce
   nfs:
     server: nfs.hitesh.com
-    path: "/mnt/nfs/hdd_0/pv-jenkins-maven"
+    path: "/mnt/nfs/ssd_0/pv-jenkins-maven"
   mountOptions:
     - nfsvers=4.2
 ---

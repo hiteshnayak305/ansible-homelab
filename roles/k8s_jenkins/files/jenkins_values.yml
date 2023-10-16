@@ -176,11 +176,11 @@ controller:
   # When using existingSecret no need to specify the keyName under additionalExistingSecrets.
   existingSecret: gitea-credentials-secret
 
-  additionalExistingSecrets: []
-  #  - name: secret-name-1
-  #    keyName: username
-  #  - name: secret-name-1
-  #    keyName: password
+  additionalExistingSecrets: 
+    - name: mail-credentials-secret
+      keyName: mail-admin-user
+    - name: mail-credentials-secret
+      keyName: mail-admin-password
 
   additionalSecrets: []
   #  - name: nameOfSecret
