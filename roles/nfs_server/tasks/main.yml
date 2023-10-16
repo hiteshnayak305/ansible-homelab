@@ -36,3 +36,9 @@
     - name: Disable swap
       ansible.builtin.command: swapoff -a
       when: ansible_swaptotal_mb > 0
+
+    - name: Cleanup ssd volume archives
+      ansible.builtin.command: sudo rm -rf /mnt/nfs/ssd_0/archived-*
+
+    - name: Cleanup ssd volume archives
+      ansible.builtin.command: sudo rm -rf /mnt/nfs/hdd_0/archived-*
