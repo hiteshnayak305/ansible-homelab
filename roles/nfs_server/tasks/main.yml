@@ -38,7 +38,7 @@
       when: ansible_swaptotal_mb > 0
 
     - name: Cleanup ssd volume archives
-      ansible.builtin.command: sudo rm -rf /mnt/nfs/ssd_0/archived-*
+      ansible.builtin.command: "rm -rfv /mnt/nfs/ssd_0/archived-*"
 
     - name: Cleanup ssd volume archives
-      ansible.builtin.command: sudo rm -rf /mnt/nfs/hdd_0/archived-*
+      ansible.builtin.command: "rm -rfv /mnt/nfs/hdd_0/archived-*"
