@@ -184,10 +184,13 @@ agent:
             resourceLimitMemory: "3Gi"
         volumes:
           - secretVolume:
+              mountPath: /root/.docker/
+              secretName: gitea-docker-credentials-secret
+              defaultMode: 256
+          - secretVolume:
               mountPath: /root/.kube/
               secretName: kube-credentials-secret
               defaultMode: 256
-              optional: false
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
