@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: casdoor
+  namespace: casdoor-system
+  labels:
+    app: casdoor
+spec:
+  #EDIT IT: if you don't use redis, casdoor should not have multiple replicas
+  replicas: 1
+  selector:
+    matchLabels:
+      app: casdoor
+  template:
+    metadata:
+      labels:
+        app: casdoor
+    spec:
+      containers:
+        - name: casdoor-container
+          image: casbin/casdoor:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /conf
+              name: conf-vol
+            - mountPath: /init
+              name: init-data-vol
+          env:       
+            - name: RUNNING_IN_DOCKER
+              value: "true"
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "200m"
+            limits:
+              memory: "200Mi"
+              cpu: "400m"
+      volumes:
+        - name: conf-vol
+          configMap:
+            name: casdoor-conf
+        - name: init-data-vol
+          configMap:
+            name: casdoor-init-data
