@@ -9,8 +9,8 @@
 
 agent:
   enabled: true
-  image: "jenkins/inbound-agent"
-  tag: "latest"
+  image: jenkins/inbound-agent
+  tag: latest-alpine
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   customJenkinsLabels: []
@@ -92,16 +92,20 @@ agent:
   idleMinutes: 0
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
   yamlMergeStrategy: merge
-  # yamlTemplate: |-
-  #   apiVersion: v1
-  #   kind: Pod
-  #   spec:
-  #     containers:
-  #       - name: jnlp
-  #         lifecycle:
-  #           postStart:
-  #             exec:
-  #               command: ["/bin/sh", "-c", "update-ca-certificates"]
+  yamlTemplate: |-
+    apiVersion: v1
+    kind: Pod
+    spec:
+      containers:
+        - name: jnlp
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                    update-ca-certificates"
   # Timeout in seconds for an agent to be online
   connectTimeout: 120
   # Annotations to apply to the pod.
@@ -173,7 +177,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: alpine/k8s:1.28.2
+            image: alpine/k8s:1.27.3
             command: "/bin/bash -c"
             args: "cat"
             runAsUser: 0
@@ -223,7 +227,7 @@ agent:
         inheritFrom: default
         containers:
           - name: python
-            image: python:3
+            image: python:3-alpine
             command: "/bin/sh -c"
             args: "cat"
             runAsUser: 0

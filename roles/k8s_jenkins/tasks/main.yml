@@ -59,7 +59,7 @@
         - files/jenkins_values_jcas_plugins_config.yml
         - files/jenkins_values_jcas_jobs.yml
         - files/jenkins_values_agent.yml
-        # - files/jenkins_values_jcas_security_config.yml
+        - files/jenkins_values_jcas_security_config.yml
 
     - name: Deploy latest version of jenkins chart
       kubernetes.core.helm:

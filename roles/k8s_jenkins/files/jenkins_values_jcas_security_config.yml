@@ -11,16 +11,8 @@ controller:
       security-update-site-warning-configuration: |
         security:
           updateSiteWarningsConfiguration:
-            ignoredWarnings:
-            - "SECURITY-2463-workflow-cps-global-lib"
-            - "SECURITY-1951"
-            - "SECURITY-2422"
-            - "SECURITY-3105"
-            - "SECURITY-2824-2-workflow-cps-global-lib"
-            - "SECURITY-2613-workflow-cps-global-lib"
-            - "SECURITY-3106"
-            - "SECURITY-2586"
-            - "SECURITY-2441"
-            - "SECURITY-3109"
-            - "core-2_424"
-                    
+            ignoredWarnings: []
+      security-global-job-dsl-security-configuration: |
+        security:
+          globalJobDslSecurityConfiguration:
+            useScriptSecurity: false

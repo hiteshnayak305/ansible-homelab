@@ -8,102 +8,106 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     configScripts:
-      jobs-test: |
+      job-dsl-jobs-generator: |
         jobs:
           - script: >
-              multibranchPipelineJob('test') {
-                branchSources {
-                  branchSource {
-                    source {
-                      giteaSCMSource {
-                        serverUrl('https://gitea.hitesh.com')
-                        credentialsId('gitea-admin')
-                        repoOwner('hiteshnayak305')
-                        repository('test')
-                        id('test')
-                        traits {
-                          giteaBranchDiscovery {
-                            strategyId(3)
-                          }
-                          giteaTagDiscovery()
-                        }
-                      }
+              job('jobs_generator') {
+                displayName('Jobs Generator')
+                description('Jenkins jobs generator using groovy scripts')
+                concurrentBuild(false)
+                logRotator {
+                  daysToKeep(7)
+                  numToKeep(3)
+                }
+                scm {
+                  git {
+                    remote {
+                      credentials('gitea-admin')
+                      url('https://gitea.hitesh.com/hiteshnayak305/jenkins-dsl.git')
+                    }
+                    branch('master')
+                    extensions {
+                      wipeWorkspace()
                     }
                   }
                 }
-                description('Sample multibranch pipeline using jcas')
-                displayName('test')
-                orphanedItemStrategy {
-                  discardOldItems {
-                    daysToKeep(-1)
-                    numToKeep(-1)
+                steps {
+                  jobDsl {
+                    failOnMissingPlugin(false)
+                    failOnSeedCollision(true)
+                    ignoreMissingFiles(true)
+                    removedJobAction('DISABLE')
+                    removedViewAction('IGNORE')
+                    unstableOnDeprecation(true)
+                    lookupStrategy('JENKINS_ROOT')
+                    targets 'jobs/**/*.groovy'
                   }
                 }
               }
-      jobs-cas-server: |
-        jobs:
-          - script: >
-              multibranchPipelineJob('cas-server') {
-                branchSources {
-                  branchSource {
-                    source {
-                      giteaSCMSource {
-                        serverUrl('https://gitea.hitesh.com')
-                        credentialsId('gitea-admin')
-                        repoOwner('hiteshnayak305')
-                        repository('cas-server')
-                        id('cas-server')
-                        traits {
-                          giteaBranchDiscovery {
-                            strategyId(3)
-                          }
-                          giteaTagDiscovery()
-                        }
-                      }
-                    }
-                  }
-                }
-                description('Pipeline to deploy aspero cas server in local k8s')
-                displayName('cas-server')
-                orphanedItemStrategy {
-                  discardOldItems {
-                    daysToKeep(-1)
-                    numToKeep(-1)
-                  }
-                }
-              }
-      jobs-casdoor: |
-        jobs:
-          - script: >
-              multibranchPipelineJob('casdoor') {
-                branchSources {
-                  branchSource {
-                    source {
-                      giteaSCMSource {
-                        serverUrl('https://gitea.hitesh.com')
-                        credentialsId('gitea-admin')
-                        repoOwner('hiteshnayak305')
-                        repository('casdoor')
-                        id('casdoor')
-                        traits {
-                          giteaBranchDiscovery {
-                            strategyId(3)
-                          }
-                          giteaTagDiscovery()
-                        }
-                      }
-                    }
-                  }
-                }
-                description('Pipeline to deploy casdoor server in local k8s')
-                displayName('casdoor')
-                orphanedItemStrategy {
-                  discardOldItems {
-                    daysToKeep(-1)
-                    numToKeep(-1)
-                  }
-                }
-              }
+      # jobs-cas-server: |
+      #   jobs:
+      #     - script: >
+      #         multibranchPipelineJob('cas-server') {
+      #           branchSources {
+      #             branchSource {
+      #               source {
+      #                 giteaSCMSource {
+      #                   serverUrl('https://gitea.hitesh.com')
+      #                   credentialsId('gitea-admin')
+      #                   repoOwner('hiteshnayak305')
+      #                   repository('cas-server')
+      #                   id('cas-server')
+      #                   traits {
+      #                     giteaBranchDiscovery {
+      #                       strategyId(3)
+      #                     }
+      #                     giteaTagDiscovery()
+      #                   }
+      #                 }
+      #               }
+      #             }
+      #           }
+      #           description('Pipeline to deploy aspero cas server in local k8s')
+      #           displayName('cas-server')
+      #           orphanedItemStrategy {
+      #             discardOldItems {
+      #               daysToKeep(-1)
+      #               numToKeep(-1)
+      #             }
+      #           }
+      #         }
+      # jobs-casdoor: |
+      #   jobs:
+      #     - script: >
+      #         multibranchPipelineJob('casdoor') {
+      #           branchSources {
+      #             branchSource {
+      #               source {
+      #                 giteaSCMSource {
+      #                   serverUrl('https://gitea.hitesh.com')
+      #                   credentialsId('gitea-admin')
+      #                   repoOwner('hiteshnayak305')
+      #                   repository('casdoor')
+      #                   id('casdoor')
+      #                   traits {
+      #                     giteaBranchDiscovery {
+      #                       strategyId(3)
+      #                     }
+      #                     giteaTagDiscovery()
+      #                   }
+      #                 }
+      #               }
+      #             }
+      #           }
+      #           description('Pipeline to deploy casdoor server in local k8s')
+      #           displayName('casdoor')
+      #           orphanedItemStrategy {
+      #             discardOldItems {
+      #               daysToKeep(-1)
+      #               numToKeep(-1)
+      #             }
+      #           }
+      #         }
 
 #### Informationals
 # giteaPullRequestDiscovery {
