@@ -20,6 +20,17 @@ spec:
         - name: casdoor-container
           image: casbin/casdoor:latest
           imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                    update-ca-certificates"
+          securityContext:
+            privileged: true
+            runAsUser: 0
           ports:
             - containerPort: 8000
           volumeMounts:
@@ -27,6 +38,9 @@ spec:
               name: conf-vol
             - mountPath: /init
               name: init-data-vol
+            - mountPath: /mnt/ca-certificates/hitesh.com
+              name: casdoor-custom-root-ca-cert-vol
+              readOnly: true
           env:       
             - name: RUNNING_IN_DOCKER
               value: "true"
@@ -44,3 +58,6 @@ spec:
         - name: init-data-vol
           configMap:
             name: casdoor-init-data
+        - name: casdoor-custom-root-ca-cert-vol
+          secret:
+            secretName: casdoor-custom-root-ca-cert

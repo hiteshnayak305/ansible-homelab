@@ -38,6 +38,7 @@
           - secret/casdoor_mysql_secret.j2
           - config/casdoor_config.j2
           - config/casdoor_init_data.j2
+          - secret/casdoor_custom_root_ca_cert.j2
 
     - name: Add Bitnami helm repository
       kubernetes.core.helm_repository:
