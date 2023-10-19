@@ -42,6 +42,7 @@
           - secret/gitea_credentials_secret.j2
           - secret/kube_credentials_secret.j2
           - secret/mail_credentials_secret.j2
+          - secret/test_casdoor_credentials_secret.j2
 
     - name: Add Jenkins helm repository
       kubernetes.core.helm_repository:
@@ -75,7 +76,7 @@
           - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
           - "{{ tmpdir }}/jenkins_values_agent.yml"
-          # - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -89,5 +90,5 @@
         - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
         - "{{ tmpdir }}/jenkins_values_agent.yml"
-        # - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
       changed_when: false

@@ -34,15 +34,15 @@ controller:
                 steps {
                   jobDsl {
                     failOnMissingPlugin(false)
-                    failOnSeedCollision(false)
+                    failOnSeedCollision(true)
                     ignoreMissingFiles(true)
                     removedJobAction('DISABLE')
                     removedViewAction('DELETE')
                     unstableOnDeprecation(true)
                     lookupStrategy('JENKINS_ROOT')
-                    targets ''' 
-                      scripts/folders/**/*.groovy
-                      scripts/jobs/**/*.groovy
+                    targets '''
+                    scripts/folders/**/*.groovy
+                    scripts/jobs/**/*.groovy
                     '''
                   }
                 }

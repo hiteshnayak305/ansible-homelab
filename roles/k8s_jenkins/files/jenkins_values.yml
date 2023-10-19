@@ -181,6 +181,10 @@ controller:
       keyName: mail-admin-user
     - name: mail-credentials-secret
       keyName: mail-admin-password
+    - name: test-casdoor-credentials-secret
+      keyName: client-id
+    - name: test-casdoor-credentials-secret
+      keyName: client-secret
 
   additionalSecrets: []
   #  - name: nameOfSecret
