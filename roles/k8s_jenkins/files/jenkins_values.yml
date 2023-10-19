@@ -185,6 +185,8 @@ controller:
       keyName: client-id
     - name: test-casdoor-credentials-secret
       keyName: client-secret
+    - name: jenkins-custom-root-ca-cert
+      keyName: hitesh-com-root-crt
 
   additionalSecrets: []
   #  - name: nameOfSecret
