@@ -31,7 +31,7 @@ controller:
         command: 
         - "/bin/bash"
         - "-c"
-        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
           update-ca-certificates && \
           ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit \
           -file /usr/local/share/ca-certificates/hitesh.com.root.crt"

@@ -104,7 +104,7 @@ agent:
                 command:
                   - "/bin/sh"
                   - "-c"
-                  - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                  - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                     update-ca-certificates"
   # Timeout in seconds for an agent to be online
   connectTimeout: 120
@@ -158,7 +158,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
               - name: kaniko
                 lifecycle:
@@ -168,7 +168,7 @@ agent:
                         - "/bin/sh"
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && \
-                          ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -208,7 +208,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
               - name: k8s
                 lifecycle:
@@ -217,7 +217,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
     python: |
       - name: python
@@ -249,7 +249,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
               - name: python
                 lifecycle:
@@ -258,7 +258,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
     jdk17: |
       - name: jdk17
@@ -290,7 +290,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
               - name: jdk17
                 lifecycle:
@@ -299,5 +299,5 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -s /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
                           update-ca-certificates"
