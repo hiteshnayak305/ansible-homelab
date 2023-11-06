@@ -1,0 +1,10 @@
+---
+# defaults file for k8s_authentik
+
+# tmpdir
+tmpdir: /tmp
+
+#authentik admin
+ak_admin_email: email
+ak_admin_password: password
+ak_admin_token: token
