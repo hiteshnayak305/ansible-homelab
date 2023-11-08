@@ -1,0 +1,98 @@
+## This chart relies on the common library chart from bjw-s
+## You can find it at https://github.com/bjw-s/helm-charts/tree/main/charts/library/common
+## Refer there for more detail about the supported values
+
+immich:
+  persistence:
+    # Main data store for all photos shared between different components.
+    library:
+      # Automatically creating the library volume is not supported by this chart
+      # You have to specify an existing PVC to use
+      existingClaim: "pvc-immich"
+
+# Dependencies
+
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        username: immich
+        database: immich
+        password: immich
+        postgresPassword: immich
+  ## @section PostgreSQL Primary parameters
+  ##
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "-"
+      existingClaim: "pvc-immich-postgresql-primary"
+      accessModes:
+        - ReadWriteOnce
+      size: 1G
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  global:
+    storageClass: "nfs-client-ssd-0"
+
+typesense:
+  enabled: false
+  persistence:
+    tsdata:
+      # Enabling typesense persistence is recommended to avoid slow reindexing
+      enabled: false
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      # storageClass: storage-class
+
+# Immich components
+
+microservices:
+  enabled: true
+  persistence:
+    geodata-cache:
+      enabled: true
+      size: 1Gi
+      # Optional: Set this to pvc to avoid downloading the geodata every start.
+      type: pvc
+      accessMode: ReadWriteMany
+      storageClass: "nfs-client-ssd-0"
+
+machine-learning:
+  enabled: true
+  persistence:
+    cache:
+      enabled: true
+      size: 10Gi
+      # Optional: Set this to pvc to avoid downloading the ML models every start.
+      type: pvc
+      accessMode: ReadWriteMany
+      storageClass: "nfs-client-ssd-0"
+
+web:
+  enabled: true
+  persistence:
+    library:
+      enabled: false
+
+proxy:
+  enabled: true
+  persistence:
+    library:
+      enabled: false
+
+  ingress:
+    main:
+      enabled: false
+      annotations:
+        # proxy-body-size is set to 0 to remove the body limit on file uploads
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: immich.hitesh.com
+          paths:
+            - path: "/"
+      tls: []
