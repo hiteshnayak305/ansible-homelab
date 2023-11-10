@@ -38,6 +38,9 @@ redis:
     enabled: false
   global:
     storageClass: "nfs-client-ssd-0"
+  master:
+    persistence:
+      size: 1Gi
 
 typesense:
   enabled: false
