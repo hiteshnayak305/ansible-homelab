@@ -4,7 +4,7 @@ metadata:
   name: pv-immich
 spec:
   capacity:
-    storage: 15Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   nfs:
@@ -23,6 +23,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 15Gi
+      storage: 50Gi
   storageClassName: ''
   volumeName: pv-immich

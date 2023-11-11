@@ -43,14 +43,14 @@ redis:
       size: 1Gi
 
 typesense:
-  enabled: false
+  enabled: true
   persistence:
     tsdata:
       # Enabling typesense persistence is recommended to avoid slow reindexing
-      enabled: false
+      enabled: true
       accessMode: ReadWriteOnce
       size: 1Gi
-      # storageClass: storage-class
+      storageClass: "nfs-client-ssd-0"
 
 # Immich components
 
