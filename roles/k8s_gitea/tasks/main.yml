@@ -27,7 +27,6 @@
           - files/gitea_namespace.yml
           - files/pvc_gitea.yml
           - files/pvc_gitea_postgresql_primary.yml
-          - files/gitea_ingress.yml
 
     - name: Install prereq for gitea 2
       ansible.builtin.include_role:
@@ -54,7 +53,7 @@
       kubernetes.core.helm:
         name: gitea
         chart_ref: gitea-charts/gitea
-        chart_version: 9.5.1
+        chart_version: 9.6.0
         update_repo_cache: true
         release_namespace: gitea-system
         create_namespace: false

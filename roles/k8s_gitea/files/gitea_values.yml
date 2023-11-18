@@ -41,6 +41,34 @@ service:
     type: ClusterIP
     port: 22
 
+## @section Ingress
+## @param ingress.enabled Enable ingress
+## @param ingress.className Ingress class name
+## @param ingress.annotations Ingress annotations
+## @param ingress.hosts[0].host Default Ingress host
+## @param ingress.hosts[0].paths[0].path Default Ingress path
+## @param ingress.hosts[0].paths[0].pathType Ingress path type
+## @param ingress.tls Ingress tls settings
+## @extra ingress.apiVersion Specify APIVersion of ingress object. Mostly would only be used for argocd.
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: gitea.hitesh.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - git.example.com
+  # Mostly for argocd or any other CI that uses `helm template | kubectl apply` or similar
+  # If helm doesn't correctly detect your ingress API version you can set it here.
+  # apiVersion: networking.k8s.io/v1
+
 ## @section StatefulSet
 #
 ## @param resources Kubernetes resources
@@ -129,6 +157,8 @@ gitea:
       SIGNING_EMAIL: gitea@gitea.hitesh.com
     webhook:
       ALLOWED_HOST_LIST: '*.hitesh.com'
+    security:
+      MIN_PASSWORD_LENGTH: 6
     ## #356 https://gitea.com/gitea/helm-chart/issues/356
     session:
       PROVIDER: redis-cluster
