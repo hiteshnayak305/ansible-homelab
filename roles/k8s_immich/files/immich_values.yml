@@ -3,7 +3,7 @@
 ## Refer there for more detail about the supported values
 
 image:
-  tag: v1.85.0
+  tag: v1.86.0
 
 immich:
   persistence:
@@ -46,14 +46,15 @@ redis:
       size: 1Gi
 
 typesense:
-  enabled: false
+  enabled: true
   persistence:
     tsdata:
       # Enabling typesense persistence is recommended to avoid slow reindexing
-      enabled: false
+      enabled: true
+      type: emptyDir
       accessMode: ReadWriteOnce
       size: 1Gi
-      storageClass: "nfs-client-ssd-0"
+      # storageClass: "nfs-client-ssd-0"
 
 # Immich components
 
