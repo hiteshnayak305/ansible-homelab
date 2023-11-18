@@ -8,21 +8,8 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     configScripts:
-      gitea-configuration: |
-        unclassified:
-          giteaServers:
-            servers:
-            - aliasUrl: "https://gitea.hitesh.com/"
-              displayName: "Gitea"
-              manageHooks: true
-              serverUrl: "https://gitea.hitesh.com"
-              credentialsId: gitea-admin
-      bitbucket-configuration: |
-        unclassified:
-          bitbucketEndpointConfiguration:
-            endpoints: []
-      prism-configuration: |
-        unclassified:
-          prismConfiguration:
-            theme: TOMORROW_NIGHT
-                    
+      appearance-configuration: |
+        appearance:
+          themeManager:
+            disableUserThemes: true
+            theme: 'material-red'
