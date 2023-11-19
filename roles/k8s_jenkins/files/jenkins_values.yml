@@ -181,9 +181,9 @@ controller:
       keyName: mail-admin-user
     - name: mail-credentials-secret
       keyName: mail-admin-password
-    - name: test-casdoor-credentials-secret
+    - name: test-authentik-credentials-secret
       keyName: client-id
-    - name: test-casdoor-credentials-secret
+    - name: test-authentik-credentials-secret
       keyName: client-secret
 
   additionalSecrets: []
