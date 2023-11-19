@@ -1,49 +1,39 @@
-## Number of replicas
-replicaCount: 1
+# Copyright 2017 The Kubernetes Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-## Here annotations can be added to the kubernetes dashboard deployment
-annotations: {}
-## Here labels can be added to the kubernetes dashboard deployment
-labels: {}
+# General configuration shared across resources
+app:
+  scaling:
+    # Default number of replicas
+    replicas: 1
+    revisionHistoryLimit: 10
+  ingress:
+    enabled: false
+  # Use the following toleration if Dashboard can be deployed on a tainted control-plane nodes
+  # - key: node-role.kubernetes.io/control-plane
+  #   effect: NoSchedule
+  tolerations: 
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
 
-## Additional container arguments
-##
-extraArgs:
-  # - --enable-skip-login
-  - --enable-insecure-login
-  - --system-banner="Welcome to Kubernetes"
+## Optional Cert Manager sub-chart configuration
+## Enable this if you don't already have cert-manager enabled on your cluster.
+cert-manager:
+  enabled: false
+  installCRDs: false
 
-## Serve application over HTTP without TLS
-##
-## Note: If set to true, you may want to add --enable-insecure-login to extraArgs
-protocolHttp: true
-
-service:
-  type: ClusterIP
-  # Dashboard service port
-  externalPort: 80
-
-# Global dashboard settings
-settings:
-  {}
-  ## Cluster name that appears in the browser window title if it is set
-  # clusterName: ""
-  ## Max number of items that can be displayed on each list page
-  # itemsPerPage: 10
-  ## Number of seconds between every auto-refresh of logs
-  # logsAutoRefreshTimeInterval: 5
-  ## Number of seconds between every auto-refresh of every resource. Set 0 to disable
-  # resourceAutoRefreshTimeInterval: 5
-  ## Hide all access denied warnings in the notification panel
-  # disableAccessDeniedNotifications: false
-
-## Pinned CRDs that will be displayed in dashboard's menu
-pinnedCRDs:
-  []
-  # - kind: customresourcedefinition
-  ##  Fully qualified name of a CRD
-  #   name: prometheuses.monitoring.coreos.com
-  ##  Display name
-  #   displayName: Prometheus
-  ##  Is this CRD namespaced?
-  #   namespaced: true
+## Optional Nginx Ingress sub-chart configuration
+## Enable this if you don't already have nginx-ingress enabled on your cluster.
+nginx:
+  enabled: false

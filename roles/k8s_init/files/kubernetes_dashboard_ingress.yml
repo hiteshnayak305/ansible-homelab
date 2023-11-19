@@ -14,8 +14,14 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: kubernetes-dashboard
+            name: kubernetes-dashboard-web
             port:
-              number: 80
+              name: web
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: kubernetes-dashboard-api
+            port:
+              name: api
   ingressClassName: nginx
-  # kubectl apply -f https://github.com/weaveworks/scope/releases/download/v1.13.2/k8s-scope.yaml
