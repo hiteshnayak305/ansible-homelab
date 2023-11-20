@@ -1,9 +1,3 @@
-- name: Check for existing cluster crt
-  ansible.builtin.stat:
-    path: /etc/containerd/config.toml
-  register: result
-  changed_when: false
-
 - name: Make sure the folder exists => /etc/containerd
   ansible.builtin.file:
     path: /etc/containerd
@@ -11,36 +5,38 @@
 
 - name: Get defaults from containerd.
   ansible.builtin.command: containerd config default
-  changed_when: not result.stat.exists
+  changed_when: false
   register: containerd_config_default
 
 - name: Prepare containerd/config.toml from default config
   ansible.builtin.copy:
     dest: "{{ tmpdir }}/containerd_config.toml"
     content: "{{ containerd_config_default.stdout }}"
-  when: containerd_config_default is changed
+  changed_when: false
 
-- name: Set Cgroup driver to systemd
+- name: Ensure Systemd Cgroup is used
   ansible.builtin.lineinfile:
-    insertafter: '.*\[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options\]$'
-    line: '          SystemdCgroup = true'
+    path: "{{ tmpdir }}/containerd_config.toml"
+    regexp: '^            SystemdCgroup ='
+    line: '            SystemdCgroup = true'
+    backrefs: true
     state: present
-    path: "{{ tmpdir }}/containerd_config.toml"
-  when: containerd_config_default is changed
+  changed_when: false
 
-- name: Make sure  SystemdCgroup = false is not set
+- name: Ensure sandbox image version
   ansible.builtin.lineinfile:
     path: "{{ tmpdir }}/containerd_config.toml"
-    state: absent
-    line: '            SystemdCgroup = false'
-  when: containerd_config_default is changed
+    regexp: '^    sandbox_image ='
+    line: '    sandbox_image = "registry.k8s.io/pause:3.9"'
+    backrefs: true
+    state: present
+  changed_when: false
 
 - name: Copy config.toml to /etc/containerd
   ansible.builtin.copy:
     remote_src: true
     src: "{{ tmpdir }}/containerd_config.toml"
     dest: /etc/containerd/config.toml
-  when: containerd_config_default is changed
   notify: 
     - restart containerd
 
@@ -48,4 +44,4 @@
   ansible.builtin.file:
     path: "{{ tmpdir }}/containerd_config.toml"
     state: absent
-  when: containerd_config_default is changed
+  changed_when: false
