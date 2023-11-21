@@ -15,7 +15,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: immich-proxy
+            name: immich-server
             port:
-              number: 8080
+              number: 3001
   ingressClassName: nginx

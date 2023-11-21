@@ -3,7 +3,7 @@
 ## Refer there for more detail about the supported values
 
 image:
-  tag: v1.87.0
+  tag: v1.88.1
 
 immich:
   persistence:
@@ -14,7 +14,6 @@ immich:
       existingClaim: "pvc-immich"
 
 # Dependencies
-
 postgresql:
   enabled: true
   global:
@@ -80,18 +79,7 @@ machine-learning:
       accessMode: ReadWriteMany
       storageClass: "nfs-client-ssd-0"
 
-web:
-  enabled: true
-  persistence:
-    library:
-      enabled: false
-
-proxy:
-  enabled: true
-  persistence:
-    library:
-      enabled: false
-
+server:
   ingress:
     main:
       enabled: false
