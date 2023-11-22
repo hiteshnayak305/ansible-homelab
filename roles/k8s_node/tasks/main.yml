@@ -22,5 +22,8 @@
     - name: Configure Containerd
       include_tasks: 06_kube_configure_containerd.yml
 
+    - name: Configure Crictl
+      include_tasks: 07_kube_configure_crictl.yml
+
     - name: Install Kubernetes
-      include_tasks: 07_kube_install_binaries.yml
+      include_tasks: 08_kube_install_binaries.yml
