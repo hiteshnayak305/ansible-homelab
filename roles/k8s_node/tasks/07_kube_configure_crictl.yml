@@ -2,3 +2,5 @@
   ansible.builtin.copy:
     src: "files/etc/crictl.yaml"
     dest: "/etc/crictl.yaml"
+  notify: 
+    - restart containerd

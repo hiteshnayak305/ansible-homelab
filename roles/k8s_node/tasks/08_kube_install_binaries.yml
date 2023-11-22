@@ -30,3 +30,24 @@
     - kubectl
   notify: 
     - restart kubelet
+
+- name: Make sure the folder exists => /var/lib/kubelet/config.d
+  ansible.builtin.file:
+    path: /var/lib/kubelet/config.d
+    state: directory
+
+- name: Copy /etc/default/kubelet file
+  ansible.builtin.copy:
+    src: "files/etc/default/kubelet"
+    dest: "/etc/default/kubelet"
+  notify: 
+    - restart kubelet
+
+- name: Copy custom kubelet config files
+  ansible.builtin.copy:
+    src: "files/var/lib/kubelet/config.d/{{ item }}"
+    dest: "/var/lib/kubelet/config.d/{{ item }}"
+  with_items: 
+    - 01-custom.conf
+  notify: 
+    - restart kubelet
