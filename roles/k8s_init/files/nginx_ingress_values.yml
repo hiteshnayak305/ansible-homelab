@@ -26,11 +26,26 @@ controller:
         ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
         sessionAffinity: "ClientIP"
 
+    # -- Node tolerations for server scheduling to nodes with taints
+    ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+    ##
+    tolerations: 
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+
 ## Default 404 backend
 ##
 defaultBackend:
     ##
     enabled: true
+    # -- Node tolerations for server scheduling to nodes with taints
+    ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+    ##
+    tolerations: 
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
 
 # -- TCP service key-value pairs
 ## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md
