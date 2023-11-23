@@ -1,0 +1,59 @@
+---
+# tasks file for k8s_grafana_prometheus
+- name: Execute grafana prometheus role
+  become: true
+  become_user: "{{ kubernetes_user }}"
+  block:
+    - name: Create volume directory on nfs if it does not exist
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0777'
+        owner: 1000
+        group: 1000
+      with_items: 
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-grafana-prometheus"
+
+    # install prereqs
+    - name: Install prereq for grafana prometheus
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls: 
+          - files/grafana_prometheus_namespace.yml
+          - files/pvc_grafana_prometheus.yml
+
+    - name: Add Prometheus helm repository
+      kubernetes.core.helm_repository:
+        name: prometheus-community
+        repo_url: https://prometheus-community.github.io/helm-charts
+
+    - name: Copy values file
+      ansible.builtin.copy:
+        src: files/grafana_prometheus_values.yml
+        dest: "{{ tmpdir }}/grafana_prometheus_values.yml"
+      changed_when: false
+
+    - name: Deploy latest version of grafana prometheus chart
+      kubernetes.core.helm:
+        name: prometheus
+        chart_ref: prometheus-community/prometheus
+        chart_version: 25.8.0
+        update_repo_cache: true
+        release_namespace: grafana-prometheus-system
+        create_namespace: false
+        values_files:
+          - "{{ tmpdir }}/grafana_prometheus_values.yml"
+        wait: true
+      when: not ansible_check_mode
+
+    - name: Remove temp files (delete file)
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items: 
+        - "{{ tmpdir }}/grafana_prometheus_values.yml"
+      changed_when: false

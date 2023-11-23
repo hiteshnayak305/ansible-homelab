@@ -1,0 +1,8 @@
+---
+# defaults file for k8s_authentik
+
+# tmpdir
+tmpdir: /tmp
+
+grafana_admin_user: user
+grafana_admin_password: password

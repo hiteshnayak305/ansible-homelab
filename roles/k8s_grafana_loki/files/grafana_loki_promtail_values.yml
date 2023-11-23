@@ -1,0 +1,38 @@
+daemonset:
+  # -- Deploys Promtail as a DaemonSet
+  enabled: true
+# -- Resource requests and limits
+resources: {}
+#  limits:
+#    cpu: 200m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+# -- Tolerations for pods. By default, pods will be scheduled on master/control-plane nodes.
+tolerations:
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+
+# -- Section for crafting Promtails config file. The only directly relevant value is `config.file`
+# which is a templated string that references the other values and snippets below this key.
+# @default -- See `values.yaml`
+config:
+  # -- Enable Promtail config from Helm chart
+  # Set `configmap.enabled: true` and this to `false` to manage your own Promtail config
+  # See default config in `values.yaml`
+  enabled: true
+  # -- The port of the Promtail server
+  # Must be reference in `config.file` to configure `server.http_listen_port`
+  # See default config in `values.yaml`
+  serverPort: 3101
+  # -- The config of clients of the Promtail server
+  # Must be reference in `config.file` to configure `clients`
+  # @default -- See `values.yaml`
+  clients:
+    - url: http://loki-gateway.grafana-loki-system.svc/loki/api/v1/push
