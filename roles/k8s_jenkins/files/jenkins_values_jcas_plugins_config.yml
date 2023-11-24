@@ -21,8 +21,10 @@ controller:
         unclassified:
           bitbucketEndpointConfiguration:
             endpoints: []
-      # prism-configuration: |
-      #   unclassified:
-      #     prismConfiguration:
-      #       theme: TOMORROW_NIGHT
+      prometheus-configuration: |
+        unclassified:
+          prometheusConfiguration:
+            collectCodeCoverage: true
+            collectDiskUsage: false
+            collectNodeStatus: true
                     

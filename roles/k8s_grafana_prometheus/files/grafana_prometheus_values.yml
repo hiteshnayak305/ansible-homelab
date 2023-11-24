@@ -128,6 +128,11 @@ extraScrapeConfigs: |
     static_configs:
       - targets:
         - gitea-http.gitea-system.svc:3000
+  - job_name: 'jenkins'
+    metrics_path: /prometheus
+    static_configs:
+      - targets: 
+        - jenkins.jenkins.svc:8080
 
 # Configuration of subcharts defined in Chart.yaml
 
