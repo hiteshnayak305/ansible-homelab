@@ -33,7 +33,13 @@ controller:
       - key: "node-role.kubernetes.io/control-plane"
         operator: "Exists"
         effect: "NoSchedule"
-
+    metrics:
+      enabled: true
+    # -- Annotations to be added to controller pods
+    ##
+    podAnnotations: 
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "10254"
 ## Default 404 backend
 ##
 defaultBackend:
