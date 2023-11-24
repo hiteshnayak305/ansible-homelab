@@ -21,8 +21,8 @@ controller:
         unclassified:
           bitbucketEndpointConfiguration:
             endpoints: []
-      prism-configuration: |
-        unclassified:
-          prismConfiguration:
-            theme: TOMORROW_NIGHT
+      # prism-configuration: |
+      #   unclassified:
+      #     prismConfiguration:
+      #       theme: TOMORROW_NIGHT
                     
