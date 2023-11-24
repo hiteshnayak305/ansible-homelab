@@ -17,43 +17,6 @@ server:
   ##
   name: server
 
-  ## namespaces to monitor (instead of monitoring all - clusterwide). Needed if you want to run without Cluster-admin privileges.
-  # namespaces:
-  #   - yournamespace
-
-  # sidecarContainers - add more containers to prometheus server
-  # Key/Value where Key is the sidecar `- name: <Key>`
-  # Example:
-  #   sidecarContainers:
-  #      webserver:
-  #        image: nginx
-  # OR for adding OAuth authentication to Prometheus
-  #   sidecarContainers:
-  #     oauth-proxy:
-  #       image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.2
-  #       args:
-  #       - --upstream=http://127.0.0.1:9090
-  #       - --http-address=0.0.0.0:8081
-  #       - ...
-  #       ports:
-  #       - containerPort: 8081
-  #         name: oauth-proxy
-  #         protocol: TCP
-  #       resources: {}
-  sidecarContainers: {}
-
-  # sidecarTemplateValues - context to be used in template for sidecarContainers
-  # Example:
-  #   sidecarTemplateValues: *your-custom-globals
-  #   sidecarContainers:
-  #     webserver: |-
-  #       {{ include "webserver-container-template" . }}
-  # Template for `webserver-container-template` might looks like this:
-  #   image: "{{ .Values.server.sidecarTemplateValues.repository }}:{{ .Values.server.sidecarTemplateValues.tag }}"
-  #   ...
-  #
-  sidecarTemplateValues: {}
-
   global:
     ## How frequently to scrape targets by default
     ##
@@ -89,17 +52,12 @@ server:
 
     # pathType is only for k8s >= 1.18
     pathType: Prefix
- 
-  ## Use an alternate scheduler, e.g. "stork".
-  ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
-  ##
-  # schedulerName:
 
   persistentVolume:
     ## If true, Prometheus server will create/use a Persistent Volume Claim
     ## If false, use emptyDir
     ##
-    enabled: false
+    enabled: true
 
     ## Prometheus server data Persistent Volume access modes
     ## Must match those of existing PV or dynamic provisioner
@@ -140,37 +98,16 @@ server:
   ##
   revisionHistoryLimit: 1
 
-  ## Prometheus server readiness and liveness probe initial delay and timeout
-  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-  ##
-  tcpSocketProbeEnabled: false
-  probeScheme: HTTP
-  readinessProbeInitialDelay: 30
-  readinessProbePeriodSeconds: 5
-  readinessProbeTimeout: 4
-  readinessProbeFailureThreshold: 3
-  readinessProbeSuccessThreshold: 1
-  livenessProbeInitialDelay: 30
-  livenessProbePeriodSeconds: 15
-  livenessProbeTimeout: 10
-  livenessProbeFailureThreshold: 3
-  livenessProbeSuccessThreshold: 1
-  startupProbe:
-    enabled: false
-    periodSeconds: 5
-    failureThreshold: 30
-    timeoutSeconds: 10
-
   ## Prometheus server resource requests and limits
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
-  resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 512Mi
-    # requests:
-    #   cpu: 500m
-    #   memory: 512Mi
+  resources: 
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 250Mi
 
   ## Prometheus data retention period (default if not specified is 15 days)
   ##

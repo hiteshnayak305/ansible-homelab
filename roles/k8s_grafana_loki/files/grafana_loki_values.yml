@@ -5,6 +5,8 @@ loki:
     replication_factor: 1
   storage:
     type: 'filesystem'
+
+# Configuration for the single binary node(s)
 singleBinary:
   replicas: 1
   persistence:
@@ -20,3 +22,22 @@ singleBinary:
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
     storageClass: 'nfs-client-ssd-0'
+  # -- Resource requests and limits for the single binary
+  resources: 
+    limits:
+      cpu: 200m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 250Mi
+
+# Configuration for the gateway
+gateway:
+  # -- Resource requests and limits for the gateway
+  resources: 
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
