@@ -1,0 +1,73 @@
+# Copyright VMware, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+
+## @section Kubernetes Event Exporter parameters
+
+## @param replicaCount Desired number of pod replicas
+replicaCount: 1
+##
+## @param revisionHistoryLimit Desired number of old ReplicaSets to retain 
+## Defaults to 10, if set to 0 old ReplicaSets will be garbage-collected
+revisionHistoryLimit: 1
+##
+## @param containerPorts.http HTTP container port
+##
+containerPorts:
+  http: 2112
+
+## Kubernetes event exporter configuration, rendered as a template
+## ref: https://github.com/resmoio/kubernetes-event-exporter#configuration
+## @param config.logLevel Verbosity of the logs (options: `fatal`, `error`, `warn`, `info` or `debug`)
+## @param config.logFormat How the logs are formatted. Allowed values: `pretty` or `json`
+## @param config.receivers [array] Array containing event receivers
+## @param config.route.routes [array] Array containing event route configuration
+##
+config:
+  logLevel: debug
+  logFormat: pretty
+  receivers:
+    - name: "dump"
+      file:
+        path: "/dev/stdout"
+        ## Example:
+        ## layout:
+        ##   message: "{{ .Message }}"
+        ##   reason: "{{ .Reason }}"
+        ##   type: "{{ .Type }}"
+        ##   count: "{{ .Count }}"
+        ##   kind: "{{ .InvolvedObject.Kind }}"
+        ##   name: "{{ .InvolvedObject.Name }}"
+        ##   namespace: "{{ .Namespace }}"
+        ##   component: "{{ .Source.Component }}"
+        ##   host: "{{ .Source.Host }}"
+        ##
+        layout: {}
+    - name: "loki"
+      loki:
+        # headers: # optional
+        #   X-Scope-OrgID: tennantID
+        streamLabels:
+          app: kube-event-exporter
+        url: http://loki-gateway.grafana-loki-system.svc/loki/api/v1/push
+  route:
+    routes:
+      - match:
+          - receiver: "dump"
+          - receiver: "loki"       
+
+## Container resource requests and limits
+## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+## We usually recommend not to specify default resources and to leave this as a conscious
+## choice for the user. This also increases chances charts run on environments with little
+## resources, such as Minikube. If you do want to specify resources, uncomment the following
+## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+## @param resources.limits Specify resource limits which the container is not allowed to succeed.
+## @param resources.requests Specify resource requests which the container needs to spawn.
+##
+resources:
+  limits:
+     cpu: 300m
+     memory: 250Mi
+  requests:
+     cpu: 100m
+     memory: 25Mi

@@ -161,6 +161,18 @@ dashboards:
       datasource:
       - name: DS_PROMETHEUS
         value: Prometheus
+    kubernetes-event-exporter:
+      gnetId: 17882
+      revision: 2
+      datasource:
+      - name: DS_LOKI
+        value: Loki
+    nginx-ingress-controller:
+      gnetId: 9614
+      revision: 1
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
 
 ## Reference to external ConfigMap per provider. Use provider name as key and ConfigMap name as value.
 ## A provider dashboards must be defined either by external ConfigMaps or in values.yaml, not in both.
