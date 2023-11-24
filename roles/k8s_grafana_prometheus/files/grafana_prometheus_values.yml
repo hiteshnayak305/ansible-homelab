@@ -117,6 +117,18 @@ server:
   ##
   retentionSize: "500MB"
 
+# adds additional scrape configs to prometheus.yml
+# must be a string so you have to add a | after extraScrapeConfigs:
+# example adds prometheus-blackbox-exporter scrape config
+extraScrapeConfigs: |
+  - job_name: 'gitea'
+    authorization:
+      type: Bearer
+      credentials: promcredential
+    static_configs:
+      - targets:
+        - gitea-http.gitea-system.svc:3000
+
 # Configuration of subcharts defined in Chart.yaml
 
 ## alertmanager sub-chart configurable values

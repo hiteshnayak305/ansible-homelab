@@ -159,6 +159,9 @@ gitea:
       ALLOWED_HOST_LIST: '*.hitesh.com'
     security:
       MIN_PASSWORD_LENGTH: 6
+    metrics:
+      ENABLED: true
+      TOKEN: promcredential
     ## #356 https://gitea.com/gitea/helm-chart/issues/356
     session:
       PROVIDER: redis-cluster
