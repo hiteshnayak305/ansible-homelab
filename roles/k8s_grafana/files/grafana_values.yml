@@ -173,6 +173,32 @@ dashboards:
       datasource:
       - name: DS_PROMETHEUS
         value: Prometheus
+    spring-boot-observability:
+      gnetId: 17175
+      revision: 2
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
+      - name: DS_LOKI
+        value: Loki
+    node-js-application-dashboard:
+      gnetId: 11159
+      revision: 1
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
+    postgresql-database:
+      gnetId: 9628
+      revision: 7
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
+    mongodb-database:
+      gnetId: 2583
+      revision: 2
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
 
 ## Reference to external ConfigMap per provider. Use provider name as key and ConfigMap name as value.
 ## A provider dashboards must be defined either by external ConfigMaps or in values.yaml, not in both.
