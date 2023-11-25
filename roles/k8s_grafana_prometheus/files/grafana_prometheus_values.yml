@@ -31,7 +31,7 @@ server:
   ingress:
     ## If true, Prometheus server Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
@@ -159,6 +159,11 @@ extraScrapeConfigs: |
     - source_labels: [__meta_kubernetes_service_name]
       regex: prometheus-server
       action: drop
+  - job_name: 'test'
+    scrape_interval: 5s
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ['test.test.svc:8080']
 
 # Configuration of subcharts defined in Chart.yaml
 
