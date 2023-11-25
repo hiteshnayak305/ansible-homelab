@@ -206,6 +206,45 @@ agent:
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && 
                           ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
+    jdk21-kaniko: |
+      - name: jdk21-kaniko
+        label: jenkins-jdk21-kaniko
+        serviceAccount: jenkins
+        showRawYaml: true
+        inheritFrom: 'default jdk21 kaniko'
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jnlp
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: jdk21
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: kaniko
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
     kaniko: |
       - name: kaniko
         label: jenkins-kaniko
@@ -388,3 +427,44 @@ agent:
                         - "-c"
                         - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
                           update-ca-certificates"
+    jdk21: |
+      - name: jdk21
+        label: jenkins-jdk21
+        serviceAccount: jenkins
+        showRawYaml: true
+        inheritFrom: default
+        containers:
+          - name: jdk21
+            image: eclipse-temurin:21-jdk-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            runAsUser: 0
+            ttyEnabled: true
+            resourceRequestCpu: "300m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "300m"
+            resourceLimitMemory: "3Gi"
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jnlp
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: jdk21
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"  
