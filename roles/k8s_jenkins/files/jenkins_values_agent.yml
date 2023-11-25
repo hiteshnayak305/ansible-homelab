@@ -167,6 +167,45 @@ agent:
                         - "-c"
                         - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
                           update-ca-certificates"
+    jdk17-kaniko: |
+      - name: jdk17-kaniko
+        label: jenkins-jdk17-kaniko
+        serviceAccount: jenkins
+        showRawYaml: true
+        inheritFrom: 'default jdk17 kaniko'
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jnlp
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: jdk17
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: kaniko
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
     kaniko: |
       - name: kaniko
         label: jenkins-kaniko
