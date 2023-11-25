@@ -31,18 +31,6 @@ singleBinary:
       cpu: 100m
       memory: 250Mi
 
-# Use either this ingress or the gateway, but not both at once.
-# If you enable this, make sure to disable the gateway.
-# You'll need to supply authn configuration for your ingress controller.
-ingress:
-  enabled: true
-  ingressClassName: "nginx"
-  annotations: 
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  # -- Hosts configuration for the ingress, passed through the `tpl` function to allow templating
-  hosts:
-    - loki.hitesh.com
-
 # Configuration for the gateway
 gateway:
   # -- Resource requests and limits for the gateway
@@ -53,3 +41,21 @@ gateway:
     requests:
       cpu: 50m
       memory: 128Mi
+  # Gateway ingress configuration
+  ingress:
+    # -- Specifies whether an ingress for the gateway should be created
+    enabled: true
+    # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
+    ingressClassName: "nginx"
+    # -- Annotations for the gateway ingress
+    annotations: 
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
+    hosts:
+      - host: loki.hitesh.com
+        paths:
+          - path: /
+            # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
+            pathType: Prefix
+    # -- TLS configuration for the gateway ingress. Hosts passed through the `tpl` function to allow templating
+    tls: []
