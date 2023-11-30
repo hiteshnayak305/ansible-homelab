@@ -3,6 +3,9 @@
 ##
 
 controller:
+    config:
+      use-forwarded-headers: true # not true
+      compute-full-forwarded-for: true # not true
     extraArgs:
         default-ssl-certificate: "nginx-system/ingress-nginx-default-tls"
     service:

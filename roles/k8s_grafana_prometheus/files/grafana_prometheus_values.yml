@@ -161,9 +161,9 @@ extraScrapeConfigs: |
       action: drop
   - job_name: 'test'
     scrape_interval: 5s
-    metrics_path: "/actuator/prometheus"
+    metrics_path: "actuator/prometheus"
     static_configs:
-      - targets: ['test.test.svc:8080']
+      - targets: ['test-test-spring-app.test.svc:8080']
 
 # Configuration of subcharts defined in Chart.yaml
 

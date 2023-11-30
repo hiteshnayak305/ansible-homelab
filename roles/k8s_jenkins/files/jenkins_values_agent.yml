@@ -401,7 +401,7 @@ agent:
             ttyEnabled: true
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "300m"
+            resourceLimitCpu: "500m"
             resourceLimitMemory: "3Gi"
         yamlMergeStrategy: merge
         yaml: |
@@ -442,7 +442,7 @@ agent:
             ttyEnabled: true
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "300m"
+            resourceLimitCpu: "500m"
             resourceLimitMemory: "3Gi"
         yamlMergeStrategy: merge
         yaml: |

@@ -37,8 +37,8 @@
       ansible.builtin.command: swapoff -a
       when: ansible_swaptotal_mb > 0
 
-    - name: Cleanup ssd volume archives -> /mnt/nfs/ssd_0/archived-*
-      ansible.builtin.shell: "rm -rf /mnt/nfs/ssd_0/archived-*"
+    # - name: Cleanup ssd volume archives -> /mnt/nfs/ssd_0/archived-*
+    #   ansible.builtin.shell: "rm -rf /mnt/nfs/ssd_0/archived-*"
 
-    - name: Cleanup hdd volume archives -> /mnt/nfs/hdd_0/archived-*
-      ansible.builtin.shell: "rm -rf /mnt/nfs/hdd_0/archived-*"
+    # - name: Cleanup hdd volume archives -> /mnt/nfs/hdd_0/archived-*
+    #   ansible.builtin.shell: "rm -rf /mnt/nfs/hdd_0/archived-*"

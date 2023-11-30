@@ -5,7 +5,6 @@
   vars:
     k8s_install_ymls: 
       - files/nginx_ingress_namespace.yml
-      # - files/nginx_ingress_service_public.yml
 
 - name: Add nginx-ingress helm repository
   kubernetes.core.helm_repository:
