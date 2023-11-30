@@ -104,10 +104,10 @@ server:
   resources: 
     limits:
       cpu: 500m
-      memory: 512Mi
+      memory: 1Gi
     requests:
       cpu: 250m
-      memory: 250Mi
+      memory: 500Mi
 
   ## Prometheus data retention period (default if not specified is 15 days)
   ##
@@ -115,7 +115,7 @@ server:
 
   ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
   ##
-  retentionSize: "500MB"
+  retentionSize: "100MB"
 
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
