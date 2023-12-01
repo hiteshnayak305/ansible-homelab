@@ -144,14 +144,15 @@ emptyDir: {}
   # medium: Memory
   # sizeLimit: 16Mi
 
+#Only system properties are allowed ref: https://sonarsource.atlassian.net/browse/SONAR-11818
 # A custom sonar.properties file can be provided via dictionary.
 # For example:
-sonarProperties:
-  sonar.forceAuthentication: true
-  sonar.core.serverBaseURL: "https://sonarqube.hitesh.com"
-  sonar.issues.defaultAssigneeLogin: admin
-  sonar.lf.enableGravatar: true
-  sonar.projectCreation.mainBranchName: master
+# sonarProperties:
+#   sonar.forceAuthentication: true
+#   sonar.core.serverBaseURL: "https://sonarqube.hitesh.com"
+#   sonar.issues.defaultAssigneeLogin: admin
+#   sonar.lf.enableGravatar: true
+#   sonar.projectCreation.mainBranchName: master
 
 ## (DEPRECATED) Configuration values for postgresql dependency
 ## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
