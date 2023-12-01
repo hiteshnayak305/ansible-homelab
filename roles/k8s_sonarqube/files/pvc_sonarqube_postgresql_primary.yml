@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-sonarqube-postgresql-primary
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: nfs.hitesh.com
+    path: "/mnt/nfs/ssd_0/pv-sonarqube-postgresql-primary"
+  mountOptions:
+    - nfsvers=4.2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-sonarqube-postgresql-primary
+  namespace: sonarqube-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ''
+  volumeName: pv-sonarqube-postgresql-primary

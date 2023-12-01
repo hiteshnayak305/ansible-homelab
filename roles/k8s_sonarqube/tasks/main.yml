@@ -1,0 +1,69 @@
+---
+# tasks file for k8s_sonarqube
+- name: Execute sonarqube role
+  become: true
+  become_user: "{{ kubernetes_user }}"
+  block:
+    - name: Create volume directory on nfs if it does not exist
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0777'
+        owner: 1000
+        group: 1000
+      with_items: 
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-sonarqube"
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-sonarqube-postgresql-primary"
+
+    # install prereqs
+    - name: Install prereq for sonarqube
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls: 
+          - files/sonarqube_namespace.yml
+          - files/pvc_sonarqube.yml
+          - files/pvc_sonarqube_postgresql_primary.yml
+
+    - name: Install prereq for sonarqube 2
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s: 
+          - secret/sonarqube_custom_root_ca_cert.j2
+
+    - name: Add sonarqube helm repository
+      kubernetes.core.helm_repository:
+        name: sonarqube
+        repo_url: https://SonarSource.github.io/helm-chart-sonarqube
+
+    - name: Copy values file
+      ansible.builtin.copy:
+        src: files/sonarqube_values.yml
+        dest: "{{ tmpdir }}/sonarqube_values.yml"
+      changed_when: false
+
+    - name: Deploy latest version of sonarqube chart
+      kubernetes.core.helm:
+        name: sonarqube
+        chart_ref: sonarqube/sonarqube
+        chart_version: 10.3.0+2009
+        update_repo_cache: true
+        release_namespace: sonarqube-system
+        create_namespace: false
+        values_files:
+          - "{{ tmpdir }}/sonarqube_values.yml"
+        wait: true
+      when: not ansible_check_mode
+
+    - name: Remove temp files (delete file)
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items: 
+        - "{{ tmpdir }}/sonarqube_values.yml"
+      changed_when: false

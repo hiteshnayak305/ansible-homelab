@@ -1,0 +1,8 @@
+---
+# defaults file for k8s_sonarqube
+
+# tmpdir
+tmpdir: /tmp
+
+# ca cert
+root_ca_crt: ''
