@@ -11,10 +11,6 @@ jenkins_admin_password: password
 mail_admin_username: admin
 mail_admin_password: password
 
-# cas door secret for test
-test_casdoor_client_id: admin
-test_casdoor_client_secret: password
-
 # ca crt
 root_ca_crt: ''
 
@@ -23,3 +19,6 @@ gitea_docker_config_json_base64: ''
 
 # kubectl
 kubectl_config: ''
+
+#sonarqube token
+sonarqube_token: ''

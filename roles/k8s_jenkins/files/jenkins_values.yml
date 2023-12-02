@@ -185,6 +185,8 @@ controller:
       keyName: client-id
     - name: test-authentik-credentials-secret
       keyName: client-secret
+    - name: sonarqube-credentials-secret
+      keyName: token
 
   additionalSecrets: []
   #  - name: nameOfSecret

@@ -43,6 +43,7 @@
           - secret/kube_credentials_secret.j2
           - secret/mail_credentials_secret.j2
           - secret/test_authentik_credentials_secret.j2
+          - secret/sonarqube_credentials_secret.j2
 
     - name: Add Jenkins helm repository
       kubernetes.core.helm_repository:

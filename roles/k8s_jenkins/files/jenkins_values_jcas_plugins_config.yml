@@ -27,4 +27,15 @@ controller:
             collectCodeCoverage: true
             collectDiskUsage: false
             collectNodeStatus: true
+      sonarqube-configuration: |
+        unclassified:
+          sonarGlobalConfiguration:
+            buildWrapperEnabled: false
+            installations:
+            - credentialsId: "sonarqube-token"
+              name: "sonarqube"
+              serverUrl: "https://sonarqube.hitesh.com"
+              triggers:
+                skipScmCause: false
+                skipUpstreamCause: false
                     
