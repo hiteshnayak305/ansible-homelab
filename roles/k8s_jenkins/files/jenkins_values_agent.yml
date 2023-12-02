@@ -225,7 +225,9 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          apk add ca-certificates &&
                           update-ca-certificates"
               - name: kaniko
                 lifecycle:
@@ -467,7 +469,7 @@ agent:
         inheritFrom: default
         containers:
           - name: node20
-            image: node:20.10.0-alpine
+            image: node:20-alpine
             command: "/bin/sh -c"
             args: "cat"
             runAsUser: 0
@@ -498,5 +500,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          apk add ca-certificates &&
                           update-ca-certificates"  
