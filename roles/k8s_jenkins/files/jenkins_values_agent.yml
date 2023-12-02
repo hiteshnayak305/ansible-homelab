@@ -119,54 +119,6 @@ agent:
   # controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   podTemplates: 
-    jdk17-kaniko-k8s: |
-      - name: jdk17-kaniko-k8s
-        label: jenkins-jdk17-kaniko-k8s
-        serviceAccount: jenkins
-        showRawYaml: true
-        inheritFrom: 'default jdk17 kaniko k8s'
-        yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: jdk17
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: kaniko
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
-              - name: k8s
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
     jdk17-kaniko: |
       - name: jdk17-kaniko
         label: jenkins-jdk17-kaniko
@@ -245,6 +197,45 @@ agent:
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && 
                           ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
+    node20-kaniko: |
+      - name: node20-kaniko
+        label: jenkins-node20-kaniko
+        serviceAccount: jenkins
+        showRawYaml: true
+        inheritFrom: 'default node20 kaniko'
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jnlp
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: node20
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: kaniko
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
     kaniko: |
       - name: kaniko
         label: jenkins-kaniko
@@ -261,7 +252,7 @@ agent:
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "500m"
-            resourceLimitMemory: "3Gi"
+            resourceLimitMemory: "1Gi"
         volumes:
           - secretVolume:
               mountPath: /kaniko/.docker/
@@ -311,7 +302,7 @@ agent:
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "500m"
-            resourceLimitMemory: "3Gi"
+            resourceLimitMemory: "1Gi"
         volumes:
           - secretVolume:
               mountPath: /root/.docker/
@@ -361,7 +352,7 @@ agent:
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "500m"
-            resourceLimitMemory: "3Gi"
+            resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -402,7 +393,7 @@ agent:
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "500m"
-            resourceLimitMemory: "3Gi"
+            resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -443,7 +434,7 @@ agent:
             resourceRequestCpu: "300m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "500m"
-            resourceLimitMemory: "3Gi"
+            resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -460,6 +451,47 @@ agent:
                         - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
                           update-ca-certificates"
               - name: jdk21
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"  
+    node20: |
+      - name: node20
+        label: jenkins-node20
+        serviceAccount: jenkins
+        showRawYaml: true
+        inheritFrom: default
+        containers:
+          - name: node20
+            image: node:20.10.0-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            runAsUser: 0
+            ttyEnabled: true
+            resourceRequestCpu: "300m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "500m"
+            resourceLimitMemory: "1Gi"
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jnlp
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: node20
                 lifecycle:
                   postStart:
                     exec:
