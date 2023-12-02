@@ -52,6 +52,10 @@ agent:
       claimName: pvc-jenkins-gradle
       mountPath: /root/.gradle
       readOnly: false
+    - type: PVC
+      claimName: pvc-jenkins-npm
+      mountPath: /root/.npm
+      readOnly: false
 
   # You can define the workspaceVolume that you want to mount for this container
   # Allowed types are: DynamicPVC, EmptyDir, HostPath, Nfs, PVC
@@ -197,12 +201,12 @@ agent:
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && 
                           ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
-    node20-kaniko: |
-      - name: node20-kaniko
-        label: jenkins-node20-kaniko
+    node20-ssc5-kaniko: |
+      - name: node20-ssc5-kaniko
+        label: jenkins-node20-ssc5-kaniko
         serviceAccount: jenkins
         showRawYaml: true
-        inheritFrom: 'default node20 kaniko'
+        inheritFrom: 'default node20 ssc5 kaniko'
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -229,6 +233,16 @@ agent:
                           ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
                           apk add ca-certificates &&
                           update-ca-certificates"
+              - name: ssc5
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
               - name: kaniko
                 lifecycle:
                   postStart:
@@ -251,10 +265,10 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
+            resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "500m"
-            resourceLimitMemory: "1Gi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "500Gi"
         volumes:
           - secretVolume:
               mountPath: /kaniko/.docker/
@@ -301,10 +315,10 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
+            resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "500m"
-            resourceLimitMemory: "1Gi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "500Gi"
         volumes:
           - secretVolume:
               mountPath: /root/.docker/
@@ -351,10 +365,10 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
+            resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "500m"
-            resourceLimitMemory: "1Gi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "500Gi"
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -392,9 +406,9 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
+            resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "500m"
+            resourceLimitCpu: "1"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
         yaml: |
@@ -433,9 +447,9 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
+            resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "500m"
+            resourceLimitCpu: "1"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
         yaml: |
@@ -474,9 +488,9 @@ agent:
             args: "cat"
             runAsUser: 0
             ttyEnabled: true
-            resourceRequestCpu: "300m"
+            resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "500m"
+            resourceLimitCpu: "1"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
         yaml: |
@@ -504,3 +518,45 @@ agent:
                           ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
                           apk add ca-certificates &&
                           update-ca-certificates"  
+    ssc5: |
+      - name: ssc5
+        label: jenkins-ssc5
+        serviceAccount: jenkins
+        showRawYaml: true
+        inheritFrom: default
+        containers:
+          - name: ssc5
+            image: sonarsource/sonar-scanner-cli:5
+            command: "/bin/sh -c"
+            args: "cat"
+            runAsUser: 0
+            ttyEnabled: true
+            resourceRequestCpu: "500m"
+            resourceRequestMemory: "256Mi"
+            resourceLimitCpu: "1"
+            resourceLimitMemory: "256Gi"
+        yamlMergeStrategy: merge
+        yaml: |
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: jnlp
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
+              - name: ssc5
+                lifecycle:
+                  postStart:
+                    exec:
+                      command:
+                        - "/bin/sh"
+                        - "-c"
+                        - "mkdir -p /usr/local/share/ca-certificates && 
+                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          update-ca-certificates"
