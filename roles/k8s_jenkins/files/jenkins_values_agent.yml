@@ -152,7 +152,8 @@ agent:
                         - "/bin/sh"
                         - "-c"
                         - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
+                          update-ca-certificates &&
+                          ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit -file /usr/local/share/ca-certificates/hitesh.com.root.crt"
               - name: kaniko
                 lifecycle:
                   postStart:
@@ -269,7 +270,7 @@ agent:
             resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "1"
-            resourceLimitMemory: "500Gi"
+            resourceLimitMemory: "500Mi"
         volumes:
           - secretVolume:
               mountPath: /kaniko/.docker/
@@ -319,7 +320,7 @@ agent:
             resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "1"
-            resourceLimitMemory: "500Gi"
+            resourceLimitMemory: "500Mi"
         volumes:
           - secretVolume:
               mountPath: /root/.docker/
@@ -369,7 +370,7 @@ agent:
             resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "1"
-            resourceLimitMemory: "500Gi"
+            resourceLimitMemory: "500Mi"
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
@@ -434,7 +435,8 @@ agent:
                         - "/bin/sh"
                         - "-c"
                         - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"  
+                          update-ca-certificates &&
+                          ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit -file /usr/local/share/ca-certificates/hitesh.com.root.crt"  
     node20: |
       - name: node20
         label: jenkins-node20
@@ -494,7 +496,7 @@ agent:
             resourceRequestCpu: "500m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "1"
-            resourceLimitMemory: "256Gi"
+            resourceLimitMemory: "256Mi"
         yamlMergeStrategy: merge
         yaml: |
           apiVersion: v1
