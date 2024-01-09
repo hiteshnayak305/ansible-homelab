@@ -3,7 +3,7 @@
 ## Refer there for more detail about the supported values
 
 image:
-  tag: v1.89.0
+  tag: v1.92.1
 
 immich:
   persistence:
@@ -14,8 +14,12 @@ immich:
       existingClaim: "pvc-immich"
 
 # Dependencies
+
 postgresql:
   enabled: true
+  image:
+    repository: tensorchord/pgvecto-rs
+    tag: pg14-v0.1.11
   global:
     postgresql:
       auth:
@@ -33,6 +37,7 @@ postgresql:
       accessModes:
         - ReadWriteOnce
       size: 1G
+
 redis:
   enabled: true
   architecture: standalone
@@ -44,18 +49,20 @@ redis:
     persistence:
       size: 1Gi
 
-typesense:
-  enabled: true
-  persistence:
-    tsdata:
-      # Enabling typesense persistence is recommended to avoid slow reindexing
-      enabled: true
-      type: emptyDir
-      accessMode: ReadWriteOnce
-      size: 1Gi
-      # storageClass: "nfs-client-ssd-0"
-
 # Immich components
+
+server:
+  ingress:
+    main:
+      enabled: false
+      annotations:
+        # proxy-body-size is set to 0 to remove the body limit on file uploads
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: immich.hitesh.com
+          paths:
+            - path: "/"
+      tls: []
 
 microservices:
   enabled: true
@@ -78,16 +85,3 @@ machine-learning:
       type: pvc
       accessMode: ReadWriteMany
       storageClass: "nfs-client-ssd-0"
-
-server:
-  ingress:
-    main:
-      enabled: false
-      annotations:
-        # proxy-body-size is set to 0 to remove the body limit on file uploads
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      hosts:
-        - host: immich.hitesh.com
-          paths:
-            - path: "/"
-      tls: []

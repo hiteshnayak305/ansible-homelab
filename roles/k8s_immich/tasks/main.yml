@@ -44,7 +44,7 @@
       kubernetes.core.helm:
         name: immich
         chart_ref: immich/immich
-        chart_version: 0.2.0
+        chart_version: 0.3.1
         update_repo_cache: true
         release_namespace: immich-system
         create_namespace: false
