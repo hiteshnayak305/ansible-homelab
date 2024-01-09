@@ -49,7 +49,7 @@
       kubernetes.core.helm:
         name: authentik
         chart_ref: authentik/authentik
-        chart_version: 2023.10.4
+        chart_version: 2023.10.5
         update_repo_cache: true
         release_namespace: authentik-system
         create_namespace: false
