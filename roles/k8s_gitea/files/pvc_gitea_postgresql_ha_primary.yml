@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-gitea-postgresql-primary
+  name: pv-gitea-postgresql-ha-primary
 spec:
   capacity:
     storage: 1Gi
@@ -9,14 +9,14 @@ spec:
     - ReadWriteOnce
   nfs:
     server: nfs.hitesh.com
-    path: "/mnt/nfs/ssd_0/pv-gitea-postgresql-primary"
+    path: "/mnt/nfs/ssd_0/pv-gitea-postgresql-ha-primary"
   mountOptions:
     - nfsvers=4.2
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-gitea-postgresql-primary
+  name: pvc-gitea-postgresql-ha-primary
   namespace: gitea-system
 spec:
   accessModes:
@@ -25,4 +25,4 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: ''
-  volumeName: pv-gitea-postgresql-primary
+  volumeName: pv-gitea-postgresql-ha-primary

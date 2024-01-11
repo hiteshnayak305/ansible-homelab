@@ -15,7 +15,7 @@
         group: 1000
       with_items: 
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-gitea"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-gitea-postgresql-primary"
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-gitea-postgresql-ha-primary"
 
     # install prereqs
     - name: Install prereq for gitea
@@ -26,7 +26,7 @@
         k8s_install_ymls: 
           - files/gitea_namespace.yml
           - files/pvc_gitea.yml
-          - files/pvc_gitea_postgresql_primary.yml
+          - files/pvc_gitea_postgresql_ha_primary.yml
 
     - name: Install prereq for gitea 2
       ansible.builtin.include_role:
