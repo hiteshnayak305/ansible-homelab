@@ -72,6 +72,8 @@ resources:
 postgresql:
   # -- enable the bundled bitnami postgresql chart
   enabled: true
+  postgresqlPostgresPassword: "gW4sz8heGn"
+  # postgresqlPostgresPassword: "authentik"
   postgresqlUsername: "authentik"
   postgresqlPassword: "authentik"
   postgresqlDatabase: "authentik"
