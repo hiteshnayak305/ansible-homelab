@@ -10,10 +10,10 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: '0777'
+        mode: "0777"
         owner: 1000
         group: 1000
-      with_items: 
+      with_items:
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-authentik-postgresql-primary"
 
     # install prereqs
@@ -22,7 +22,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls: 
+        k8s_install_ymls:
           - files/authentik_namespace.yml
           - files/pvc_authentik_postgresql_primary.yml
 
@@ -31,7 +31,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s: 
+        k8s_install_j2s:
           - secret/authentik_admin_secret.j2
 
     - name: Add Authentik helm repository
@@ -49,7 +49,7 @@
       kubernetes.core.helm:
         name: authentik
         chart_ref: authentik/authentik
-        chart_version: 2023.10.5
+        chart_version: 2023.10.6
         update_repo_cache: true
         release_namespace: authentik-system
         create_namespace: false
@@ -62,6 +62,6 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      with_items: 
+      with_items:
         - "{{ tmpdir }}/authentik_values.yml"
       changed_when: false

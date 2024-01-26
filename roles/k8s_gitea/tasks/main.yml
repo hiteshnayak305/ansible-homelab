@@ -10,10 +10,10 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: '0777'
+        mode: "0777"
         owner: 1000
         group: 1000
-      with_items: 
+      with_items:
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-gitea"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-gitea-postgresql-ha-primary"
 
@@ -23,7 +23,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls: 
+        k8s_install_ymls:
           - files/gitea_namespace.yml
           - files/pvc_gitea.yml
           - files/pvc_gitea_postgresql_ha_primary.yml
@@ -33,7 +33,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s: 
+        k8s_install_j2s:
           - secret/gitea_admin_secret.j2
           - secret/gitea_custom_root_ca_cert.j2
           - secret/gitea_gpg_key.j2
@@ -53,7 +53,7 @@
       kubernetes.core.helm:
         name: gitea
         chart_ref: gitea-charts/gitea
-        chart_version: 10.0.2
+        chart_version: 10.1.0
         update_repo_cache: true
         release_namespace: gitea-system
         create_namespace: false
@@ -66,6 +66,6 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      with_items: 
+      with_items:
         - "{{ tmpdir }}/gitea_values.yml"
       changed_when: false

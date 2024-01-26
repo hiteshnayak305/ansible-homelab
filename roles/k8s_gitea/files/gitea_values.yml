@@ -102,16 +102,16 @@ persistence:
 
 ## @param extraVolumes Additional volumes to mount to the Gitea statefulset
 extraVolumes:
-# - name: gitea-custom-root-ca-cert-vol
-#   secret:
-#     secretName: gitea-custom-root-ca-cert
-#     items:
-#       - key: rootCA.crt
-#         path: rootCA.crt
-- name: host-ssl-vol
-  hostPath:
-    path: "/etc/ssl/certs"
-    type: Directory
+  # - name: gitea-custom-root-ca-cert-vol
+  #   secret:
+  #     secretName: gitea-custom-root-ca-cert
+  #     items:
+  #       - key: rootCA.crt
+  #         path: rootCA.crt
+  - name: host-ssl-vol
+    hostPath:
+      path: "/etc/ssl/certs"
+      type: Directory
 
 ## @param extraContainerVolumeMounts Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.
 extraContainerVolumeMounts:
@@ -145,8 +145,8 @@ gitea:
     email: gitea@gitea.hitesh.com
 
   ## @param gitea.config  Configuration for the Gitea server,ref: [config-cheat-sheet](https://docs.gitea.io/en-us/config-cheat-sheet/)
-  config: 
-    server: 
+  config:
+    server:
       DOMAIN: gitea.hitesh.com
       ROOT_URL: https://gitea.hitesh.com/
       SSH_DOMAIN: gitea.hitesh.com
@@ -156,7 +156,7 @@ gitea:
       SIGNING_NAME: Gitea
       SIGNING_EMAIL: gitea@gitea.hitesh.com
     webhook:
-      ALLOWED_HOST_LIST: '*.hitesh.com'
+      ALLOWED_HOST_LIST: "*.hitesh.com"
     security:
       MIN_PASSWORD_LENGTH: 6
     metrics:
@@ -179,6 +179,19 @@ gitea:
 ## @param redis-cluster.usePassword Whether to use password authentication
 redis-cluster:
   enabled: true
+  ## Bitnami Redis&reg; image version
+  ## ref: https://hub.docker.com/r/bitnami/redis/tags/
+  ## @param image.registry [default: REGISTRY_NAME] Redis&reg; cluster image registry
+  ## @param image.repository [default: REPOSITORY_NAME/redis-cluster] Redis&reg; cluster image repository
+  ## @skip image.tag Redis&reg; cluster image tag (immutable tags are recommended)
+  ## @param image.digest Redis&reg; cluster image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param image.pullPolicy Redis&reg; cluster image pull policy
+  ## @param image.pullSecrets Specify docker-registry secret names as an array
+  ## @param image.debug Enable image debug mode
+  ##
+  image:
+    repository: bitnami/redis-cluster
+    tag: 7.2-debian-11
   usePassword: false
   ## Container resource requests and limits
   ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
@@ -191,11 +204,11 @@ redis-cluster:
   ##
   resources:
     limits:
-       cpu: 250m
-       memory: 256Mi
+      cpu: 250m
+      memory: 256Mi
     requests:
-       cpu: 250m
-       memory: 256Mi
+      cpu: 250m
+      memory: 256Mi
   ## Redis&reg; Cluster settings
   ##
   cluster:
@@ -254,7 +267,7 @@ postgresql-ha:
     ##
     image:
       repository: bitnami/postgresql-repmgr
-      tag: 16.1.0-debian-11-r11
+      tag: 16-debian-11
     replicaCount: 1
     repmgrPassword: gitea
     postgresPassword: gitea
@@ -276,6 +289,19 @@ postgresql-ha:
         memory: 256Mi
         cpu: 250m
   pgpool:
+    ## Bitnami Pgpool image
+    ## ref: https://hub.docker.com/r/bitnami/pgpool/tags/
+    ## @param pgpool.image.registry [default: REGISTRY_NAME] Pgpool image registry
+    ## @param pgpool.image.repository [default: REPOSITORY_NAME/pgpool] Pgpool image repository
+    ## @skip pgpool.image.tag Pgpool image tag
+    ## @param pgpool.image.digest Pgpool image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+    ## @param pgpool.image.pullPolicy Pgpool image pull policy
+    ## @param pgpool.image.pullSecrets Specify docker-registry secret names as an array
+    ## @param pgpool.image.debug Specify if debug logs should be enabled
+    ##
+    image:
+      repository: bitnami/pgpool
+      tag: 4-debian-11
     adminPassword: gitea
     ## Pgpool containers' resource requests and limits
     ## ref: https://kubernetes.io/docs/user-guide/compute-resources/

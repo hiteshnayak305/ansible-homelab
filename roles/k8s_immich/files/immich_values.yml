@@ -3,7 +3,7 @@
 ## Refer there for more detail about the supported values
 
 image:
-  tag: v1.92.1
+  tag: v1.93.3
 
 immich:
   persistence:

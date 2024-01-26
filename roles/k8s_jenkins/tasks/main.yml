@@ -10,10 +10,10 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: '0777'
+        mode: "0777"
         owner: 1000
         group: 1000
-      with_items: 
+      with_items:
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-controller"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-maven"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-gradle"
@@ -25,7 +25,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls: 
+        k8s_install_ymls:
           - files/jenkins_namespace.yml
           - files/pvc_jenkins.yml
           - files/pvc_jenkins_maven.yml
@@ -38,7 +38,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s: 
+        k8s_install_j2s:
           - secret/jenkins_admin_secret.j2
           - secret/jenkins_custom_root_ca_cert.j2
           - secret/gitea_credentials_secret.j2
@@ -57,7 +57,7 @@
         src: "{{ item }}"
         dest: "{{ tmpdir }}/{{ item | basename }}"
       changed_when: false
-      with_items: 
+      with_items:
         - files/jenkins_values.yml
         - files/jenkins_values_jcas_credentials.yml
         - files/jenkins_values_jcas_plugins_config.yml
@@ -70,7 +70,7 @@
       kubernetes.core.helm:
         name: jenkins
         chart_ref: jenkins/jenkins
-        chart_version: 4.11.2
+        chart_version: 4.12.1
         update_repo_cache: true
         release_namespace: jenkins
         create_namespace: false
@@ -89,7 +89,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      with_items: 
+      with_items:
         - "{{ tmpdir }}/jenkins_values.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"

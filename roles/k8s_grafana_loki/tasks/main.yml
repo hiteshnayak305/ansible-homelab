@@ -10,7 +10,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls: 
+        k8s_install_ymls:
           - files/grafana_loki_namespace.yml
 
     - name: Add grafana loki helm repository
@@ -27,7 +27,7 @@
       ansible.builtin.copy:
         src: "files/{{ item }}"
         dest: "{{ tmpdir }}/{{ item }}"
-      with_items: 
+      with_items:
         - grafana_loki_values.yml
         - grafana_loki_promtail_values.yml
         - grafana_loki_kubernetes_event_exporter_values.yml
@@ -37,7 +37,7 @@
       kubernetes.core.helm:
         name: loki
         chart_ref: grafana/loki
-        chart_version: 5.41.4
+        chart_version: 5.41.8
         update_repo_cache: true
         release_namespace: grafana-loki-system
         create_namespace: false
@@ -50,7 +50,7 @@
       kubernetes.core.helm:
         name: promtail
         chart_ref: grafana/promtail
-        chart_version: 6.15.3
+        chart_version: 6.15.4
         update_repo_cache: true
         release_namespace: grafana-loki-system
         create_namespace: false
@@ -63,7 +63,7 @@
       kubernetes.core.helm:
         name: kubernetes-event-exporter
         chart_ref: bitnami/kubernetes-event-exporter
-        chart_version: 2.10.1
+        chart_version: 2.12.0
         update_repo_cache: true
         release_namespace: grafana-loki-system
         create_namespace: false
@@ -76,7 +76,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      with_items: 
+      with_items:
         - "{{ tmpdir }}/grafana_loki_values.yml"
         - "{{ tmpdir }}/grafana_loki_promtail_values.yml"
         - "{{ tmpdir }}/grafana_loki_kubernetes_event_exporter_values.yml"
