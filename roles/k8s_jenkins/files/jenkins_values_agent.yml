@@ -312,7 +312,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: alpine/k8s:1.27.3
+            image: alpine/k8s:1.29.0
             command: "/bin/bash -c"
             args: "cat"
             runAsUser: 0
