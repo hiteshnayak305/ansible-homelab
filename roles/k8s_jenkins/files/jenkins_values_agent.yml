@@ -61,7 +61,10 @@ agent:
   # Allowed types are: DynamicPVC, EmptyDir, HostPath, Nfs, PVC
   # Configure the attributes as they appear in the corresponding Java class for that type
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes/workspace
-  # workspaceVolume:
+  workspaceVolume:
+    type: PVC
+    claimName: pvc-jenkins-workspace
+    readOnly: false
   #   type: DynamicPVC
   #   storageClassName: nfs-client-hdd-0
   #   requestsSize: 1Gi

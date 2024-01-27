@@ -18,6 +18,7 @@
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-maven"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-gradle"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-npm"
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-workspace"
 
     # install prereqs
     - name: Install prereq for gitea
@@ -31,6 +32,7 @@
           - files/pvc_jenkins_maven.yml
           - files/pvc_jenkins_gradle.yml
           - files/pvc_jenkins_npm.yml
+          - files/pvc_jenkins_workspace.yml
           - files/jenkins_ingress.yml
 
     - name: Install prereq for jenkins 2
