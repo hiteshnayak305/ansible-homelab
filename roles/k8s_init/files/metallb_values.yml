@@ -1,0 +1,23 @@
+# Default values for metallb.
+# This is a YAML-formatted file.
+
+# controller contains configuration specific to the MetalLB cluster
+# controller.
+controller:
+  enabled: true
+  # -- Controller log level. Must be one of: `all`, `debug`, `info`, `warn`, `error` or `none`
+  logLevel: info
+  # command: /controller
+  # webhookMode: enabled
+
+# speaker contains configuration specific to the MetalLB speaker
+# daemonset.
+speaker:
+  enabled: true
+  # command: /speaker
+  # -- Speaker log level. Must be one of: `all`, `debug`, `info`, `warn`, `error` or `none`
+  logLevel: info
+  # frr contains configuration specific to the MetalLB FRR container,
+  # for speaker running alongside FRR.
+  frr:
+    enabled: true

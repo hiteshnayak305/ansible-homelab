@@ -29,6 +29,11 @@
         apt_install:
           - git
 
+- name: Remove Old Helm diff 3.x.x
+  kubernetes.core.helm_plugin:
+    plugin_name: diff
+    state: absent
+
 - name: Install Helm diff 3.x.x
   kubernetes.core.helm_plugin:
     plugin_path: https://github.com/databus23/helm-diff
