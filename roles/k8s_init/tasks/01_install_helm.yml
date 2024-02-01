@@ -6,7 +6,7 @@
       ansible.builtin.get_url:
         url: https://baltocdn.com/helm/signing.asc
         dest: /etc/apt/keyrings/helm.asc
-        mode: '0644'
+        mode: "0644"
         force: true
 
     - name: Adding apt repository for Helm
@@ -16,11 +16,11 @@
         filename: helm-stable-debian
 
     - name: Install Helm binary
-      ansible.builtin.apt: 
+      ansible.builtin.apt:
         name: helm
         state: present
         update_cache: yes
-      
+
     - name: Install APT Packages
       ansible.builtin.include_role:
         name: utility
@@ -32,5 +32,5 @@
 - name: Install Helm diff 3.x.x
   kubernetes.core.helm_plugin:
     plugin_path: https://github.com/databus23/helm-diff
-    plugin_version: v3.8.1
+    plugin_version: v3.9.4
     state: present
