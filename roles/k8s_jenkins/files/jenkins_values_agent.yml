@@ -9,8 +9,9 @@
 
 agent:
   enabled: true
-  image: jenkins/inbound-agent
-  tag: latest-alpine
+  image:
+    repository: "jenkins/inbound-agent"
+    tag: "latest-alpine"
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   customJenkinsLabels: []
@@ -28,7 +29,7 @@ agent:
       cpu: "1"
       memory: "500Mi"
   # You may want to change this to true while testing a new image
-  alwaysPullImage: false
+  alwaysPullImage: true
   # Controls how agent pods are retained after the Jenkins build completes
   # Possible values: Always, Never, OnFailure
   podRetention: "OnFailure"
@@ -111,7 +112,7 @@ agent:
                 command:
                   - "/bin/sh"
                   - "-c"
-                  - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                  - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt &&
                     update-ca-certificates"
   # Timeout in seconds for an agent to be online
   connectTimeout: 120
@@ -126,137 +127,6 @@ agent:
   # controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   podTemplates:
-    jdk21-kaniko: |
-      - name: jdk21-kaniko
-        label: jenkins-jdk21-kaniko
-        serviceAccount: jenkins
-        showRawYaml: true
-        inheritFrom: 'default jdk21 kaniko'
-        yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: jdk21
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates &&
-                          ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit -file /usr/local/share/ca-certificates/hitesh.com.root.crt"
-              - name: kaniko
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
-    node20-ssc5-kaniko: |
-      - name: node20-ssc5-kaniko
-        label: jenkins-node20-ssc5-kaniko
-        serviceAccount: jenkins
-        showRawYaml: true
-        inheritFrom: 'default node20 ssc5 kaniko'
-        yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: node20
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          apk add ca-certificates &&
-                          update-ca-certificates"
-              - name: ssc5
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: kaniko
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
-    ssc5-k8s: |
-      - name: ssc5-k8s
-        label: jenkins-ssc5-k8s
-        serviceAccount: jenkins
-        showRawYaml: true
-        inheritFrom: 'default ssc5 k8s'
-        yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: ssc5
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
-              - name: k8s
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
-                          update-ca-certificates"
     kaniko: |
       - name: kaniko
         label: jenkins-kaniko
@@ -268,6 +138,7 @@ agent:
             image: gcr.io/kaniko-project/executor:debug
             command: "/busybox/sh -c"
             args: "cat"
+            alwaysPullImage: true
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -318,6 +189,7 @@ agent:
             image: alpine/k8s:1.29.0
             command: "/bin/bash -c"
             args: "cat"
+            alwaysPullImage: true
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -368,6 +240,7 @@ agent:
             image: python:3-alpine
             command: "/bin/sh -c"
             args: "cat"
+            alwaysPullImage: true
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "500m"
@@ -409,6 +282,7 @@ agent:
             image: eclipse-temurin:21-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
+            alwaysPullImage: true
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -451,6 +325,7 @@ agent:
             image: node:20-alpine
             command: "/bin/sh -c"
             args: "cat"
+            alwaysPullImage: true
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -494,6 +369,7 @@ agent:
             image: sonarsource/sonar-scanner-cli:5
             command: "/bin/sh -c"
             args: "cat"
+            alwaysPullImage: true
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"

@@ -6,7 +6,7 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   nfs:
     server: nfs.hitesh.com
     path: "/mnt/nfs/ssd_0/pv-jenkins-maven"
@@ -20,9 +20,9 @@ metadata:
   namespace: jenkins
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Gi
-  storageClassName: ''
+  storageClassName: ""
   volumeName: pv-jenkins-maven

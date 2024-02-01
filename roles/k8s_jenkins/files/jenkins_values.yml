@@ -16,25 +16,30 @@ clusterZone: "cluster.local"
 # The URL of the Kubernetes API server
 kubernetesURL: "https://kubernetes.default"
 
+# The Jenkins credentials to access the Kubernetes API server. For the the default cluster it is not needed.
+credentialsId:
+
 renderHelmLabels: true
 
 controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
-  image: "hiteshnayak305/jenkins"
-  tag: "lts"
-  imagePullPolicy: "Always"
-  installPlugins: false
+  image:
+    registry: "docker.io"
+    repository: "hiteshnayak305/jenkins"
+    tag: "lts"
+    # tagLabel: jdk17
+    pullPolicy: "Always"
   lifecycle:
     postStart:
       exec:
-        command: 
-        - "/bin/bash"
-        - "-c"
-        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
-          update-ca-certificates && \
-          ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit \
-          -file /usr/local/share/ca-certificates/hitesh.com.root.crt"
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+            update-ca-certificates && \
+            ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit \
+            -file /usr/local/share/ca-certificates/hitesh.com.root.crt"
   disableRememberMe: false
   numExecutors: 0
   # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE
@@ -42,20 +47,23 @@ controller:
   # This is ignored if enableRawHtmlMarkupFormatter is true
   markupFormatter: plainText
   customJenkinsLabels: []
-  # The default configuration uses this secret to configure an admin user
-  # If you don't need that user or use a different security realm then you can disable it
-  adminSecret: true
-
   hostNetworking: false
+
   # When enabling LDAP or another non-Jenkins identity source, the built-in admin account will no longer exist.
   # If you disable the non-Jenkins identity store and instead use the Jenkins internal one,
-  # you should revert controller.adminUser to your preferred admin user:
-  adminUser: "jenkins"
-  # adminPassword: <defaults to random>
+  # you should revert controller.admin.username to your preferred admin user:
   admin:
-    existingSecret: "jenkins-admin-secret"
+    username: "jenkins"
+    # password: <defaults to random>
+
     userKey: jenkins-admin-user
     passwordKey: jenkins-admin-password
+
+    # The default configuration uses this secret to configure an admin user
+    # If you don't need that user or use a different security realm then you can disable it
+    createSecret: true
+    existingSecret: "jenkins-admin-secret"
+
   # This values should not be changed unless you use your custom image of jenkins or any devired from. If you want to use
   # Cloudbees Jenkins Distribution docker, you should set jenkinsHome: "/var/cloudbees-jenkins-distribution"
   jenkinsHome: "/var/jenkins_home"
@@ -69,40 +77,27 @@ controller:
   #   - --httpPort=8080
   resources:
     requests:
-      cpu: "300m"
-      memory: "500Mi"
+      cpu: "50m"
+      memory: "256Mi"
     limits:
-      cpu: "500m"
+      cpu: "1"
       memory: "2048Mi"
   # Share process namespace to allow sidecar containers to interact with processes in other containers in the same pod
   shareProcessNamespace: false
-  # Overrides the init container default values
-  # initContainerResources:
-  #   requests:
-  #     cpu: "50m"
-  #     memory: "256Mi"
-  #   limits:
-  #     cpu: "2000m"
-  #     memory: "4096Mi"
-  # Environment variables that get added to the init container (useful for e.g. http_proxy)
-  # initContainerEnv:
-  #   - name: http_proxy
-  #     value: "http://192.168.64.1:3128"
-  # containerEnv:
-  #   - name: http_proxy
-  #     value: "http://192.168.64.1:3128"
-  # Set min/max heap here if needed with:
-  # javaOpts: "-Xms512m -Xmx512m"
-  # jenkinsOpts: ""
+
+  jenkinsAdminEmail: jenkins@jenkins.hitesh.com
+
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block the configured hostname will be the ingress hostname starting with `https://` or `http://` depending on the `tls` configuration.
   # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
   # jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
   jenkinsUrl: "https://jenkins.hitesh.com"
-  jenkinsAdminEmail: jenkins@jenkins.hitesh.com
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
-  
+
+  # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
+  usePodSecurityContext: true
+
   podSecurityContextOverride:
     runAsUser: 0
     runAsNonRoot: false
@@ -131,6 +126,8 @@ controller:
     startupProbe:
       failureThreshold: 18 # ~ 3 minutes
 
+  installPlugins: []
+
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
 
@@ -149,7 +146,7 @@ controller:
   # overwritePlugins: true
 
   # Configures if plugins bundled with `controller.image` should be overwritten with the values of 'controller.installPlugins' on upgrade or redeployment.
-  overwritePluginsFromImage: true
+  overwritePluginsFromImage: false
 
   # Configures the restrictions for naming projects. Set this key to null or empty to skip it in the default config.
   projectNamingStrategy: standard
@@ -176,7 +173,7 @@ controller:
   # When using existingSecret no need to specify the keyName under additionalExistingSecrets.
   existingSecret: gitea-credentials-secret
 
-  additionalExistingSecrets: 
+  additionalExistingSecrets:
     - name: mail-credentials-secret
       keyName: mail-admin-user
     - name: mail-credentials-secret
@@ -257,38 +254,9 @@ controller:
       # jcasc changes will cause a reboot and will only be applied at the subsequent start-up.  Auto-reload uses the
       # http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to the configScripts are detected.
       enabled: false
-      image: kiwigrid/k8s-sidecar:1.24.4
-      imagePullPolicy: IfNotPresent
-      resources: 
-        limits:
-          cpu: 100m
-          memory: 100Mi
-        requests:
-          cpu: 50m
-          memory: 50Mi
-      # How many connection-related errors to retry on
-      reqRetryConnect: 5
-      # env:
-      #   - name: REQ_URL
-      #     value: "http://jenkins:8080/reload-configuration-as-code/?casc-reload-token=$(POD_NAME)"
-      # SSH port value can be set to any unused TCP port.  The default, 1044, is a non-standard SSH port that has been chosen at random.
-      # Is only used to reload jcasc config from the sidecar container running in the Jenkins controller pod.
-      # This TCP port will not be open in the pod (unless you specifically configure this), so Jenkins will not be
-      # accessible via SSH from outside of the pod.  Note if you use non-root pod privileges (runAsUser & fsGroup),
-      # this must be > 1024:
-      sshTcpPort: 1044
-      # folder in the pod that should hold the collected dashboards:
-      folder: "/var/jenkins_home/casc_configs"
-      # If specified, the sidecar will search for JCasC config-maps inside this namespace.
-      # Otherwise the namespace in which the sidecar is running will be used.
-      # It's also possible to specify ALL to search in all namespaces:
-      # searchNamespace:
-      containerSecurityContext:
-        readOnlyRootFilesystem: true
-        allowPrivilegeEscalation: false
 
-    # Allows you to inject additional/other sidecars
-    other: []
+    # Allows you to inject additional sidecars
+    additionalSidecarContainers: []
     ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
     ## that allows to trigger build behind a secure firewall.
     ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
@@ -337,8 +305,5 @@ persistence:
     - mountPath: "/mnt/ca-certificates/hitesh.com"
       name: jenkins-custom-root-ca-cert-vol
       readOnly: true
-
-cronJob:
-  apiVersion: batch/v1
 
 checkDeprecation: true
