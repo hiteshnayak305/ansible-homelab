@@ -104,6 +104,8 @@ agent:
     apiVersion: v1
     kind: Pod
     spec:
+      securityContext:
+        runAsUser: 0
       containers:
         - name: jnlp
           lifecycle:
@@ -159,6 +161,8 @@ agent:
           apiVersion: v1
           kind: Pod
           spec:
+            securityContext:
+              runAsUser: 0
             containers:
               - name: jnlp
                 lifecycle:
@@ -210,6 +214,8 @@ agent:
           apiVersion: v1
           kind: Pod
           spec:
+            securityContext:
+              runAsUser: 0
             containers:
               - name: jnlp
                 lifecycle:
@@ -252,6 +258,8 @@ agent:
           apiVersion: v1
           kind: Pod
           spec:
+            securityContext:
+              runAsUser: 0
             containers:
               - name: jnlp
                 lifecycle:
@@ -294,6 +302,8 @@ agent:
           apiVersion: v1
           kind: Pod
           spec:
+            securityContext:
+              runAsUser: 0
             containers:
               - name: jnlp
                 lifecycle:
@@ -337,6 +347,8 @@ agent:
           apiVersion: v1
           kind: Pod
           spec:
+            securityContext:
+              runAsUser: 0
             containers:
               - name: jnlp
                 lifecycle:
@@ -381,6 +393,8 @@ agent:
           apiVersion: v1
           kind: Pod
           spec:
+            securityContext:
+              runAsUser: 0
             containers:
               - name: jnlp
                 lifecycle:
