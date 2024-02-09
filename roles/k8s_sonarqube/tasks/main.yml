@@ -10,10 +10,10 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: '0777'
+        mode: "0777"
         owner: 1000
         group: 1000
-      with_items: 
+      with_items:
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-sonarqube"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-sonarqube-postgresql-primary"
 
@@ -23,7 +23,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls: 
+        k8s_install_ymls:
           - files/sonarqube_namespace.yml
           - files/pvc_sonarqube.yml
           - files/pvc_sonarqube_postgresql_primary.yml
@@ -33,7 +33,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s: 
+        k8s_install_j2s:
           - secret/sonarqube_custom_root_ca_cert.j2
 
     - name: Add sonarqube helm repository
@@ -51,7 +51,7 @@
       kubernetes.core.helm:
         name: sonarqube
         chart_ref: sonarqube/sonarqube
-        chart_version: 10.3.0+2009
+        chart_version: "10.4.0+2288"
         update_repo_cache: true
         release_namespace: sonarqube-system
         create_namespace: false
@@ -64,6 +64,6 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      with_items: 
+      with_items:
         - "{{ tmpdir }}/sonarqube_values.yml"
       changed_when: false
