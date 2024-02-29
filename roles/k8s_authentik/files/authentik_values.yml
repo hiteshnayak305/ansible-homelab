@@ -66,7 +66,7 @@ postgresql:
   auth:
     ## @param auth.postgresPassword Password for the "postgres" admin user. Ignored if `auth.existingSecret` is provided
     ##
-    postgresPassword: "gW4sz8heGn"
+    postgresPassword: "authentik"
     ## @param auth.username Name for a custom user to create
     ##
     username: "authentik"
@@ -83,6 +83,12 @@ postgresql:
       existingClaim: "pvc-authentik-postgresql-primary"
       accessModes:
         - ReadWriteOnce
+    ## @param primary.pgHbaConfiguration PostgreSQL Primary client authentication configuration
+    ## ref: https://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
+    ## e.g:#
+    ## pgHbaConfiguration: |-
+    ##   local all all trust
+    ##
 
 redis:
   ## -- enable the Bitnami Redis chart. Refer to https://github.com/bitnami/charts/blob/main/bitnami/redis/ for possible values.
