@@ -1,15 +1,24 @@
-ingress:
-  enabled: true
-  ingressClassName: "nginx"
-  annotations: 
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  labels: {}
-  hosts:
-    - host: authentik.hitesh.com
-      paths:
-        - path: "/"
-          pathType: Prefix
-  tls: []
+## Globally shared configuration for authentik components.
+global:
+  # -- Environment variables to pass to all deployed Deployments. Does not apply to GeoIP
+  # See configuration options at https://goauthentik.io/docs/installation/configuration/
+  # @default -- `[]` (See [values.yaml])
+  env:
+    - name: AUTHENTIK_BOOTSTRAP_EMAIL
+      valueFrom:
+        secretKeyRef:
+          name: authentik-admin-secret
+          key: email
+    - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-admin-secret
+          key: password
+    - name: AUTHENTIK_BOOTSTRAP_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: authentik-admin-secret
+          key: token
 
 authentik:
   # -- Log level for server and worker
@@ -17,13 +26,18 @@ authentik:
   # -- Secret key used for cookie singing and unique user IDs,
   # don't change this after the first install
   secret_key: "/Y6M/p+3sw9ip7+oCbnaH2mjF8DM/q9crfp2ptonjlJUWCKR"
+  # This sends anonymous usage-data, stack traces on errors and
+  # performance data to authentik.error-reporting.a7k.io, and is fully opt-in
+  error_reporting:
+    enabled: false
   email:
     # -- SMTP Server emails are sent from, fully optional
     host: ""
+    # -- SMTP server port
     port: 587
-    # -- SMTP credentials, when left empty, not authentication will be done
+    # -- SMTP credentials, when left empty, no authentication will be done
     username: ""
-    # -- SMTP credentials, when left empty, not authentication will be done
+    # -- SMTP credentials, when left empty, no authentication will be done
     password: ""
     # -- Enable either use_tls or use_ssl, they can't be enabled at the same time.
     use_tls: false
@@ -34,58 +48,44 @@ authentik:
     # -- Email from address, can either be in the format "foo@bar.baz" or "authentik <foo@bar.baz>"
     from: ""
   postgresql:
-    # -- set the postgresql hostname to talk to
-    # if unset and .Values.postgresql.enabled == true, will generate the default
-    # @default -- `{{ .Release.Name }}-postgresql`
-    host: "{{ .Release.Name }}-postgresql"
-    # -- postgresql Database name
-    # @default -- `authentik`
-    name: "authentik"
-    # -- postgresql Username
-    # @default -- `authentik`
-    user: "authentik"
     password: "authentik"
-    port: 5432
 
-# -- see configuration options at https://goauthentik.io/docs/installation/configuration/
-env: {}
-  # AUTHENTIK_BOOTSTRAP_EMAIL: a@b.com
-
-envValueFrom: 
-  AUTHENTIK_BOOTSTRAP_EMAIL:
-    secretKeyRef:
-      key: email
-      name: authentik-admin-secret
-  AUTHENTIK_BOOTSTRAP_PASSWORD:
-    secretKeyRef:
-      key: password
-      name: authentik-admin-secret
-  AUTHENTIK_BOOTSTRAP_TOKEN:
-    secretKeyRef:
-      key: token
-      name: authentik-admin-secret
-
-resources:
-  server: {}
-  worker: {}
+## authentik server
+server:
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+      - authentik.hitesh.com
 
 postgresql:
-  # -- enable the bundled bitnami postgresql chart
+  # -- enable the Bitnami PostgreSQL chart. Refer to https://github.com/bitnami/charts/blob/main/bitnami/postgresql/ for possible values.
   enabled: true
-  postgresqlPostgresPassword: "gW4sz8heGn"
-  # postgresqlPostgresPassword: "authentik"
-  postgresqlUsername: "authentik"
-  postgresqlPassword: "authentik"
-  postgresqlDatabase: "authentik"
-  persistence:
-    enabled: true
-    storageClass: "-"
-    existingClaim: "pvc-authentik-postgresql-primary"
-    accessModes:
-      - ReadWriteOnce
+  auth:
+    ## @param auth.postgresPassword Password for the "postgres" admin user. Ignored if `auth.existingSecret` is provided
+    ##
+    postgresPassword: "gW4sz8heGn"
+    ## @param auth.username Name for a custom user to create
+    ##
+    username: "authentik"
+    ## @param auth.password Password for the custom user to create. Ignored if `auth.existingSecret` is provided
+    ##
+    password: "authentik"
+    ## @param auth.database Name for a custom database to create
+    ##
+    database: "authentik"
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "-"
+      existingClaim: "pvc-authentik-postgresql-primary"
+      accessModes:
+        - ReadWriteOnce
 
 redis:
-  # -- enable the bundled bitnami redis chart
+  ## -- enable the Bitnami Redis chart. Refer to https://github.com/bitnami/charts/blob/main/bitnami/redis/ for possible values.
   enabled: true
   global:
     storageClass: "nfs-client-ssd-0"

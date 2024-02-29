@@ -41,7 +41,7 @@
       kubernetes.core.helm:
         name: prometheus
         chart_ref: prometheus-community/prometheus
-        chart_version: 25.10.0
+        chart_version: 25.15.0
         update_repo_cache: true
         release_namespace: grafana-prometheus-system
         create_namespace: false

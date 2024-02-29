@@ -21,7 +21,7 @@
   kubernetes.core.helm:
     name: ingress-nginx
     chart_ref: ingress-nginx/ingress-nginx
-    chart_version: 4.9.1
+    chart_version: 4.10.0
     update_repo_cache: true
     release_namespace: nginx-system
     create_namespace: false
