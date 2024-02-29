@@ -10,25 +10,25 @@
     filename: kubernetes
 
 - name: Install Kubernetes binaries
-  ansible.builtin.apt: 
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
     update_cache: yes
   vars:
     packages:
-      - kubelet=1.29.0-1.1
-      - kubeadm=1.29.0-1.1
-      - kubectl=1.29.0-1.1
-  
+      - kubelet=1.29.2-1.1
+      - kubeadm=1.29.2-1.1
+      - kubectl=1.29.2-1.1
+
 - name: Hold Kubernetes binaries
   ansible.builtin.dpkg_selections:
     name: "{{ item }}"
     selection: hold
-  with_items: 
+  with_items:
     - kubelet
     - kubeadm
     - kubectl
-  notify: 
+  notify:
     - restart kubelet
 
 - name: Make sure the folder exists => /var/lib/kubelet/config.d
@@ -40,14 +40,14 @@
   ansible.builtin.copy:
     src: "files/etc/default/kubelet"
     dest: "/etc/default/kubelet"
-  notify: 
+  notify:
     - restart kubelet
 
 - name: Copy custom kubelet config files
   ansible.builtin.copy:
     src: "files/var/lib/kubelet/config.d/{{ item }}"
     dest: "/var/lib/kubelet/config.d/{{ item }}"
-  with_items: 
+  with_items:
     - 01-custom.conf
-  notify: 
+  notify:
     - restart kubelet
