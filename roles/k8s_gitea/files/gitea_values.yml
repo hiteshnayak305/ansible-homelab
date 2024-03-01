@@ -356,6 +356,16 @@ postgresql-ha:
     ##
     size: 1Gi
 
+  ## @section Metrics parameters
+
+  ## PostgreSQL Prometheus exporter parameters
+  ##
+  metrics:
+    ## Bitnami PostgreSQL Prometheus exporter image
+    ## @param metrics.enabled Enable PostgreSQL Prometheus exporter
+    ##
+    enabled: true
+
 ## @section PostgreSQL
 #
 ## @param postgresql.enabled Enable PostgreSQL

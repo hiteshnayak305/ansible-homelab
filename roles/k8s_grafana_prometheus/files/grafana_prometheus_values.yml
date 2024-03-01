@@ -39,13 +39,13 @@ server:
 
     ## Prometheus server Ingress annotations
     ##
-    annotations: 
+    annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 
     ## Prometheus server Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: 
+    hosts:
       - prometheus.hitesh.com
 
     path: /
@@ -101,7 +101,7 @@ server:
   ## Prometheus server resource requests and limits
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
-  resources: 
+  resources:
     limits:
       cpu: 500m
       memory: 1Gi
@@ -121,18 +121,6 @@ server:
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
 extraScrapeConfigs: |
-  - job_name: 'gitea'
-    authorization:
-      type: Bearer
-      credentials: promcredential
-    static_configs:
-      - targets:
-        - gitea-http.gitea-system.svc:3000
-  - job_name: 'jenkins'
-    metrics_path: /prometheus
-    static_configs:
-      - targets: 
-        - jenkins.jenkins.svc:8080
   - job_name: 'ingress-nginx-endpoints'
     kubernetes_sd_configs:
     - role: pod
@@ -159,6 +147,46 @@ extraScrapeConfigs: |
     - source_labels: [__meta_kubernetes_service_name]
       regex: prometheus-server
       action: drop
+  - job_name: 'gitea'
+    authorization:
+      type: Bearer
+      credentials: promcredential
+    static_configs:
+      - targets:
+        - gitea-http.gitea-system.svc:3000
+  - job_name: 'jenkins'
+    metrics_path: /prometheus
+    static_configs:
+      - targets: 
+        - jenkins.jenkins.svc:8080
+  - job_name: 'gitea-postgresql'
+    static_configs:
+      - targets:
+        - gitea-postgresql-ha-postgresql-metrics.gitea-system:9187
+        labels:
+          instance: 'gitea-postgresql-ha-postgresql-metrics.gitea-system:9187'
+          kubernetes_namespace: 'gitea-system'
+  - job_name: 'authentik-postgresql'
+    static_configs:
+      - targets:
+        - authentik-postgresql-metrics.authentik-system:9187
+        labels:
+          instance: 'authentik-postgresql-metrics.authentik-system:9187'
+          kubernetes_namespace: 'authentik-system'
+  - job_name: 'sonarqube-postgresql'
+    static_configs:
+      - targets:
+        - sonarqube-postgresql-metrics.sonarqube-system:9187
+        labels:
+          instance: 'sonarqube-postgresql-metrics.sonarqube-system:9187'
+          kubernetes_namespace: 'sonarqube-system'
+  - job_name: 'immich-postgresql'
+    static_configs:
+      - targets:
+        - immich-postgresql-metrics.immich-system:9187
+        labels:
+          instance: 'immich-postgresql-metrics.immich-system:9187'
+          kubernetes_namespace: 'immich-system'
   - job_name: 'test'
     scrape_interval: 5s
     metrics_path: "actuator/prometheus"

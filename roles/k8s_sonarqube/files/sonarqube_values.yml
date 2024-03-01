@@ -33,7 +33,7 @@ ingress:
   # Set the ingressClassName on the ingress record
   ingressClassName: nginx
 
-# Additional labels for Ingress manifest file
+  # Additional labels for Ingress manifest file
   # labels:
   #  traffic-type: external
   #  traffic-type: internal
@@ -139,7 +139,8 @@ persistence:
   mounts: []
 
 # In case you want to specify different resources for emptyDir than {}
-emptyDir: {}
+emptyDir:
+  {}
   # Example of resouces that might be used:
   # medium: Memory
   # sizeLimit: 16Mi
@@ -197,3 +198,10 @@ postgresql:
     size: 1Gi
     storageClass: "-"
     existingClaim: pvc-sonarqube-postgresql-primary
+
+  ## Configure metrics exporter
+  ##
+  metrics:
+    ## @param metrics.enabled Start a prometheus exporter
+    ##
+    enabled: true

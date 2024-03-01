@@ -38,6 +38,14 @@ postgresql:
         - ReadWriteOnce
       size: 1G
 
+  ## @section Metrics Parameters
+  ##
+
+  metrics:
+    ## @param metrics.enabled Start a prometheus exporter
+    ##
+    enabled: true
+
 redis:
   enabled: true
   architecture: standalone
