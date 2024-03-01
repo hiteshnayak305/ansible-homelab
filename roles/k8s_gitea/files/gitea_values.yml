@@ -165,7 +165,10 @@ gitea:
     cron:
       ENABLED: true
     git.timeout:
-      MIRROR: 3600
+      MIGRATE: 1800
+      MIRROR: 1800
+      CLONE: 1800
+      PULL: 1800
     metrics:
       ENABLED: true
       TOKEN: promcredential
