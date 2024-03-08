@@ -3,58 +3,59 @@
 ##
 
 controller:
-    config:
-      use-forwarded-headers: true # not true
-      compute-full-forwarded-for: true # not true
-    extraArgs:
-        default-ssl-certificate: "nginx-system/ingress-nginx-default-tls"
-    service:
-        # -- Used by cloud providers to connect the resulting `LoadBalancer` to a pre-existing static IP according to https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
-        annotations: 
-          metallb.universe.tf/loadBalancerIPs: 172.16.0.50
-        enableHttp: true
-        enableHttps: true
-        ports:
-            http: 80
-            https: 443
-        targetPorts:
-            http: http
-            https: https
-        type: LoadBalancer
-        ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it.
-        ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
-        externalTrafficPolicy: "Local"
+  config:
+    use-forwarded-headers: true # not true
+    compute-full-forwarded-for: true # not true
+  extraArgs:
+    default-ssl-certificate: "nginx-system/ingress-nginx-default-tls"
+  service:
+    # -- Used by cloud providers to connect the resulting `LoadBalancer` to a pre-existing static IP according to https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+    annotations:
+      metallb.universe.tf/address-pool: intnet-pool
+      # metallb.universe.tf/loadBalancerIPs: 172.16.0.50
+    enableHttp: true
+    enableHttps: true
+    ports:
+      http: 80
+      https: 443
+    targetPorts:
+      http: http
+      https: https
+    type: LoadBalancer
+    ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it.
+    ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
+    externalTrafficPolicy: "Local"
 
-        ## Must be either "None" or "ClientIP" if set. Kubernetes will default to "None".
-        ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
-        sessionAffinity: "ClientIP"
+    ## Must be either "None" or "ClientIP" if set. Kubernetes will default to "None".
+    ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
+    sessionAffinity: "ClientIP"
 
-    # -- Node tolerations for server scheduling to nodes with taints
-    ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
-    ##
-    tolerations: 
-      - key: "node-role.kubernetes.io/control-plane"
-        operator: "Exists"
-        effect: "NoSchedule"
-    metrics:
-      enabled: true
-    # -- Annotations to be added to controller pods
-    ##
-    podAnnotations: 
-      prometheus.io/scrape: "true"
-      prometheus.io/port: "10254"
+  # -- Node tolerations for server scheduling to nodes with taints
+  ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  ##
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+  metrics:
+    enabled: true
+  # -- Annotations to be added to controller pods
+  ##
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "10254"
 ## Default 404 backend
 ##
 defaultBackend:
-    ##
-    enabled: true
-    # -- Node tolerations for server scheduling to nodes with taints
-    ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
-    ##
-    tolerations: 
-      - key: "node-role.kubernetes.io/control-plane"
-        operator: "Exists"
-        effect: "NoSchedule"
+  ##
+  enabled: true
+  # -- Node tolerations for server scheduling to nodes with taints
+  ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  ##
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 # -- TCP service key-value pairs
 ## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md

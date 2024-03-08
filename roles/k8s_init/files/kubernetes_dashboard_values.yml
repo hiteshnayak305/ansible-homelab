@@ -14,22 +14,51 @@
 
 # General configuration shared across resources
 app:
-  scaling:
-    # Default number of replicas
-    replicas: 1
-    revisionHistoryLimit: 1
   ingress:
     enabled: false
+    hosts:
+      # Keep 'localhost' host only if you want to access Dashboard using 'kubectl port-forward ...' on:
+      # https://localhost:8443
+      #- localhost
+      - kube.hitesh.com
+    ingressClassName: nginx
+    # This will append our Ingress with annotations required by our default configuration.
+    #    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    #    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    #    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    useDefaultAnnotations: true
+    issuer:
+      # Scope determines what kind of issuer annotation will be used on ingress resource
+      # - default - adds 'cert-manager.io/issuer'
+      # - cluster - adds 'cert-manager.io/cluster-issuer'
+      # - disabled - disables cert-manager annotations
+      scope: disabled
   # Use the following toleration if Dashboard can be deployed on a tainted control-plane nodes
   # - key: node-role.kubernetes.io/control-plane
   #   effect: NoSchedule
-  tolerations: 
+  tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
+auth:
+  scaling:
+    replicas: 1
+    revisionHistoryLimit: 1
+
+# API deployment configuration
+api:
+  scaling:
+    replicas: 1
+    revisionHistoryLimit: 1
+
+# WEB UI deployment configuration
+web:
+  scaling:
+    replicas: 1
+    revisionHistoryLimit: 1
 
 ### Metrics Scraper
 ### Container to scrape, store, and retrieve a window of time from the Metrics Server.
-### refs: https://github.com/kubernetes-sigs/dashboard-metrics-scraper
+### refs: https://github.com/kubernetes/dashboard/tree/master/modules/metrics-scraper
 metricsScraper:
   enabled: false
 
@@ -41,6 +70,20 @@ metricsScraper:
 ##  - https://github.com/kubernetes-sigs/metrics-server/tree/master/charts/metrics-server
 metrics-server:
   enabled: false
+
+## Required Kong sub-chart with DBless configuration to act as a gateway
+## for our all containers.
+kong:
+  enabled: true
+  # Tolerations for pod assignment
+  # Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+  manager:
+    # Enable creating a Kubernetes service for Kong Manager
+    enabled: true
+    type: ClusterIP
 
 ## Optional Cert Manager sub-chart configuration
 ## Enable this if you don't already have cert-manager enabled on your cluster.

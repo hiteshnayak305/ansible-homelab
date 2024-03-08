@@ -13,7 +13,7 @@
   kubernetes.core.helm:
     name: kubernetes-dashboard
     chart_ref: kubernetes-dashboard/kubernetes-dashboard
-    chart_version: 7.0.0-alpha1
+    chart_version: 7.1.1
     update_repo_cache: true
     release_namespace: kubernetes-dashboard
     create_namespace: true
@@ -26,7 +26,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
-  with_items: 
+  with_items:
     - "{{ tmpdir }}/kubernetes_dashboard_values.yml"
   changed_when: false
 
@@ -35,6 +35,6 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls: 
+    k8s_install_ymls:
       - files/kubernetes_dashboard_ingress.yml
       - files/kubernetes_dashboard_user.yml

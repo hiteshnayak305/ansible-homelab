@@ -1,27 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-kubernetes-dashboard
+  name: kubernetes-dashboard
   namespace: kubernetes-dashboard
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
-  rules:
-  - host: kube.hitesh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kubernetes-dashboard-web
-            port:
-              name: web
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: kubernetes-dashboard-api
-            port:
-              name: api
   ingressClassName: nginx
+  rules:
+    - host: kube.hitesh.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: kubernetes-dashboard-kong-proxy
+                port:
+                  number: 443
+            path: /
+            pathType: ImplementationSpecific

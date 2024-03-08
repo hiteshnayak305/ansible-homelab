@@ -9,6 +9,9 @@ controller:
   logLevel: info
   # command: /controller
   # webhookMode: enabled
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
 
 # speaker contains configuration specific to the MetalLB speaker
 # daemonset.

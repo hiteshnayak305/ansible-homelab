@@ -21,7 +21,7 @@
   kubernetes.core.helm:
     name: flannel
     chart_ref: flannel/flannel
-    chart_version: v0.24.2
+    chart_version: v0.24.3
     update_repo_cache: true
     release_namespace: kube-flannel
     create_namespace: false
