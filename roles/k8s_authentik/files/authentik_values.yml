@@ -59,6 +59,38 @@ server:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - authentik.hitesh.com
+  # -- Resource limits and requests for the authentik server
+  resources:
+    requests:
+      cpu: 300m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+## authentik worker
+worker:
+  # -- Resource limits and requests for the authentik worker
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 200m
+      memory: 512Mi
+
+geoip:
+  # -- enable GeoIP sidecars for the authentik server and worker pods
+  enabled: false
+
+  # -- Resource limits and requests for GeoIP containers
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
 postgresql:
   # -- enable the Bitnami PostgreSQL chart. Refer to https://github.com/bitnami/charts/blob/main/bitnami/postgresql/ for possible values.
@@ -77,6 +109,19 @@ postgresql:
     ##
     database: "authentik"
   primary:
+    ## PostgreSQL Primary resource requests and limits
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ## @param primary.resources.limits The resources limits for the PostgreSQL Primary containers
+    ## @param primary.resources.requests.memory The requested memory for the PostgreSQL Primary containers
+    ## @param primary.resources.requests.cpu The requested cpu for the PostgreSQL Primary containers
+    ##
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 250m
+      requests:
+        memory: 256Mi
+        cpu: 250m
     persistence:
       enabled: true
       storageClass: "-"
@@ -103,3 +148,16 @@ redis:
   enabled: true
   global:
     storageClass: "nfs-client-ssd-0"
+  master:
+    ## Redis&reg; master resource requests and limits
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ## @param master.resources.limits The resources limits for the Redis&reg; master containers
+    ## @param master.resources.requests The requested resources for the Redis&reg; master containers
+    ##
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
