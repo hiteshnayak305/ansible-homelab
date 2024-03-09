@@ -35,11 +35,11 @@ controller:
     type: LoadBalancer
     ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it.
     ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
-    externalTrafficPolicy: "Local"
+    # externalTrafficPolicy: "Local"
 
     ## Must be either "None" or "ClientIP" if set. Kubernetes will default to "None".
     ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
-    sessionAffinity: "ClientIP"
+    # sessionAffinity: "ClientIP"
 
   # -- Node tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
