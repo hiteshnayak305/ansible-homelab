@@ -25,17 +25,16 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   ingressClassName: nginx
   # Values can be templated
-  annotations: 
+  annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   path: /
 
   # pathType is only for k8s >= 1.1=
   pathType: Prefix
 
-  hosts:
-    - grafana.hitesh.com
+  # hosts: -> template
 
-resources: 
+resources:
   limits:
     cpu: 300m
     memory: 1Gi
@@ -72,41 +71,41 @@ admin:
 ## Configure grafana datasources
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
 ##
-datasources: 
+datasources:
   datasources.yaml:
     apiVersion: 1
     datasources:
-    - name: Prometheus
-      type: prometheus
-      url: http://prometheus-server.grafana-prometheus-system.svc
-      access: proxy
-      isDefault: true
-    - name: Loki
-      type: loki
-      url: http://loki-gateway.grafana-loki-system.svc
-      access: proxy
-      isDefault: false
-      jsonData:
-        maxLines: 1000
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.grafana-prometheus-system.svc
+        access: proxy
+        isDefault: true
+      - name: Loki
+        type: loki
+        url: http://loki-gateway.grafana-loki-system.svc
+        access: proxy
+        isDefault: false
+        jsonData:
+          maxLines: 1000
 
 ## Configure grafana dashboard providers
 ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
 ##
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
-dashboardProviders: 
+dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
     providers:
-    - name: 'default'
-      orgId: 1
-      folder: ''
-      type: file
-      disableDeletion: true
-      editable: false
-      allowUiUpdates: false
-      options:
-        path: /var/lib/grafana/dashboards/default
+      - name: "default"
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: true
+        editable: false
+        allowUiUpdates: false
+        options:
+          path: /var/lib/grafana/dashboards/default
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -114,92 +113,92 @@ dashboardProviders:
 ##
 ## dashboards per provider, use provider name as key.
 ##
-dashboards: 
+dashboards:
   default:
     node-exporter-full:
       gnetId: 1860
       revision: 33
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     kube-state-metrics-v2:
       gnetId: 13332
       revision: 12
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
-      - name: VAR_DATASOURCE
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
+        - name: VAR_DATASOURCE
+          value: Prometheus
     kubernetes-views-global:
       gnetId: 15757
       revision: 31
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     loki-stack-monitoring:
       gnetId: 14055
       revision: 5
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
-      - name: DS_LOKI
-        value: Loki
+        - name: DS_PROMETHEUS
+          value: Prometheus
+        - name: DS_LOKI
+          value: Loki
     logs-app:
       gnetId: 13639
       revision: 2
       datasource:
-      - name: DS_LOKI
-        value: Loki
+        - name: DS_LOKI
+          value: Loki
     gitea:
       gnetId: 13192
       revision: 1
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     jenkins-performance-and-health-overview:
       gnetId: 9964
       revision: 1
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     kubernetes-event-exporter:
       gnetId: 17882
       revision: 2
       datasource:
-      - name: DS_LOKI
-        value: Loki
+        - name: DS_LOKI
+          value: Loki
     nginx-ingress-controller:
       gnetId: 9614
       revision: 1
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     spring-boot-observability:
       gnetId: 17175
       revision: 2
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
-      - name: DS_LOKI
-        value: Loki
+        - name: DS_PROMETHEUS
+          value: Prometheus
+        - name: DS_LOKI
+          value: Loki
     node-js-application-dashboard:
       gnetId: 11159
       revision: 1
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     postgresql-database:
       gnetId: 9628
       revision: 7
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
     mongodb-database:
       gnetId: 2583
       revision: 2
       datasource:
-      - name: DS_PROMETHEUS
-        value: Prometheus
+        - name: DS_PROMETHEUS
+          value: Prometheus
 
 ## Reference to external ConfigMap per provider. Use provider name as key and ConfigMap name as value.
 ## A provider dashboards must be defined either by external ConfigMaps or in values.yaml, not in both.

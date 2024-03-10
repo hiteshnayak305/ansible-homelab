@@ -20,13 +20,21 @@
     - name: Install prereq for grafana
       ansible.builtin.include_role:
         name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - pv/pv_grafana.j2
+
+    - name: Install prereq for grafana
+      ansible.builtin.include_role:
+        name: utility
         tasks_from: k8s_install_yml
       vars:
         k8s_install_ymls:
           - files/grafana_namespace.yml
           - files/pvc_grafana.yml
 
-    - name: Install prereq for grafana 2
+    - name: Install prereq for grafana
       ansible.builtin.include_role:
         name: utility
         tasks_from: k8s_install_j2
@@ -45,6 +53,12 @@
         dest: "{{ tmpdir }}/grafana_values.yml"
       changed_when: false
 
+    - name: Copy values file
+      ansible.builtin.template:
+        src: values/grafana_values_var.j2
+        dest: "{{ tmpdir }}/grafana_values_var.yml"
+      changed_when: false
+
     - name: Deploy latest version of grafana chart
       kubernetes.core.helm:
         name: grafana
@@ -55,6 +69,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/grafana_values.yml"
+          - "{{ tmpdir }}/grafana_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -64,4 +79,5 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/grafana_values.yml"
+        - "{{ tmpdir }}/grafana_values_var.yml"
       changed_when: false
