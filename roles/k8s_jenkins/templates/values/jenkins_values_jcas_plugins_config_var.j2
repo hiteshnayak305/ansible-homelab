@@ -8,14 +8,24 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     configScripts:
-      bitbucket-configuration: |
+      gitea-configuration: |
         unclassified:
-          bitbucketEndpointConfiguration:
-            endpoints: []
-      prometheus-configuration: |
+          giteaServers:
+            servers:
+            - aliasUrl: "https://gitea.{{ kubernetes_ingress_root_domain }}/"
+              displayName: "Gitea"
+              manageHooks: true
+              serverUrl: "https://gitea.{{ kubernetes_ingress_root_domain }}"
+              credentialsId: gitea-admin
+      sonarqube-configuration: |
         unclassified:
-          prometheusConfiguration:
-            collectCodeCoverage: true
-            collectDiskUsage: false
-            collectNodeStatus: true
-
+          sonarGlobalConfiguration:
+            buildWrapperEnabled: false
+            installations:
+            - credentialsId: "sonarqube-token"
+              name: "sonarqube"
+              serverUrl: "https://sonarqube.{{ kubernetes_ingress_root_domain }}"
+              triggers:
+                skipScmCause: false
+                skipUpstreamCause: false
+                    

@@ -1,19 +1,4 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-jenkins-maven
-spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nfs.hitesh.com
-    path: "/mnt/nfs/ssd_0/pv-jenkins-maven"
-  mountOptions:
-    - nfsvers=4.2
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-jenkins-maven

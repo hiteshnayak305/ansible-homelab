@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-  - host: jenkins.hitesh.com
+  - host: jenkins.{{ kubernetes_ingress_root_domain }}
     http:
       paths:
       - path: /

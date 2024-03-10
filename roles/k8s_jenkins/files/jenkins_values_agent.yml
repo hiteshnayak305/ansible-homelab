@@ -44,7 +44,7 @@ agent:
   volumes:
     - type: Secret
       secretName: jenkins-custom-root-ca-cert
-      mountPath: /mnt/ca-certificates/hitesh.com
+      mountPath: /mnt/ca-certificates/custom
     - type: PVC
       claimName: pvc-jenkins-maven
       mountPath: /root/.m2
@@ -114,7 +114,7 @@ agent:
                 command:
                   - "/bin/sh"
                   - "-c"
-                  - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt &&
+                  - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt &&
                     update-ca-certificates"
   # Timeout in seconds for an agent to be online
   connectTimeout: 120
@@ -171,7 +171,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
               - name: kaniko
                 lifecycle:
@@ -181,7 +181,7 @@ agent:
                         - "/bin/sh"
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt"
+                          ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt"
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -224,7 +224,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
               - name: k8s
                 lifecycle:
@@ -233,7 +233,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
     python3: |
       - name: python3
@@ -268,7 +268,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
               - name: python3
                 lifecycle:
@@ -277,7 +277,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
     jdk21: |
       - name: jdk21
@@ -312,7 +312,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
               - name: jdk21
                 lifecycle:
@@ -321,9 +321,9 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates &&
-                          ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit -file /usr/local/share/ca-certificates/hitesh.com.root.crt"
+                          ${JAVA_HOME}/bin/keytool -import -cacerts -alias rootCA -noprompt -storepass changeit -file /usr/local/share/ca-certificates/rootCA.crt"
     node20: |
       - name: node20
         label: jenkins-node20
@@ -357,7 +357,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
               - name: node20
                 lifecycle:
@@ -367,7 +367,7 @@ agent:
                         - "/bin/sh"
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           apk add ca-certificates &&
                           update-ca-certificates"
     ssc5: |
@@ -403,7 +403,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
               - name: ssc5
                 lifecycle:
@@ -413,5 +413,5 @@ agent:
                         - "/bin/sh"
                         - "-c"
                         - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && 
+                          ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"

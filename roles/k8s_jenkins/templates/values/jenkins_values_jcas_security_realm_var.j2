@@ -8,14 +8,22 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     configScripts:
-      bitbucket-configuration: |
-        unclassified:
-          bitbucketEndpointConfiguration:
-            endpoints: []
-      prometheus-configuration: |
-        unclassified:
-          prometheusConfiguration:
-            collectCodeCoverage: true
-            collectDiskUsage: false
-            collectNodeStatus: true
-
+      securityRealm: |-
+        local:
+          allowsSignup: false
+          enableCaptcha: false
+          users:
+          - id: "${chart-admin-username}"
+            name: "Jenkins Admin"
+            password: "${chart-admin-password}"
+            properties:
+              - mailer:
+                  emailAddress: "jenkins@jenkins.{{ kubernetes_ingress_root_domain }}"
+          - id: hiteshnayak305
+            name: "Hitesh Nayak"
+            password: "${chart-admin-password}"
+            properties:
+              - mailer:
+                  emailAddress: "hiteshnayak305@gmail.com"
+              - timezone:
+                  timeZoneName: "Asia/Kolkata"

@@ -23,7 +23,7 @@ controller:
                   git {
                     remote {
                       credentials('gitea-admin')
-                      url('https://gitea.hitesh.com/hiteshnayak305/jenkins-dsl.git')
+                      url('https://gitea.{{ kubernetes_ingress_root_domain }}/hiteshnayak305/jenkins-dsl.git')
                     }
                     branch('master')
                     extensions {

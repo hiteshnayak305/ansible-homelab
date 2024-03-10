@@ -36,10 +36,10 @@ controller:
         command:
           - "/bin/bash"
           - "-c"
-          - "ln -sf /mnt/ca-certificates/hitesh.com/hitesh.com.root.crt /usr/local/share/ca-certificates/hitesh.com.root.crt && \
+          - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && \
             update-ca-certificates && \
-            ${JAVA_HOME}/bin/keytool -import -cacerts -alias hitesh.com -noprompt -storepass changeit \
-            -file /usr/local/share/ca-certificates/hitesh.com.root.crt"
+            ${JAVA_HOME}/bin/keytool -import -cacerts -alias rootCA -noprompt -storepass changeit \
+            -file /usr/local/share/ca-certificates/rootCA.crt"
   disableRememberMe: false
   numExecutors: 0
   # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE
@@ -85,13 +85,13 @@ controller:
   # Share process namespace to allow sidecar containers to interact with processes in other containers in the same pod
   shareProcessNamespace: false
 
-  jenkinsAdminEmail: jenkins@jenkins.hitesh.com
+  # jenkinsAdminEmail: --> template
 
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block the configured hostname will be the ingress hostname starting with `https://` or `http://` depending on the `tls` configuration.
   # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
   # jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
-  jenkinsUrl: "https://jenkins.hitesh.com"
+  # jenkinsUrl: -> template
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
 
@@ -217,26 +217,6 @@ controller:
         creationOfLegacyTokenEnabled: false
         tokenGenerationOnCreationEnabled: false
         usageStatisticsEnabled: true
-    # Ignored if securityRealm is defined in controller.JCasC.configScripts
-    securityRealm: |-
-      local:
-        allowsSignup: false
-        enableCaptcha: false
-        users:
-        - id: "${chart-admin-username}"
-          name: "Jenkins Admin"
-          password: "${chart-admin-password}"
-          properties:
-            - mailer:
-                emailAddress: "jenkins@jenkins.hitesh.com"
-        - id: hiteshnayak305
-          name: "Hitesh Nayak"
-          password: "${chart-admin-password}"
-          properties:
-            - mailer:
-                emailAddress: "hiteshnayak305@gmail.com"
-            - timezone:
-                timeZoneName: "Asia/Kolkata"
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     authorizationStrategy: |-
       loggedInUsersCanDoAnything:
@@ -302,7 +282,7 @@ persistence:
       secret:
         secretName: jenkins-custom-root-ca-cert
   mounts:
-    - mountPath: "/mnt/ca-certificates/hitesh.com"
+    - mountPath: "/mnt/ca-certificates/custom"
       name: jenkins-custom-root-ca-cert-vol
       readOnly: true
 

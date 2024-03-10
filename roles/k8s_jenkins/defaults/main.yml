@@ -3,6 +3,9 @@
 # tmpdir
 tmpdir: /tmp
 
+nfs_server: nfs.domain.com
+kubernetes_ingress_root_domain: domain.com
+
 # admin cred
 jenkins_admin_username: admin
 jenkins_admin_password: password
@@ -12,13 +15,13 @@ mail_admin_username: admin
 mail_admin_password: password
 
 # ca crt
-root_ca_crt: ''
+root_ca_crt: ""
 
 # gitea registry
-gitea_docker_config_json_base64: ''
+gitea_docker_config_json_base64: ""
 
 # kubectl
-kubectl_config: ''
+kubectl_config: ""
 
 #sonarqube token
-sonarqube_token: ''
+sonarqube_token: ""

@@ -1,0 +1,4 @@
+controller:
+  jenkinsAdminEmail: jenkins@jenkins.{{ kubernetes_ingress_root_domain }}
+  # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
+  jenkinsUrl: "https://jenkins.{{ kubernetes_ingress_root_domain }}"

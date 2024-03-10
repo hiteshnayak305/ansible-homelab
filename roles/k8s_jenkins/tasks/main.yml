@@ -21,7 +21,19 @@
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-workspace"
 
     # install prereqs
-    - name: Install prereq for gitea
+    - name: Install prereq for jenkins
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - pv/pv_jenkins.j2
+          - pv/pv_jenkins_maven.j2
+          - pv/pv_jenkins_gradle.j2
+          - pv/pv_jenkins_npm.j2
+          - pv/pv_jenkins_workspace.j2
+
+    - name: Install prereq for jenkins
       ansible.builtin.include_role:
         name: utility
         tasks_from: k8s_install_yml
@@ -33,9 +45,8 @@
           - files/pvc_jenkins_gradle.yml
           - files/pvc_jenkins_npm.yml
           - files/pvc_jenkins_workspace.yml
-          - files/jenkins_ingress.yml
 
-    - name: Install prereq for jenkins 2
+    - name: Install prereq for jenkins
       ansible.builtin.include_role:
         name: utility
         tasks_from: k8s_install_j2
@@ -48,6 +59,14 @@
           - secret/mail_credentials_secret.j2
           - secret/test_authentik_credentials_secret.j2
           - secret/sonarqube_credentials_secret.j2
+
+    - name: Install prereq for jenkins
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - ingress/jenkins_ingress.j2
 
     - name: Add Jenkins helm repository
       kubernetes.core.helm_repository:
@@ -63,10 +82,20 @@
         - files/jenkins_values.yml
         - files/jenkins_values_jcas_credentials.yml
         - files/jenkins_values_jcas_plugins_config.yml
-        - files/jenkins_values_jcas_jobs.yml
         - files/jenkins_values_agent.yml
         - files/jenkins_values_jcas_security_config.yml
         - files/jenkins_values_jcas_appearance_config.yml
+
+    - name: Copy values file
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
+      changed_when: false
+      with_items:
+        - values/jenkins_values_var.j2
+        - values/jenkins_values_jcas_jobs_var.j2
+        - values/jenkins_values_jcas_plugins_config_var.j2
+        - values/jenkins_values_jcas_security_realm_var.j2
 
     - name: Deploy latest version of jenkins chart
       kubernetes.core.helm:
@@ -80,10 +109,13 @@
           - "{{ tmpdir }}/jenkins_values.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
           - "{{ tmpdir }}/jenkins_values_agent.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_appearance_config.yml"
+          - "{{ tmpdir }}/jenkins_values_var.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_jobs_var.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_plugins_config_var.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_security_realm_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -95,8 +127,11 @@
         - "{{ tmpdir }}/jenkins_values.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_jobs.yml"
         - "{{ tmpdir }}/jenkins_values_agent.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_appearance_config.yml"
+        - "{{ tmpdir }}/jenkins_values_var.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_jobs_var.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_plugins_config_var.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_security_realm_var.yml"
       changed_when: false

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-jenkins-controller
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: {{ nfs_server }}
+    path: "/mnt/nfs/ssd_0/pv-jenkins-controller"
+  mountOptions:
+    - nfsvers=4.2
