@@ -17,6 +17,12 @@
     dest: "{{ tmpdir }}/flannel_values.yml"
   changed_when: false
 
+- name: Copy values file
+  ansible.builtin.template:
+    src: values/flannel_values_var.j2
+    dest: "{{ tmpdir }}/flannel_values_var.yml"
+  changed_when: false
+
 - name: Deploy latest version of flannel chart
   kubernetes.core.helm:
     name: flannel
@@ -27,6 +33,7 @@
     create_namespace: false
     values_files:
       - "{{ tmpdir }}/flannel_values.yml"
+      - "{{ tmpdir }}/flannel_values_var.yml"
     wait: true
   when: not ansible_check_mode
 
@@ -36,4 +43,5 @@
     state: absent
   with_items:
     - "{{ tmpdir }}/flannel_values.yml"
+    - "{{ tmpdir }}/flannel_values_var.yml"
   changed_when: false

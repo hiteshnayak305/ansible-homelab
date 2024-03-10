@@ -17,7 +17,7 @@
 - name: initialize the cluster
   become: true
   become_user: root
-  ansible.builtin.shell: kubeadm init --control-plane-endpoint "k8s-master.hitesh.com:6443" --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=172.16.0.1
+  ansible.builtin.shell: kubeadm init --control-plane-endpoint {{ kubernetes_control_plane_endpoint | quote }} --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{ kubernetes_api_server_advertise_address }}
   args:
     chdir: $HOME
     creates: cluster_initialized.txt
@@ -45,8 +45,8 @@
 - name: correct Permission of kube config
   become: true
   become_user: root
-  local_action: 
-    module: ansible.builtin.file 
+  local_action:
+    module: ansible.builtin.file
     path: /home/hitesh/.kube/config
     owner: hitesh
     group: hitesh
@@ -73,7 +73,7 @@
   ansible.builtin.copy:
     content: "{{ kubernetes_join_command.stdout_lines[0] }} --control-plane --certificate-key {{ kubernetes_join_cert_key.stdout }}"
     dest: "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
-    mode: '0777'
+    mode: "0777"
   when: true and not ansible_check_mode
   changed_when: false
 
@@ -81,7 +81,6 @@
   ansible.builtin.copy:
     content: "{{ kubernetes_join_command.stdout_lines[0] }}"
     dest: "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_join_command"
-    mode: '0777'
+    mode: "0777"
   when: true and not ansible_check_mode
   changed_when: false
-  

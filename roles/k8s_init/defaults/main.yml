@@ -1,23 +1,31 @@
 ---
 # defaults file for k8s_init
-coredns_entries: []
+coredns_entries:
+  []
   # - name: gitea
   #   type: exact
-  #   from: gitea.hitesh.com
+  #   from: gitea.domain.com
   #   to: ingress-nginx-controller.nginx-system.svc.cluster.local
   # - name: jenkins
   #   type: exact
-  #   from: jenkins.hitesh.com
+  #   from: jenkins.domain.com
   #   to: ingress-nginx-controller.nginx-system.svc.cluster.local
   # - name: all
   #   type: regex
-  #   from: j(?:[^.]+\\.)?hitesh\\.com
+  #   from: j(?:[^.]+\\.)?domain\\.com
   #   to: ingress-nginx-controller.nginx-system.svc.cluster.local
 
 # temp directory
 tmpdir: /tmp
 
-# nginx tls
-ingress_nginx_tls_crt: ''
-ingress_nginx_tls_key: ''
+nfs_server: nfs.domain.com
 
+kubernetes_connection_interface: enp0s3
+kubernetes_ingress_root_domain: domain.com
+
+metallb_ip_address_pool: intnet-pool
+metallb_ip_address_range: 172.16.0.50/32
+
+# nginx tls
+ingress_nginx_tls_crt: ""
+ingress_nginx_tls_key: ""

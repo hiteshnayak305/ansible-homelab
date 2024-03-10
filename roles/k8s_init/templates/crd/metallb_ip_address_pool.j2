@@ -1,9 +1,9 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: intnet-pool
+  name: {{ metallb_ip_address_pool }}
   namespace: metallb-system
 spec:
   addresses:
-    - 172.16.0.50/32
+    - {{ metallb_ip_address_range }}
   autoAssign: false

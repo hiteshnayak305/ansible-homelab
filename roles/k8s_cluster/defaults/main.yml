@@ -1,3 +1,6 @@
 ---
 # defaults file for k8s_cluster
 tmpdir: /tmp
+
+kubernetes_control_plane_endpoint: k8s-master.domain.com:6443
+kubernetes_api_server_advertise_address: "127.0.0.1"

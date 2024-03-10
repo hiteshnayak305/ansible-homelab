@@ -3,7 +3,7 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls: 
+    k8s_install_ymls:
       - files/nfs-subdir-external-provisioner_namespace.yml
 
 - name: Add NFS Subdirectory External Provisioner helm repository
@@ -16,9 +16,15 @@
     src: "files/{{ item }}"
     dest: "{{ tmpdir }}/{{ item }}"
   changed_when: false
-  with_items: 
+  with_items:
     - nfs-subdir-external-provisioner_ssd_0_values.yml
     - nfs-subdir-external-provisioner_hdd_0_values.yml
+
+- name: Copy values file
+  ansible.builtin.template:
+    src: values/nfs-subdir-external-provisioner_values_var.j2
+    dest: "{{ tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
+  changed_when: false
 
 - name: Deploy latest version of NFS Subdirectory External Provisioner chart
   kubernetes.core.helm:
@@ -31,7 +37,8 @@
     values_files:
       - "{{ tmpdir }}/{{ item }}"
     wait: true
-  with_items: 
+  with_items:
+    - nfs-subdir-external-provisioner_values_var.yml
     - nfs-subdir-external-provisioner_ssd_0_values.yml
     - nfs-subdir-external-provisioner_hdd_0_values.yml
   when: not ansible_check_mode
@@ -40,7 +47,8 @@
   ansible.builtin.file:
     path: "{{ tmpdir }}/{{ item }}"
     state: absent
-  with_items: 
+  with_items:
+    - nfs-subdir-external-provisioner_values_var.yml
     - nfs-subdir-external-provisioner_ssd_0_values.yml
     - nfs-subdir-external-provisioner_hdd_0_values.yml
   changed_when: false

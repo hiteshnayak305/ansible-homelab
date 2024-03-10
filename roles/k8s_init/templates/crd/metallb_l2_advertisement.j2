@@ -5,6 +5,6 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - intnet-pool
+    - {{ metallb_ip_address_pool }}
   interfaces:
-    - enp0s3
+    - {{ kubernetes_connection_interface }}

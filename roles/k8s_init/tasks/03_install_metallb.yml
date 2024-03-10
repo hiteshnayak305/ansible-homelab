@@ -33,8 +33,8 @@
 - name: Install ip address pool and l2 advertisement file
   ansible.builtin.include_role:
     name: utility
-    tasks_from: k8s_install_yml
+    tasks_from: k8s_install_j2
   vars:
-    k8s_install_ymls:
-      - files/metallb_ip_address_pool.yml
-      - files/metallb_l2_advertisement.yml
+    k8s_install_j2s:
+      - crd/metallb_ip_address_pool.j2
+      - crd/metallb_l2_advertisement.j2

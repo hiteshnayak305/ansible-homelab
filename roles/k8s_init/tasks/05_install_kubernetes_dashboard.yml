@@ -33,8 +33,15 @@
 - name: Install ingress for kubernetes dashboard
   ansible.builtin.include_role:
     name: utility
+    tasks_from: k8s_install_j2
+  vars:
+    k8s_install_j2s:
+      - ingress/kubernetes_dashboard_ingress.j2
+
+- name: Install user for kubernetes dashboard
+  ansible.builtin.include_role:
+    name: utility
     tasks_from: k8s_install_yml
   vars:
     k8s_install_ymls:
-      - files/kubernetes_dashboard_ingress.yml
       - files/kubernetes_dashboard_user.yml

@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: kube.hitesh.com
+    - host: kube.{{ kubernetes_ingress_root_domain }}
       http:
         paths:
           - backend:

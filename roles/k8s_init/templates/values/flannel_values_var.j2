@@ -1,0 +1,6 @@
+flannel:
+  # flannel command arguments
+  args:
+  - "--ip-masq"
+  - "--kube-subnet-mgr"
+  - "--iface={{ kubernetes_connection_interface }}"

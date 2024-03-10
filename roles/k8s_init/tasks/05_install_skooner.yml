@@ -3,7 +3,7 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls: 
+    k8s_install_ymls:
       - files/skooner_namespace.yml
 
 - name: Install skooner
@@ -11,13 +11,13 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_urls: 
+    k8s_install_urls:
       - https://raw.githubusercontent.com/skooner-k8s/skooner/master/kubernetes-skooner.yaml
 
 - name: Install ingress for skooner
   ansible.builtin.include_role:
     name: utility
-    tasks_from: k8s_install_yml
+    tasks_from: k8s_install_j2
   vars:
-    k8s_install_ymls: 
-      - files/skooner_ingress.yml
+    k8s_install_j2s:
+      - ingress/skooner_ingress.j2
