@@ -20,13 +20,21 @@
     - name: Install prereq for authentik
       ansible.builtin.include_role:
         name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - pv/pv_authentik_postgresql_primary.j2
+
+    - name: Install prereq for authentik
+      ansible.builtin.include_role:
+        name: utility
         tasks_from: k8s_install_yml
       vars:
         k8s_install_ymls:
           - files/authentik_namespace.yml
           - files/pvc_authentik_postgresql_primary.yml
 
-    - name: Install prereq for authentik 2
+    - name: Install prereq for authentik
       ansible.builtin.include_role:
         name: utility
         tasks_from: k8s_install_j2
@@ -45,6 +53,12 @@
         dest: "{{ tmpdir }}/authentik_values.yml"
       changed_when: false
 
+    - name: Copy values file
+      ansible.builtin.template:
+        src: values/authentik_values_var.j2
+        dest: "{{ tmpdir }}/authentik_values_var.yml"
+      changed_when: false
+
     - name: Deploy latest version of authentik chart
       kubernetes.core.helm:
         name: authentik
@@ -55,6 +69,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/authentik_values.yml"
+          - "{{ tmpdir }}/authentik_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -64,4 +79,5 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/authentik_values.yml"
+        - "{{ tmpdir }}/authentik_values_var.yml"
       changed_when: false

@@ -57,8 +57,7 @@ server:
     ingressClassName: "nginx"
     annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    hosts:
-      - authentik.hitesh.com
+    #hosts: -> template
   # -- Resource limits and requests for the authentik server
   resources:
     requests:
