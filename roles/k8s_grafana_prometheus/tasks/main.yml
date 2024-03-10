@@ -20,6 +20,14 @@
     - name: Install prereq for grafana prometheus
       ansible.builtin.include_role:
         name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - pv/pv_grafana_prometheus.j2
+
+    - name: Install prereq for grafana prometheus
+      ansible.builtin.include_role:
+        name: utility
         tasks_from: k8s_install_yml
       vars:
         k8s_install_ymls:
@@ -37,6 +45,12 @@
         dest: "{{ tmpdir }}/grafana_prometheus_values.yml"
       changed_when: false
 
+    - name: Copy values file
+      ansible.builtin.template:
+        src: values/grafana_prometheus_values_var.j2
+        dest: "{{ tmpdir }}/grafana_prometheus_values_var.yml"
+      changed_when: false
+
     - name: Deploy latest version of grafana prometheus chart
       kubernetes.core.helm:
         name: prometheus
@@ -47,6 +61,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/grafana_prometheus_values.yml"
+          - "{{ tmpdir }}/grafana_prometheus_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -56,4 +71,5 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/grafana_prometheus_values.yml"
+        - "{{ tmpdir }}/grafana_prometheus_values_var.yml"
       changed_when: false
