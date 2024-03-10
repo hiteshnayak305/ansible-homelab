@@ -21,6 +21,15 @@
     - name: Install prereq for sonarqube
       ansible.builtin.include_role:
         name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - pv/pv_sonarqube.j2
+          - pv/pv_sonarqube_postgresql_primary.j2
+
+    - name: Install prereq for sonarqube
+      ansible.builtin.include_role:
+        name: utility
         tasks_from: k8s_install_yml
       vars:
         k8s_install_ymls:
@@ -28,7 +37,7 @@
           - files/pvc_sonarqube.yml
           - files/pvc_sonarqube_postgresql_primary.yml
 
-    - name: Install prereq for sonarqube 2
+    - name: Install prereq for sonarqube
       ansible.builtin.include_role:
         name: utility
         tasks_from: k8s_install_j2
@@ -47,6 +56,12 @@
         dest: "{{ tmpdir }}/sonarqube_values.yml"
       changed_when: false
 
+    - name: Copy values file
+      ansible.builtin.template:
+        src: values/sonarqube_values_var.j2
+        dest: "{{ tmpdir }}/sonarqube_values_var.yml"
+      changed_when: false
+
     - name: Deploy latest version of sonarqube chart
       kubernetes.core.helm:
         name: sonarqube
@@ -57,6 +72,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/sonarqube_values.yml"
+          - "{{ tmpdir }}/sonarqube_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -66,4 +82,5 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/sonarqube_values.yml"
+        - "{{ tmpdir }}/sonarqube_values_var.yml"
       changed_when: false

@@ -1,19 +1,4 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-sonarqube
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteOnce
-  nfs:
-    server: nfs.hitesh.com
-    path: "/mnt/nfs/ssd_0/pv-sonarqube"
-  mountOptions:
-    - nfsvers=4.2
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-sonarqube
@@ -24,5 +9,5 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ''
+  storageClassName: ""
   volumeName: pv-sonarqube

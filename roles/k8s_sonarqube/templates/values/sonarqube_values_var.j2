@@ -1,0 +1,10 @@
+ingress:
+  hosts:
+    - name: sonarqube.{{ kubernetes_ingress_root_domain }}
+      # Different clouds or configurations might need /* as the default path
+      path: /
+      # For additional control over serviceName and servicePort
+      # serviceName: someService
+      # servicePort: somePort
+      # the pathType can be one of the following values: Exact|Prefix|ImplementationSpecific(default)
+      # pathType: ImplementationSpecific

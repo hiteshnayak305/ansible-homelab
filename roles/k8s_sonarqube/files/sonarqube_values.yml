@@ -17,15 +17,7 @@ sonarWebContext: ""
 ingress:
   enabled: true
   # Used to create an Ingress record.
-  hosts:
-    - name: sonarqube.hitesh.com
-      # Different clouds or configurations might need /* as the default path
-      path: /
-      # For additional control over serviceName and servicePort
-      # serviceName: someService
-      # servicePort: somePort
-      # the pathType can be one of the following values: Exact|Prefix|ImplementationSpecific(default)
-      # pathType: ImplementationSpecific
+  #hosts: -> template
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "64m"
@@ -150,7 +142,7 @@ emptyDir:
 # For example:
 # sonarProperties:
 #   sonar.forceAuthentication: true
-#   sonar.core.serverBaseURL: "https://sonarqube.hitesh.com"
+#   sonar.core.serverBaseURL: "https://sonarqube.domain.com"
 #   sonar.issues.defaultAssigneeLogin: admin
 #   sonar.lf.enableGravatar: true
 #   sonar.projectCreation.mainBranchName: master
