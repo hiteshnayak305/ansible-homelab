@@ -1,0 +1,18 @@
+ingress:
+  hosts:
+    - host: gitea.{{ kubernetes_ingress_root_domain }}
+      paths:
+        - path: /
+          pathType: Prefix
+gitea:
+  admin:
+    email: gitea@gitea.{{ kubernetes_ingress_root_domain }}
+  config:
+    server:
+      DOMAIN: gitea.{{ kubernetes_ingress_root_domain }}
+      ROOT_URL: https://gitea.{{ kubernetes_ingress_root_domain }}/
+      SSH_DOMAIN: gitea.{{ kubernetes_ingress_root_domain }}
+    repository.signing:
+      SIGNING_EMAIL: gitea@gitea.{{ kubernetes_ingress_root_domain }}
+    webhook:
+      ALLOWED_HOST_LIST: "*.{{ kubernetes_ingress_root_domain }}"

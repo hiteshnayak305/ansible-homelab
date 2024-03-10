@@ -4,12 +4,16 @@
 # tmpdir
 tmpdir: /tmp
 
+nfs_server: nfs.domain.com
+
+kubernetes_ingress_root_domain: domain.com
+
 #admin user
 gitea_admin_username: admin
 gitea_admin_password: password
 
 # ca cert
-root_ca_crt: ''
+root_ca_crt: ""
 
 # system gpg key
-gitea_gpg_key: ''
+gitea_gpg_key: ""

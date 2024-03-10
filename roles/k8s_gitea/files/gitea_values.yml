@@ -56,11 +56,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 200m
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  hosts:
-    - host: gitea.hitesh.com
-      paths:
-        - path: /
-          pathType: Prefix
+  #hosts: -> template
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -142,21 +138,21 @@ gitea:
   ## @param gitea.admin.email Email for the Gitea admin user
   admin:
     existingSecret: gitea-admin-secret
-    email: gitea@gitea.hitesh.com
+    #email: -> template
 
   ## @param gitea.config  Configuration for the Gitea server,ref: [config-cheat-sheet](https://docs.gitea.io/en-us/config-cheat-sheet/)
   config:
     server:
-      DOMAIN: gitea.hitesh.com
-      ROOT_URL: https://gitea.hitesh.com/
-      SSH_DOMAIN: gitea.hitesh.com
+      #DOMAIN: -> template
+      #ROOT_URL: -> template
+      #SSH_DOMAIN: -> template
       START_SSH_SERVER: false
     repository.signing:
       SIGNING_KEY: 7BC3C3533076A13F
       SIGNING_NAME: Gitea
-      SIGNING_EMAIL: gitea@gitea.hitesh.com
+      #SIGNING_EMAIL: -> template
     webhook:
-      ALLOWED_HOST_LIST: "*.hitesh.com"
+      #ALLOWED_HOST_LIST: -> template
     security:
       MIN_PASSWORD_LENGTH: 6
     service:
