@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-  - host: immich.hitesh.com
+  - host: immich.{{ kubernetes_ingress_root_domain }}
     http:
       paths:
       - path: /

@@ -21,13 +21,29 @@
     - name: Install prereq for immich
       ansible.builtin.include_role:
         name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - pv/pv_immich.j2
+          - pv/pv_immich_postgresql_primary.j2
+
+    - name: Install prereq for immich
+      ansible.builtin.include_role:
+        name: utility
         tasks_from: k8s_install_yml
       vars:
         k8s_install_ymls:
           - files/immich_namespace.yml
-          - files/immich_ingress.yml
           - files/pvc_immich.yml
           - files/pvc_immich_postgresql_primary.yml
+
+    - name: Install prereq for immich
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - ingress/immich_ingress.j2
 
     - name: Add immich helm repository
       kubernetes.core.helm_repository:
