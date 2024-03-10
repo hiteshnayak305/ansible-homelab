@@ -3,3 +3,7 @@
 available_modules_config_file_path: /etc/nginx/modules-available
 enabled_modules_config_file_path: /etc/nginx/modules-enabled
 enabled_sites_config_file_path: /etc/nginx/sites-enabled
+
+# default site values
+nginx_domain: domain.com
+nginx_domain_ip: 127.0.0.1
