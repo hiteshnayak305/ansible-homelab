@@ -1,0 +1,11 @@
+# Configuration for the gateway
+gateway:
+  # Gateway ingress configuration
+  ingress:
+    # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
+    hosts:
+      - host: loki.{{ kubernetes_ingress_root_domain }}
+        paths:
+          - path: /
+            # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
+            pathType: Prefix

@@ -4,7 +4,7 @@ loki:
   commonConfig:
     replication_factor: 1
   storage:
-    type: 'filesystem'
+    type: "filesystem"
 
 # Configuration for the single binary node(s)
 singleBinary:
@@ -21,9 +21,9 @@ singleBinary:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: 'nfs-client-ssd-0'
+    storageClass: "nfs-client-ssd-0"
   # -- Resource requests and limits for the single binary
-  resources: 
+  resources:
     limits:
       cpu: 200m
       memory: 500Mi
@@ -34,7 +34,7 @@ singleBinary:
 # Configuration for the gateway
 gateway:
   # -- Resource requests and limits for the gateway
-  resources: 
+  resources:
     limits:
       cpu: 200m
       memory: 128Mi
@@ -48,14 +48,9 @@ gateway:
     # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
     ingressClassName: "nginx"
     # -- Annotations for the gateway ingress
-    annotations: 
+    annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
-    hosts:
-      - host: loki.hitesh.com
-        paths:
-          - path: /
-            # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
-            pathType: Prefix
+    # hosts: --> template
     # -- TLS configuration for the gateway ingress. Hosts passed through the `tpl` function to allow templating
     tls: []

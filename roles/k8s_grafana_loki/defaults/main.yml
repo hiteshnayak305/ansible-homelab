@@ -3,3 +3,5 @@
 
 # tmpdir
 tmpdir: /tmp
+
+kubernetes_ingress_root_domain: domain.com

@@ -33,6 +33,12 @@
         - grafana_loki_kubernetes_event_exporter_values.yml
       changed_when: false
 
+    - name: Copy values file
+      ansible.builtin.template:
+        src: values/grafana_loki_values_var.j2
+        dest: "{{ tmpdir }}/grafana_loki_values_var.yml"
+      changed_when: false
+
     - name: Deploy latest version of grafana loki chart
       kubernetes.core.helm:
         name: loki
@@ -43,6 +49,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/grafana_loki_values.yml"
+          - "{{ tmpdir }}/grafana_loki_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -78,6 +85,7 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/grafana_loki_values.yml"
+        - "{{ tmpdir }}/grafana_loki_values_var.yml"
         - "{{ tmpdir }}/grafana_loki_promtail_values.yml"
         - "{{ tmpdir }}/grafana_loki_kubernetes_event_exporter_values.yml"
       changed_when: false
