@@ -35,10 +35,10 @@
     release_namespace: nfs-subdir-external-provisioner
     create_namespace: false
     values_files:
+      - "{{ tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
       - "{{ tmpdir }}/{{ item }}"
     wait: true
   with_items:
-    - nfs-subdir-external-provisioner_values_var.yml
     - nfs-subdir-external-provisioner_ssd_0_values.yml
     - nfs-subdir-external-provisioner_hdd_0_values.yml
   when: not ansible_check_mode

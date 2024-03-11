@@ -30,6 +30,14 @@
     wait: true
   when: not ansible_check_mode
 
+- name: Remove temp files (delete file)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ tmpdir }}/metallb_values.yml"
+  changed_when: false
+
 - name: Install ip address pool and l2 advertisement file
   ansible.builtin.include_role:
     name: utility
