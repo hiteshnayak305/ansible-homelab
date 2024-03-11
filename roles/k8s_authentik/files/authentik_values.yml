@@ -1,5 +1,8 @@
 ## Globally shared configuration for authentik components.
 global:
+  # Number of old deployment ReplicaSets to retain. The rest will be garbage collected.
+  revisionHistoryLimit: 1
+
   # -- Environment variables to pass to all deployed Deployments. Does not apply to GeoIP
   # See configuration options at https://goauthentik.io/docs/installation/configuration/
   # @default -- `[]` (See [values.yaml])

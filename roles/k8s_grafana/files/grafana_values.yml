@@ -1,5 +1,9 @@
 replicas: 1
 
+## Number of old ReplicaSets to retain
+##
+revisionHistoryLimit: 1
+
 readinessProbe:
   httpGet:
     path: /api/health
