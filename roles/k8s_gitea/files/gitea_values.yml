@@ -75,7 +75,7 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 300m
-    memory: 256Mi
+    memory: 500Mi
   requests:
     cpu: 100m
     memory: 128Mi
@@ -289,7 +289,7 @@ postgresql-ha:
     resources:
       limits:
         memory: 500Mi
-        cpu: 500m
+        cpu: 250m
       requests:
         memory: 256Mi
         cpu: 250m
@@ -319,7 +319,7 @@ postgresql-ha:
     ##
     resources:
       limits:
-        memory: 256Mi
+        memory: 500Mi
         cpu: 250m
       requests:
         memory: 256Mi
