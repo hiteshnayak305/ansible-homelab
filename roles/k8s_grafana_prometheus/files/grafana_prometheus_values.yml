@@ -186,6 +186,10 @@ extraScrapeConfigs: |
         labels:
           instance: 'immich-postgresql-metrics.immich-system:9187'
           kubernetes_namespace: 'immich-system'
+  - job_name: 'dashboard-node-proxy'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['dashboard-node-proxy.dashboard:3000']
   - job_name: 'test'
     scrape_interval: 5s
     metrics_path: "actuator/prometheus"
