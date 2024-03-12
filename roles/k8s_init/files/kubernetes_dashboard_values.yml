@@ -21,7 +21,16 @@ app:
   #   effect: NoSchedule
   tolerations:
     - key: node-role.kubernetes.io/control-plane
+      operator: Exists
       effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
 auth:
   scaling:
     replicas: 1
@@ -103,7 +112,16 @@ kong:
   # Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   tolerations:
     - key: node-role.kubernetes.io/control-plane
+      operator: Exists
       effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
   manager:
     # Enable creating a Kubernetes service for Kong Manager
     enabled: true
