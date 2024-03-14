@@ -121,7 +121,7 @@ dashboards:
   default:
     node-exporter-full:
       gnetId: 1860
-      revision: 33
+      revision: 36
       datasource:
         - name: DS_PROMETHEUS
           value: Prometheus
@@ -135,7 +135,7 @@ dashboards:
           value: Prometheus
     kubernetes-views-global:
       gnetId: 15757
-      revision: 31
+      revision: 37
       datasource:
         - name: DS_PROMETHEUS
           value: Prometheus

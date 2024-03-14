@@ -63,7 +63,7 @@
       kubernetes.core.helm:
         name: grafana
         chart_ref: grafana/grafana
-        chart_version: 7.3.6
+        chart_version: 7.3.7
         update_repo_cache: true
         release_namespace: grafana-system
         create_namespace: false
