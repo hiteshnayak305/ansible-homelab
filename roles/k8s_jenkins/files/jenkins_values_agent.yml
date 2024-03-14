@@ -57,6 +57,10 @@ agent:
       claimName: pvc-jenkins-npm
       mountPath: /root/.npm
       readOnly: false
+    - type: PVC
+      claimName: pvc-jenkins-sonar-cache
+      mountPath: /opt/sonar-scanner/.sonar/cache
+      readOnly: false
 
   # You can define the workspaceVolume that you want to mount for this container
   # Allowed types are: DynamicPVC, EmptyDir, HostPath, Nfs, PVC
