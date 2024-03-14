@@ -359,17 +359,6 @@ agent:
                         - "-c"
                         - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
                           update-ca-certificates"
-              - name: node20
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          apk add ca-certificates &&
-                          update-ca-certificates"
     ssc5: |
       - name: ssc5
         label: jenkins-ssc5
