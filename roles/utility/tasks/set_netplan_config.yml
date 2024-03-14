@@ -1,0 +1,24 @@
+- name: Configure netplan static ip
+  become: true
+  become_user: root
+  block:
+    - name: Install custom netplan config file
+      ansible.builtin.template:
+        src: etc/netplan/00-installer-config.j2
+        dest: /etc/netplan/00-installer-config.yaml
+        owner: root
+        group: root
+        mode: 0600
+      register: changed_netplan
+
+    - name: generate netplan config
+      ansible.builtin.command: netplan generate
+      when: changed_netplan is changed
+
+    - name: apply netplan config
+      ansible.builtin.command: netplan generate
+      when: changed_netplan is changed
+
+    - name: Reboot Machine
+      include_tasks: reboot.yml
+      when: changed_netplan is changed

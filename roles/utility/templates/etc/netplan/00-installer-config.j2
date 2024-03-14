@@ -1,0 +1,17 @@
+# This is the network config written by 'subiquity'
+network:
+  version: 2
+  ethernets:
+{% if netplan_ethernets | length != 0 %}
+{% for ethernet in netplan_ethernets %}
+    {{ ethernet.interface }}:
+      addresses:
+        {{ ethernet.body.addresses | to_nice_yaml(indent=2) | trim | indent(8) }}
+      nameservers:
+        addresses:
+          {{ ethernet.body.nameservers.addresses | to_nice_yaml(indent=2) | trim | indent(10) }}
+        search: []
+      routes:
+        {{ ethernet.body.routes | to_nice_yaml(indent=2) | trim | indent(8) }}
+    {% endfor %}
+{% endif %}

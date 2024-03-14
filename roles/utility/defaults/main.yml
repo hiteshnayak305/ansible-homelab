@@ -2,6 +2,19 @@
 # tmpdir
 tmpdir: /tmp
 
+#ip addresses
+netplan_ethernets:
+  # - interface: enp0s3
+  #   body:
+  #     addresses:
+  #       - x.x.x.x/xx
+  #     nameservers:
+  #       addresses: []
+  #       search: []
+  #     routes:
+  #       - to: default
+  #         via: x.x.x.x
+
 # Make users sudoer
 sudoers: []
 
@@ -45,4 +58,4 @@ k8s_install_j2s: []
 htop_users: []
 
 # timezone
-timezone: 'Etc/UTC'
+timezone: "Etc/UTC"
