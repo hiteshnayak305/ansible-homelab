@@ -1,0 +1,39 @@
+- name: Configure Firewall
+  become: true
+  become_user: root
+  block:
+    - name: Install or Check UFW
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+
+    - name: Allow incoming accesses
+      community.general.ufw:
+        rule: allow
+        direction: in
+        route: "{{ item.route | default(false) }}"
+        proto: "{{ item.proto | default('any') }}"
+        src: "{{ item.src | default('any') }}"
+        port: "{{ item.port }}"
+      loop: "{{ ufw_rules }}"
+
+    - name: Allow SSH access from local
+      community.general.ufw:
+        name: OpenSSH
+        rule: allow
+
+    - name: Reject all incomming and enable UFW
+      community.general.ufw:
+        state: enabled
+        default: reject
+        direction: incoming
+
+    - name: Allow all outgoing and enable UFW
+      community.general.ufw:
+        state: enabled
+        default: allow
+        direction: outgoing
+
+    - name: Set logging
+      community.general.ufw:
+        logging: on

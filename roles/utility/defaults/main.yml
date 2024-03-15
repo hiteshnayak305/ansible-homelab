@@ -15,6 +15,9 @@ netplan_ethernets:
   #       - to: default
   #         via: x.x.x.x
 
+# firewall rules
+ufw_rules: []
+
 # Make users sudoer
 sudoers: []
 

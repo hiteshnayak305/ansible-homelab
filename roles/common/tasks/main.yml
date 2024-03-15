@@ -4,6 +4,11 @@
     name: utility
     tasks_from: set_netplan_config
 
+- name: Setup firewall
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: set_ufw_config
+
 - name: Alow user root without password
   ansible.builtin.include_role:
     name: utility
