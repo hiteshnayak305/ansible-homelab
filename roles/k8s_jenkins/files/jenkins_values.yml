@@ -24,6 +24,17 @@ renderHelmLabels: true
 controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
+  # -- Affinity settings
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - k8s-worker-03.hitesh.com
   image:
     registry: "docker.io"
     repository: "hiteshnayak305/jenkins"
