@@ -11,6 +11,7 @@ data:
            lameduck 5s
         }
         ready
+        rewrite name regex .*\.{{ kubernetes_ingress_root_domain | replace('.','\.') }} ingress-nginx-controller.nginx-system.svc.cluster.local
 {% if coredns_entries|length != 0 %}
 {% for entry in coredns_entries %}
         rewrite name {{ entry.type }} {{ entry.from }} {{ entry.to }}

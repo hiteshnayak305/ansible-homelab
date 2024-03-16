@@ -10,7 +10,7 @@ configmapReload:
   prometheus:
     ## If false, the configmap-reload container will not be deployed
     ##
-    enabled: false
+    enabled: true
 
 server:
   ## Prometheus server container name
@@ -190,11 +190,16 @@ extraScrapeConfigs: |
     scrape_interval: 5s
     static_configs:
       - targets: ['dashboard-node-proxy.dashboard:3000']
-  - job_name: 'test'
+  - job_name: 'main-spring-config-server'
     scrape_interval: 5s
     metrics_path: "actuator/prometheus"
     static_configs:
-      - targets: ['test-test-spring-app.test.svc:8080']
+      - targets: ['main-spring-config-server.main.svc:8888']
+  - job_name: 'main-test-spring-app'
+    scrape_interval: 5s
+    metrics_path: "actuator/prometheus"
+    static_configs:
+      - targets: ['main-test-spring-app.main.svc:8080']
 
 # Configuration of subcharts defined in Chart.yaml
 
