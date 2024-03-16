@@ -29,14 +29,14 @@ agent:
       cpu: "1"
       memory: "500Mi"
   # You may want to change this to true while testing a new image
-  alwaysPullImage: true
+  alwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
   # Possible values: Always, Never, OnFailure
   podRetention: "OnFailure"
   # Disable if you do not want the Yaml the agent pod template to show up
   # in the job Console Output. This can be helpful for either security reasons
   # or simply to clean up the output to make it easier to read.
-  showRawYaml: true
+  showRawYaml: false
   # You can define the volumes that you want to mount for this container
   # Allowed types are: ConfigMap, EmptyDir, HostPath, Nfs, PVC, Secret
   # Configure the attributes as they appear in the corresponding Java class for that type
@@ -137,14 +137,14 @@ agent:
       - name: kaniko
         label: jenkins-kaniko
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         inheritFrom: default
         containers:
           - name: kaniko
             image: gcr.io/kaniko-project/executor:debug
             command: "/busybox/sh -c"
             args: "cat"
-            alwaysPullImage: true
+            alwaysPullImage: false
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -190,14 +190,14 @@ agent:
       - name: k8s
         label: jenkins-k8s
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         inheritFrom: default
         containers:
           - name: k8s
-            image: alpine/k8s:1.29.0
+            image: alpine/k8s:1.29.2
             command: "/bin/bash -c"
             args: "cat"
-            alwaysPullImage: true
+            alwaysPullImage: false
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -243,14 +243,14 @@ agent:
       - name: python3
         label: jenkins-python3
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         inheritFrom: default
         containers:
           - name: python3
             image: python:3-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: true
+            alwaysPullImage: false
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "500m"
@@ -287,14 +287,14 @@ agent:
       - name: jdk21
         label: jenkins-jdk21
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         inheritFrom: default
         containers:
           - name: jdk21
             image: eclipse-temurin:21-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: true
+            alwaysPullImage: false
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -332,14 +332,14 @@ agent:
       - name: node20
         label: jenkins-node20
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         inheritFrom: default
         containers:
           - name: node20
             image: node:20-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: true
+            alwaysPullImage: false
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
@@ -367,14 +367,14 @@ agent:
       - name: ssc5
         label: jenkins-ssc5
         serviceAccount: jenkins
-        showRawYaml: true
+        showRawYaml: false
         inheritFrom: default
         containers:
           - name: ssc5
             image: sonarsource/sonar-scanner-cli:5
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: true
+            alwaysPullImage: false
             runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
