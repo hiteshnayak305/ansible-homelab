@@ -146,7 +146,7 @@ gitea:
       #DOMAIN: -> template
       #ROOT_URL: -> template
       #SSH_DOMAIN: -> template
-      START_SSH_SERVER: false
+      START_SSH_SERVER: true
     repository.signing:
       SIGNING_KEY: 7BC3C3533076A13F
       SIGNING_NAME: Gitea
