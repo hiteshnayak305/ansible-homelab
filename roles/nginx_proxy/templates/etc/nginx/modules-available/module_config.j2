@@ -20,10 +20,10 @@ stream {
         #proxy_connect_timeout 1s;
     }
 
-    #server {
-    #    listen 22;
-    #    proxy_pass {{ nginx_domain_ip }}:22;
-    #    proxy_timeout 3s;
-    #    proxy_connect_timeout 1s;
-    #}
+    server {
+        listen 22;
+        proxy_pass {{ nginx_domain_ip }}:22;
+        #proxy_timeout 3s;
+        #proxy_connect_timeout 1s;
+    }
 }
