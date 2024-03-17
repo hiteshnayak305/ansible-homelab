@@ -45,6 +45,10 @@ agent:
     - type: Secret
       secretName: jenkins-custom-root-ca-cert
       mountPath: /mnt/ca-certificates/custom
+    - type: Secret
+      secretName: jenkins-agent-post-start
+      mountPath: /mnt/script/post-start
+      defaultMode: 0700
     - type: PVC
       claimName: pvc-jenkins-maven
       mountPath: /root/.m2
@@ -59,7 +63,7 @@ agent:
       readOnly: false
     - type: PVC
       claimName: pvc-jenkins-sonar-cache
-      mountPath: /opt/sonar-scanner/.sonar/cache
+      mountPath: /root/.sonar/cache
       readOnly: false
 
   # You can define the workspaceVolume that you want to mount for this container
@@ -118,8 +122,7 @@ agent:
                 command:
                   - "/bin/sh"
                   - "-c"
-                  - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt &&
-                    update-ca-certificates"
+                  - "/mnt/script/post-start/jnlp.sh"
   # Timeout in seconds for an agent to be online
   connectTimeout: 120
   # Annotations to apply to the pod.
@@ -175,8 +178,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/jnlp.sh"
               - name: kaniko
                 lifecycle:
                   postStart:
@@ -184,8 +186,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt"
+                        - "/mnt/script/post-start/kaniko.sh"
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -228,8 +229,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/jnlp.sh"
               - name: k8s
                 lifecycle:
                   postStart:
@@ -237,8 +237,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/k8s.sh"
     python3: |
       - name: python3
         label: jenkins-python3
@@ -272,8 +271,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/jnlp.sh"
               - name: python3
                 lifecycle:
                   postStart:
@@ -281,8 +279,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/python3.sh"
     jdk21: |
       - name: jdk21
         label: jenkins-jdk21
@@ -316,8 +313,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/jnlp.sh"
               - name: jdk21
                 lifecycle:
                   postStart:
@@ -325,9 +321,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates &&
-                          ${JAVA_HOME}/bin/keytool -import -cacerts -alias rootCA -noprompt -storepass changeit -file /usr/local/share/ca-certificates/rootCA.crt"
+                        - "/mnt/script/post-start/jdk21.sh"
     node20: |
       - name: node20
         label: jenkins-node20
@@ -361,8 +355,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/jnlp.sh"
     ssc5: |
       - name: ssc5
         label: jenkins-ssc5
@@ -396,8 +389,7 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/jnlp.sh"
               - name: ssc5
                 lifecycle:
                   postStart:
@@ -405,6 +397,4 @@ agent:
                       command:
                         - "/bin/sh"
                         - "-c"
-                        - "mkdir -p /usr/local/share/ca-certificates && 
-                          ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && 
-                          update-ca-certificates"
+                        - "/mnt/script/post-start/ssc5.sh"

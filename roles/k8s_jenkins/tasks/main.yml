@@ -48,6 +48,7 @@
           - files/pvc_jenkins_npm.yml
           - files/pvc_jenkins_workspace.yml
           - files/pvc_jenkins_sonar_cache.yml
+          - files/secret_jenkins_agent_post_start.yml
 
     - name: Install prereq for jenkins
       ansible.builtin.include_role:
