@@ -20,6 +20,7 @@
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-npm"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-workspace"
         - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-sonar-cache"
+        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-sonar-cache-maven"
 
     # install prereqs
     - name: Install prereq for jenkins
@@ -34,6 +35,7 @@
           - pv/pv_jenkins_npm.j2
           - pv/pv_jenkins_workspace.j2
           - pv/pv_jenkins_sonar_cache.j2
+          - pv/pv_jenkins_sonar_cache_maven.j2
 
     - name: Install prereq for jenkins
       ansible.builtin.include_role:
@@ -48,6 +50,7 @@
           - files/pvc_jenkins_npm.yml
           - files/pvc_jenkins_workspace.yml
           - files/pvc_jenkins_sonar_cache.yml
+          - files/pvc_jenkins_sonar_cache_maven.yml
           - files/secret_jenkins_agent_post_start.yml
 
     - name: Install prereq for jenkins

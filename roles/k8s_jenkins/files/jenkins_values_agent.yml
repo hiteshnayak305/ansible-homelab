@@ -54,6 +54,10 @@ agent:
       mountPath: /root/.m2
       readOnly: false
     - type: PVC
+      claimName: pvc-jenkins-sonar-cache-maven
+      mountPath: /root/.sonar/cache
+      readOnly: false
+    - type: PVC
       claimName: pvc-jenkins-gradle
       mountPath: /root/.gradle
       readOnly: false
@@ -63,7 +67,7 @@ agent:
       readOnly: false
     - type: PVC
       claimName: pvc-jenkins-sonar-cache
-      mountPath: /root/.sonar/cache
+      mountPath: /opt/sonar-scanner/.sonar/cache
       readOnly: false
 
   # You can define the workspaceVolume that you want to mount for this container
