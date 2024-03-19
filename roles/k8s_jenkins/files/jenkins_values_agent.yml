@@ -10,16 +10,14 @@
 agent:
   enabled: true
   image:
-    repository: "jenkins/inbound-agent"
-    tag: "latest-alpine"
+    repository: "hiteshnayak305/inbound-agent"
+    tag: "3206.vb_15dcf73f6a_9-7-alpine"
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   customJenkinsLabels: []
   componentName: "jenkins-agent"
   websocket: false
   directConnection: false
-  privileged: true
-  runAsUser: 0
   hostNetworking: false
   resources:
     requests:
@@ -42,13 +40,6 @@ agent:
   # Configure the attributes as they appear in the corresponding Java class for that type
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
   volumes:
-    - type: Secret
-      secretName: jenkins-custom-root-ca-cert
-      mountPath: /mnt/ca-certificates/custom
-    - type: Secret
-      secretName: jenkins-agent-post-start
-      mountPath: /mnt/script/post-start
-      defaultMode: 0700
     - type: PVC
       claimName: pvc-jenkins-maven
       mountPath: /root/.m2
@@ -112,21 +103,6 @@ agent:
   idleMinutes: 0
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
   yamlMergeStrategy: merge
-  yamlTemplate: |-
-    apiVersion: v1
-    kind: Pod
-    spec:
-      securityContext:
-        runAsUser: 0
-      containers:
-        - name: jnlp
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "/bin/sh"
-                  - "-c"
-                  - "/mnt/script/post-start/jnlp.sh"
   # Timeout in seconds for an agent to be online
   connectTimeout: 120
   # Annotations to apply to the pod.
@@ -148,11 +124,10 @@ agent:
         inheritFrom: default
         containers:
           - name: kaniko
-            image: gcr.io/kaniko-project/executor:debug
+            image: hiteshnayak305/kaniko:debug
             command: "/busybox/sh -c"
             args: "cat"
             alwaysPullImage: false
-            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "500Mi"
@@ -163,34 +138,7 @@ agent:
               mountPath: /kaniko/.docker/
               secretName: gitea-docker-credentials-secret
               defaultMode: 256
-          - hostPathVolume:
-              mountPath: /kaniko/ssl/certs/
-              hostPath: /etc/ssl/certs/
-              readOnly: true
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            securityContext:
-              runAsUser: 0
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jnlp.sh"
-              - name: kaniko
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/kaniko.sh"
     k8s: |
       - name: k8s
         label: jenkins-k8s
@@ -199,11 +147,10 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: alpine/k8s:1.29.2
+            image: hiteshnayak305/k8s:1.29.2
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false
-            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "256Mi"
@@ -219,71 +166,6 @@ agent:
               secretName: kube-credentials-secret
               defaultMode: 256
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            securityContext:
-              runAsUser: 0
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jnlp.sh"
-              - name: k8s
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/k8s.sh"
-    python3: |
-      - name: python3
-        label: jenkins-python3
-        serviceAccount: jenkins
-        showRawYaml: false
-        inheritFrom: default
-        containers:
-          - name: python3
-            image: python:3-alpine
-            command: "/bin/sh -c"
-            args: "cat"
-            alwaysPullImage: false
-            runAsUser: 0
-            ttyEnabled: true
-            resourceRequestCpu: "500m"
-            resourceRequestMemory: "256Mi"
-            resourceLimitCpu: "1"
-            resourceLimitMemory: "500Mi"
-        yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            securityContext:
-              runAsUser: 0
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jnlp.sh"
-              - name: python3
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/python3.sh"
     jdk21: |
       - name: jdk21
         label: jenkins-jdk21
@@ -292,40 +174,16 @@ agent:
         inheritFrom: default
         containers:
           - name: jdk21
-            image: eclipse-temurin:21-jdk-alpine
+            image: hiteshnayak305/eclipse-temurin:21-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: false
-            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            securityContext:
-              runAsUser: 0
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jnlp.sh"
-              - name: jdk21
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jdk21.sh"
     node20: |
       - name: node20
         label: jenkins-node20
@@ -334,32 +192,16 @@ agent:
         inheritFrom: default
         containers:
           - name: node20
-            image: node:20-alpine
+            image: hiteshnayak305/node:20-alpine
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: false
-            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            securityContext:
-              runAsUser: 0
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jnlp.sh"
     ssc5: |
       - name: ssc5
         label: jenkins-ssc5
@@ -368,37 +210,13 @@ agent:
         inheritFrom: default
         containers:
           - name: ssc5
-            image: sonarsource/sonar-scanner-cli:5
+            image: hiteshnayak305/sonar-scanner-cli:5
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: false
-            runAsUser: 0
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
-        yaml: |
-          apiVersion: v1
-          kind: Pod
-          spec:
-            securityContext:
-              runAsUser: 0
-            containers:
-              - name: jnlp
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/jnlp.sh"
-              - name: ssc5
-                lifecycle:
-                  postStart:
-                    exec:
-                      command:
-                        - "/bin/sh"
-                        - "-c"
-                        - "/mnt/script/post-start/ssc5.sh"

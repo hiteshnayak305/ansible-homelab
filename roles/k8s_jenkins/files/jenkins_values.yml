@@ -36,21 +36,9 @@ controller:
                 values:
                   - k8s-worker-03.hitesh.com
   image:
-    registry: "docker.io"
     repository: "hiteshnayak305/jenkins"
-    tag: "lts"
+    tag: "2.440.1-alpine"
     # tagLabel: jdk17
-    pullPolicy: "Always"
-  lifecycle:
-    postStart:
-      exec:
-        command:
-          - "/bin/bash"
-          - "-c"
-          - "ln -sf /mnt/ca-certificates/custom/rootCA.crt /usr/local/share/ca-certificates/rootCA.crt && \
-            update-ca-certificates && \
-            ${JAVA_HOME}/bin/keytool -import -cacerts -alias rootCA -noprompt -storepass changeit \
-            -file /usr/local/share/ca-certificates/rootCA.crt"
   disableRememberMe: false
   numExecutors: 0
   # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE
@@ -75,17 +63,6 @@ controller:
     createSecret: true
     existingSecret: "jenkins-admin-secret"
 
-  # This values should not be changed unless you use your custom image of jenkins or any devired from. If you want to use
-  # Cloudbees Jenkins Distribution docker, you should set jenkinsHome: "/var/cloudbees-jenkins-distribution"
-  jenkinsHome: "/var/jenkins_home"
-  # This values should not be changed unless you use your custom image of jenkins or any devired from. If you want to use
-  # Cloudbees Jenkins Distribution docker, you should set jenkinsRef: "/usr/share/cloudbees-jenkins-distribution/ref"
-  jenkinsRef: "/usr/share/jenkins/ref"
-  # Path to the jenkins war file which is used by jenkins-plugin-cli.
-  jenkinsWar: "/usr/share/jenkins/jenkins.war"
-  # Overrides the default arguments passed to the war
-  # overrideArgs:
-  #   - --httpPort=8080
   resources:
     requests:
       cpu: "250m"
@@ -93,42 +70,15 @@ controller:
     limits:
       cpu: "1"
       memory: "2048Mi"
-  # Share process namespace to allow sidecar containers to interact with processes in other containers in the same pod
-  shareProcessNamespace: false
 
   # jenkinsAdminEmail: --> template
 
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block the configured hostname will be the ingress hostname starting with `https://` or `http://` depending on the `tls` configuration.
   # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
-  # jenkinsUrlProtocol: "https"
+  jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
   # jenkinsUrl: -> template
-  # If you set this prefix and use ingress controller then you might want to set the ingress path below
-  # jenkinsUriPrefix: "/jenkins"
 
-  # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
-  usePodSecurityContext: true
-
-  podSecurityContextOverride:
-    runAsUser: 0
-    runAsNonRoot: false
-    supplementalGroups: [1000]
-    # capabilities: {}
-  # Container securityContext
-  containerSecurityContext:
-    runAsUser: 0
-    runAsGroup: 1000
-    readOnlyRootFilesystem: false
-    allowPrivilegeEscalation: true
-
-  servicePort: 8080
-  targetPort: 8080
-  # For minikube, set this to NodePort, elsewhere use LoadBalancer
-  # Use ClusterIP if your setup includes ingress controller
-  serviceType: ClusterIP
-  # Use Local to preserve the client source IP and avoids a second hop for LoadBalancer and Nodeport type services,
-  # but risks potentially imbalanced traffic spreading.
-  serviceExternalTrafficPolicy:
   # Enable Kubernetes Startup, Liveness and Readiness Probes
   # if Startup Probe is supported, enable it too
   # ~ 2 minutes to allow Jenkins to restart when upgrading plugins. Set ReadinessTimeout to be shorter than LivenessTimeout.
@@ -232,12 +182,6 @@ controller:
     authorizationStrategy: |-
       loggedInUsersCanDoAnything:
         allowAnonymousRead: false
-  # Optionally specify additional init-containers
-  customInitContainers: []
-  # - name: custom-init
-  #   image: "alpine:3.7"
-  #   imagePullPolicy: Always
-  #   command: [ "uname", "-a" ]
 
   sidecars:
     configAutoReload:
@@ -245,30 +189,6 @@ controller:
       # jcasc changes will cause a reboot and will only be applied at the subsequent start-up.  Auto-reload uses the
       # http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to the configScripts are detected.
       enabled: false
-
-    # Allows you to inject additional sidecars
-    additionalSidecarContainers: []
-    ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
-    ## that allows to trigger build behind a secure firewall.
-    ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
-    ##
-    ## Note: To use it you should go to https://smee.io/new and update the url to the generete one.
-    # - name: smee
-    #   image: docker.io/twalter/smee-client:1.0.2
-    #   args: ["--port", "{{ .Values.controller.servicePort }}", "--path", "/github-webhook/", "--url", "https://smee.io/new"]
-    #   resources:
-    #     limits:
-    #       cpu: 50m
-    #       memory: 128Mi
-    #     requests:
-    #       cpu: 10m
-    #       memory: 32Mi
-  # Name of the Kubernetes scheduler to use
-  schedulerName: ""
-  # Node labels and tolerations for pod assignment
-  # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-  # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
-  nodeSelector: {}
 
 persistence:
   enabled: true
@@ -288,13 +208,5 @@ persistence:
   labels: {}
   accessMode: "ReadWriteOnce"
   size: "8Gi"
-  volumes:
-    - name: jenkins-custom-root-ca-cert-vol
-      secret:
-        secretName: jenkins-custom-root-ca-cert
-  mounts:
-    - mountPath: "/mnt/ca-certificates/custom"
-      name: jenkins-custom-root-ca-cert-vol
-      readOnly: true
 
 checkDeprecation: true

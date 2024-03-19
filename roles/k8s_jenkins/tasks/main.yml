@@ -51,7 +51,6 @@
           - files/pvc_jenkins_workspace.yml
           - files/pvc_jenkins_sonar_cache.yml
           - files/pvc_jenkins_sonar_cache_maven.yml
-          - files/secret_jenkins_agent_post_start.yml
 
     - name: Install prereq for jenkins
       ansible.builtin.include_role:
@@ -60,7 +59,6 @@
       vars:
         k8s_install_j2s:
           - secret/jenkins_admin_secret.j2
-          - secret/jenkins_custom_root_ca_cert.j2
           - secret/gitea_credentials_secret.j2
           - secret/kube_credentials_secret.j2
           - secret/mail_credentials_secret.j2
@@ -108,7 +106,7 @@
       kubernetes.core.helm:
         name: jenkins
         chart_ref: jenkins/jenkins
-        chart_version: 5.1.0
+        chart_version: 5.1.1
         update_repo_cache: true
         release_namespace: jenkins
         create_namespace: false
