@@ -14,9 +14,6 @@ jenkins_admin_password: password
 mail_admin_username: admin
 mail_admin_password: password
 
-# ca crt
-root_ca_crt: ""
-
 # gitea registry
 gitea_docker_config_json_base64: ""
 
