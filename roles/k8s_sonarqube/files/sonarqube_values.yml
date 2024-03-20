@@ -13,6 +13,10 @@ revisionHistoryLimit: 1
 
 edition: "community"
 
+image:
+  repository: docker.io/hiteshnayak305/sonarqube
+  # tag: 10.4.1-{{ .Values.edition }}
+
 # will be used as default for ingress path and probes path, will be injected in .Values.env as SONAR_WEB_CONTEXT
 # if .Values.env.SONAR_WEB_CONTEXT is set, this value will be ignored
 sonarWebContext: ""
@@ -48,14 +52,6 @@ startupProbe:
   # A trailing "/" must be included
   # deprecated please use sonarWebContext at the value top level
   # sonarWebContext: /
-
-## Provide a secret containing one or more certificate files in the keys that will be added to cacerts
-## The cacerts file will be set via SONARQUBE_WEB_JVM_OPTS and SONAR_CE_JAVAOPTS
-##
-caCerts:
-  enabled: true
-  image: adoptopenjdk/openjdk11:alpine
-  secret: sonarqube-custom-root-ca-cert
 
 initSysctl:
   enabled: false

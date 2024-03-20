@@ -37,14 +37,6 @@
           - files/pvc_sonarqube.yml
           - files/pvc_sonarqube_postgresql_primary.yml
 
-    - name: Install prereq for sonarqube
-      ansible.builtin.include_role:
-        name: utility
-        tasks_from: k8s_install_j2
-      vars:
-        k8s_install_j2s:
-          - secret/sonarqube_custom_root_ca_cert.j2
-
     - name: Add sonarqube helm repository
       kubernetes.core.helm_repository:
         name: sonarqube
