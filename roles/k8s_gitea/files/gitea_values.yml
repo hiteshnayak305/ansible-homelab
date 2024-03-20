@@ -8,6 +8,19 @@ replicaCount: 1
 ## @param clusterDomain cluster domain
 clusterDomain: cluster.local
 
+## @section Image
+## @param image.registry image registry, e.g. gcr.io,docker.io
+## @param image.repository Image to start for this pod
+## @param image.tag Visit: [Image tag](https://hub.docker.com/r/gitea/gitea/tags?page=1&ordering=last_updated). Defaults to `appVersion` within Chart.yaml.
+## @param image.digest Image digest. Allows to pin the given image tag. Useful for having control over mutable tags like `latest`
+## @param image.pullPolicy Image pull policy
+## @param image.rootless Wether or not to pull the rootless version of Gitea, only works on Gitea 1.14.x or higher
+## @param image.fullOverride Completely overrides the image registry, path/image, tag and digest. **Adjust `image.rootless` accordingly and review [Rootless defaults](#rootless-defaults).**
+image:
+  repository: hiteshnayak305/gitea
+  # Overrides the image tag whose default is the chart appVersion.
+  # tag: ""
+
 ## @section Service
 service:
   ## @param service.http.type Kubernetes service type for web traffic
@@ -95,28 +108,6 @@ persistence:
   create: false
   claimName: pvc-gitea
   size: 10Gi
-
-## @param extraVolumes Additional volumes to mount to the Gitea statefulset
-extraVolumes:
-  # - name: gitea-custom-root-ca-cert-vol
-  #   secret:
-  #     secretName: gitea-custom-root-ca-cert
-  #     items:
-  #       - key: rootCA.crt
-  #         path: rootCA.crt
-  - name: host-ssl-vol
-    hostPath:
-      path: "/etc/ssl/certs"
-      type: Directory
-
-## @param extraContainerVolumeMounts Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.
-extraContainerVolumeMounts:
-  # - mountPath: "/etc/ssl/certs"
-  #   name: gitea-custom-root-ca-cert-vol
-  #   readOnly: true
-  - mountPath: "/etc/ssl/certs"
-    name: host-ssl-vol
-    readOnly: true
 
 # Configure commit/action signing prerequisites
 ## @section Signing

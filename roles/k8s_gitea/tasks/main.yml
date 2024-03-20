@@ -44,7 +44,6 @@
       vars:
         k8s_install_j2s:
           - secret/gitea_admin_secret.j2
-          - secret/gitea_custom_root_ca_cert.j2
           - secret/gitea_gpg_key.j2
 
     - name: Add Gitea helm repository
