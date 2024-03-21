@@ -151,13 +151,19 @@ emptyDir:
 postgresql:
   # Enable to deploy the bitnami PostgreSQL chart
   enabled: true
-  ## postgresql Chart global settings
-  # global:
-  #   imageRegistry: ''
-  #   imagePullSecrets: ''
-  ## bitnami/postgres image tag
-  # image:
-  #   tag: 11.7.0-debian-10-r9
+  ## Bitnami PostgreSQL image version
+  ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
+  ## @param image.registry PostgreSQL image registry
+  ## @param image.repository PostgreSQL image repository
+  ## @param image.tag PostgreSQL image tag (immutable tags are recommended)
+  ## @param image.pullPolicy PostgreSQL image pull policy
+  ## @param image.pullSecrets Specify image pull secrets
+  ## @param image.debug Specify if debug values should be set
+  ##
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 11-debian-10
   # existingSecret Name of existing secret to use for PostgreSQL passwords
   # The secret has to contain the keys postgresql-password which is the password for postgresqlUsername when it is
   # different of postgres, postgresql-postgres-password which will override postgresqlPassword,

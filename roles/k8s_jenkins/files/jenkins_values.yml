@@ -36,6 +36,7 @@ controller:
                 values:
                   - k8s-worker-03.hitesh.com
   image:
+    registry: docker.io
     repository: "hiteshnayak305/jenkins"
     tag: "2.440.1-alpine"
     # tagLabel: jdk17

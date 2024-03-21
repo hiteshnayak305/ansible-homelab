@@ -17,6 +17,7 @@ clusterDomain: cluster.local
 ## @param image.rootless Wether or not to pull the rootless version of Gitea, only works on Gitea 1.14.x or higher
 ## @param image.fullOverride Completely overrides the image registry, path/image, tag and digest. **Adjust `image.rootless` accordingly and review [Rootless defaults](#rootless-defaults).**
 image:
+  registry: docker.io
   repository: hiteshnayak305/gitea
   # Overrides the image tag whose default is the chart appVersion.
   # tag: ""
@@ -262,6 +263,7 @@ postgresql-ha:
     ## @param postgresql.image.debug Specify if debug logs should be enabled
     ##
     image:
+      registry: docker.io
       repository: bitnami/postgresql-repmgr
       tag: 16-debian-11
     replicaCount: 1
@@ -296,6 +298,7 @@ postgresql-ha:
     ## @param pgpool.image.debug Specify if debug logs should be enabled
     ##
     image:
+      registry: docker.io
       repository: bitnami/pgpool
       tag: 4-debian-11
     adminPassword: gitea
