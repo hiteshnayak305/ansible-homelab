@@ -17,6 +17,19 @@ livenessProbe:
   timeoutSeconds: 30
   failureThreshold: 10
 
+## Use an alternate scheduler, e.g. "stork".
+## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+##
+# schedulerName: "default-scheduler"
+
+image:
+  # -- The Docker registry
+  registry: docker.io
+  # -- Docker image repository
+  repository: hiteshnayak305/grafana
+  # Overrides the Grafana image tag whose default is the chart appVersion
+  # tag: ""
+
 testFramework:
   enabled: false
 
@@ -102,12 +115,12 @@ datasources:
     datasources:
       - name: Prometheus
         type: prometheus
-        url: http://prometheus-server.grafana-prometheus-system.svc
+        url: https://prometheus.hitesh.com
         access: proxy
         isDefault: true
       - name: Loki
         type: loki
-        url: http://loki-gateway.grafana-loki-system.svc
+        url: https://loki.hitesh.com
         access: proxy
         isDefault: false
         jsonData:

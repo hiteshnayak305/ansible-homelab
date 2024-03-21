@@ -1,8 +1,17 @@
 daemonset:
   # -- Deploys Promtail as a DaemonSet
   enabled: true
+
+image:
+  # -- The Docker registry
+  registry: docker.io
+  # -- Docker image repository
+  repository: hiteshnayak305/promtail
+  # -- Overrides the image tag whose default is the chart's appVersion
+  # tag: null
+
 # -- Resource requests and limits
-resources: 
+resources:
   limits:
     cpu: 200m
     memory: 500Mi
@@ -35,4 +44,4 @@ config:
   # Must be reference in `config.file` to configure `clients`
   # @default -- See `values.yaml`
   clients:
-    - url: http://loki-gateway.grafana-loki-system.svc/loki/api/v1/push
+    - url: https://loki.hitesh.com/loki/api/v1/push

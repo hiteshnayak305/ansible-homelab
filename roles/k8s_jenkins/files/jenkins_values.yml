@@ -38,8 +38,8 @@ controller:
   image:
     registry: docker.io
     repository: "hiteshnayak305/jenkins"
-    tag: "2.440.1-alpine"
-    # tagLabel: jdk17
+    # tag: "2.440.1-alpine"
+    tagLabel: alpine
   disableRememberMe: false
   numExecutors: 0
   # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE

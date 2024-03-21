@@ -6,7 +6,7 @@
 ## @param replicaCount Desired number of pod replicas
 replicaCount: 1
 ##
-## @param revisionHistoryLimit Desired number of old ReplicaSets to retain 
+## @param revisionHistoryLimit Desired number of old ReplicaSets to retain
 ## Defaults to 10, if set to 0 old ReplicaSets will be garbage-collected
 revisionHistoryLimit: 1
 ##
@@ -14,6 +14,18 @@ revisionHistoryLimit: 1
 ##
 containerPorts:
   http: 2112
+
+image:
+  ## @param image.registry [default: REGISTRY_NAME] Container image registry
+  ## @param image.repository [default: REPOSITORY_NAME/kubernetes-event-exporter] Container image name
+  ## @skip image.tag Container image tag
+  ## @param image.digest Container image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param image.pullPolicy Container image pull policy
+  ## @param image.pullSecrets Specify docker-registry secret names as an array
+  ##
+  registry: docker.io
+  repository: hiteshnayak305/kubernetes-event-exporter
+  # tag: 1.6.1-debian-12-r16
 
 ## Kubernetes event exporter configuration, rendered as a template
 ## ref: https://github.com/resmoio/kubernetes-event-exporter#configuration
@@ -48,12 +60,12 @@ config:
         #   X-Scope-OrgID: tennantID
         streamLabels:
           app: kube-event-exporter
-        url: http://loki-gateway.grafana-loki-system.svc/loki/api/v1/push
+        url: https://loki.hitesh.com/loki/api/v1/push
   route:
     routes:
       - match:
           - receiver: "dump"
-          - receiver: "loki"       
+          - receiver: "loki"
 
 ## Container resource requests and limits
 ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
@@ -66,8 +78,8 @@ config:
 ##
 resources:
   limits:
-     cpu: 300m
-     memory: 250Mi
+    cpu: 300m
+    memory: 250Mi
   requests:
-     cpu: 100m
-     memory: 25Mi
+    cpu: 100m
+    memory: 25Mi

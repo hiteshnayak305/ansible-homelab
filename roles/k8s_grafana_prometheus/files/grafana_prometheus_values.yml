@@ -28,6 +28,13 @@ server:
     ##
     evaluation_interval: 1m
 
+  ## Prometheus server container image
+  ##
+  image:
+    repository: docker.io/hiteshnayak305/prometheus
+    # if not set appVersion field from Chart.yaml is used
+    # tag: ""
+
   ingress:
     ## If true, Prometheus server Ingress will be created
     ##

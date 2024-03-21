@@ -10,7 +10,7 @@
 agent:
   enabled: true
   image:
-    repository: "hiteshnayak305/inbound-agent"
+    repository: "docker.io/hiteshnayak305/inbound-agent"
     tag: "3206.vb_15dcf73f6a_9-7-alpine"
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
@@ -124,7 +124,7 @@ agent:
         inheritFrom: default
         containers:
           - name: kaniko
-            image: hiteshnayak305/kaniko:debug
+            image: docker.io/hiteshnayak305/kaniko:debug
             command: "/busybox/sh -c"
             args: "cat"
             alwaysPullImage: false
@@ -147,7 +147,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: hiteshnayak305/k8s:1.29.2
+            image: docker.io/hiteshnayak305/k8s:1.29.2
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false
@@ -174,7 +174,7 @@ agent:
         inheritFrom: default
         containers:
           - name: jdk21
-            image: hiteshnayak305/eclipse-temurin:21-jdk-alpine
+            image: docker.io/hiteshnayak305/eclipse-temurin:21-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: false
@@ -192,7 +192,7 @@ agent:
         inheritFrom: default
         containers:
           - name: node20
-            image: hiteshnayak305/node:20-alpine
+            image: docker.io/hiteshnayak305/node:20-alpine
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: false
@@ -210,7 +210,7 @@ agent:
         inheritFrom: default
         containers:
           - name: ssc5
-            image: hiteshnayak305/sonar-scanner-cli:5
+            image: docker.io/hiteshnayak305/sonar-scanner-cli:5
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: false
