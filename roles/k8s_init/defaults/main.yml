@@ -29,3 +29,7 @@ metallb_ip_address_range: 172.16.0.50/32
 # nginx tls
 ingress_nginx_tls_crt: ""
 ingress_nginx_tls_key: ""
+
+# cert manager ca
+cert_manager_ca_crt: ""
+cert_manager_ca_key: ""

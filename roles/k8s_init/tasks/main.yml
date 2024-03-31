@@ -15,11 +15,14 @@
     - name: Installing MetalLB
       include_tasks: 03_install_metallb.yml
 
+    - name: Installing Cert Manager
+      include_tasks: 04_install_cert_manager.yml
+
     - name: Installing Nginx Ingress
-      include_tasks: 04_install_nginx_ingress.yml
+      include_tasks: 05_install_nginx_ingress.yml
 
     - name: Installing Kubernetes Dashboard
-      include_tasks: 05_install_kubernetes_dashboard.yml
+      include_tasks: 06_install_kubernetes_dashboard.yml
 
     - name: Installing NFS Subdirectory External Provisioner
-      include_tasks: 06_install_nfs-subdir-external-provisioner.yml
+      include_tasks: 07_install_nfs-subdir-external-provisioner.yml
