@@ -21,7 +21,7 @@
   kubernetes.core.helm:
     name: metallb
     chart_ref: metallb/metallb
-    chart_version: 0.14.3
+    chart_version: 0.14.4
     update_repo_cache: true
     release_namespace: metallb-system
     create_namespace: false
