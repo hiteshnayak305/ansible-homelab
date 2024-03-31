@@ -1,0 +1,14 @@
+## nginx configuration
+## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/index.md
+##
+
+controller:
+  # -- This section refers to the creation of the IngressClass resource.
+  # IngressClasses are immutable and cannot be changed after creation.
+  # We do not support namespaced IngressClasses, yet, so a ClusterRole and a ClusterRoleBinding is required.
+  ingressClassResource:
+    # -- Name of the IngressClass
+    name: nginx-internal
+  service:
+    annotations: {}
+    type: ClusterIP
