@@ -58,6 +58,8 @@ controller:
                 operator: Exists
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
   # -- Annotations to be added to controller pods
   ##
   podAnnotations:

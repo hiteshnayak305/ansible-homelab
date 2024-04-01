@@ -78,6 +78,9 @@ prometheus:
   # with your own ServiceMonitor (managed outside of this Helm chart).
   # Otherwise, a ServiceMonitor/ PodMonitor is created.
   enabled: true
+  servicemonitor:
+    # Create a ServiceMonitor to add cert-manager to Prometheus
+    enabled: true
 
 # +docs:section=Webhook
 
