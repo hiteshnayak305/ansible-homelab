@@ -12,6 +12,7 @@
       vars:
         k8s_install_ymls:
           - files/grafana_loki_namespace.yml
+          - files/grafana_loki_datasource_configmap.yml
 
     - name: Add grafana loki helm repository
       kubernetes.core.helm_repository:

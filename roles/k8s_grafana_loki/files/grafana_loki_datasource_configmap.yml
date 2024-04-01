@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: grafana-loki-datasource
+  namespace: grafana-loki-system
+  labels:
+    grafana_datasource: "1"
+data:
+  datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        uid: loki
+        url: http://loki-gateway.grafana-loki-system:80/
+        access: proxy
+        jsonData:
+          maxLines: 1000

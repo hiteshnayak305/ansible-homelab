@@ -1,8 +1,8 @@
-replicas: 1
+serviceAccount:
+  create: true
+  automountServiceAccountToken: true
 
-## Number of old ReplicaSets to retain
-##
-revisionHistoryLimit: 1
+replicas: 1
 
 readinessProbe:
   httpGet:
@@ -35,6 +35,20 @@ testFramework:
 
 # Enable creating the grafana configmap
 createConfigmap: true
+
+## Expose the grafana service to be accessed from outside the cluster (LoadBalancer service).
+## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+## ref: http://kubernetes.io/docs/user-guide/services/
+##
+service:
+  enabled: true
+  portName: http-web
+
+serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: true
 
 ingress:
   enabled: true
@@ -103,27 +117,58 @@ grafana.ini:
   server:
     domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
 
-#######################   issue with multiple values file  ##############
+## Sidecars that collect the configmaps with specified label and stores the included files them into the respective folders
+## Requires at least Grafana 5 to work and can't be used together with parameters dashboardProviders, datasources and dashboards
+sidecar:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+  # skipTlsVerify Set to true to skip tls verification for kube api calls
+  # skipTlsVerify: true
+  enableUniqueFilenames: false
+  alerts:
+    enabled: false
+  dashboards:
+    enabled: true
+    # label that the configmaps with dashboards are marked with
+    label: grafana_dashboard
+    # value of label that the configmaps with dashboards are set to
+    labelValue: "1"
+    # Namespaces list. If specified, the sidecar will search for config-maps/secrets inside these namespaces.
+    # Otherwise the namespace in which the sidecar is running will be used.
+    # It's also possible to specify ALL to search in all namespaces.
+    searchNamespace: ALL
+    # If specified, the sidecar will look for annotation with this name to create folder and put graph here.
+    # You can use this parameter together with `provider.foldersFromFilesStructure`to annotate configmaps and create folder structure.
+    folderAnnotation: folder
+    # provider configuration that lets grafana manage the dashboards
+    provider:
+      # disableDelete to activate a import-only behaviour
+      disableDelete: false
+      # allow updating provisioned dashboards from the UI
+      allowUiUpdates: false
+  datasources:
+    enabled: true
+    # label that the configmaps with datasources are marked with
+    label: grafana_datasource
+    # value of label that the configmaps with datasources are set to
+    labelValue: "1"
+    # Log level. Can be one of: DEBUG, INFO, WARN, ERROR, CRITICAL.
+    # logLevel: INFO
+    # If specified, the sidecar will search for datasource config-maps inside this namespace.
+    # Otherwise the namespace in which the sidecar is running will be used.
+    # It's also possible to specify ALL to search in all namespaces
+    searchNamespace: ALL
+  plugins:
+    enabled: false
+  notifiers:
+    enabled: false
 
-## Configure grafana datasources
-## ref: http://docs.grafana.org/administration/provisioning/#datasources
-##
-datasources:
-  datasources.yaml:
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        type: prometheus
-        url: https://prometheus.hitesh.com
-        access: proxy
-        isDefault: true
-      - name: Loki
-        type: loki
-        url: https://loki.hitesh.com
-        access: proxy
-        isDefault: false
-        jsonData:
-          maxLines: 1000
+#######################   issue with multiple values file  ##############
 
 ## Configure grafana dashboard providers
 ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
@@ -278,3 +323,7 @@ dashboards:
 ##
 dashboardsConfigMaps: {}
 #  default: ""
+
+## Number of old ReplicaSets to retain
+##
+revisionHistoryLimit: 1
