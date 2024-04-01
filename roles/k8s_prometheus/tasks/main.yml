@@ -1,0 +1,45 @@
+---
+# tasks file for k8s_prometheus
+- name: Execute prometheus role
+  become: true
+  become_user: "{{ kubernetes_user }}"
+  block:
+    - name: Add Prometheus helm repository
+      kubernetes.core.helm_repository:
+        name: prometheus-community
+        repo_url: https://prometheus-community.github.io/helm-charts
+
+    - name: Copy values file
+      ansible.builtin.copy:
+        src: files/prometheus_values.yml
+        dest: "{{ tmpdir }}/prometheus_values.yml"
+      changed_when: false
+
+    - name: Copy values file
+      ansible.builtin.template:
+        src: values/prometheus_values_var.j2
+        dest: "{{ tmpdir }}/prometheus_values_var.yml"
+      changed_when: false
+
+    - name: Deploy latest version of kube-prometheus-stack chart
+      kubernetes.core.helm:
+        name: kube-prometheus-stack
+        chart_ref: prometheus-community/kube-prometheus-stack
+        chart_version: 57.2.0
+        update_repo_cache: true
+        release_namespace: prometheus-system
+        create_namespace: true
+        values_files:
+          - "{{ tmpdir }}/prometheus_values.yml"
+          - "{{ tmpdir }}/prometheus_values_var.yml"
+        wait: true
+      when: not ansible_check_mode
+
+    - name: Remove temp files (delete file)
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ tmpdir }}/prometheus_values.yml"
+        - "{{ tmpdir }}/prometheus_values_var.yml"
+      changed_when: false

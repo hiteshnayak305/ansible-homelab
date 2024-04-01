@@ -1,0 +1,175 @@
+# Default values for kube-prometheus-stack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Install Prometheus Operator CRDs
+##
+crds:
+  enabled: true
+
+## Configuration for alertmanager
+## ref: https://prometheus.io/docs/alerting/alertmanager/
+##
+alertmanager:
+  ## Deploy alertmanager
+  ##
+  enabled: true
+
+  ## Settings affecting alertmanagerSpec
+  ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#alertmanagerspec
+  ##
+  alertmanagerSpec:
+    ## Storage is the definition of how storage will be used by the Alertmanager instances.
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
+    ##
+    storage: {}
+    # volumeClaimTemplate:
+    #   spec:
+    #     storageClassName: gluster
+    #     accessModes: ["ReadWriteOnce"]
+    #     resources:
+    #       requests:
+    #         storage: 50Gi
+    #     selector: {}
+
+    ## Define resources requests and limits for single Pods.
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+    resources: {}
+    # requests:
+    #   memory: 400Mi
+
+## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+##
+grafana:
+  enabled: false
+
+## Manages Prometheus and Alertmanager components
+##
+prometheusOperator:
+  enabled: true
+
+  ## Number of old replicasets to retain ##
+  ## The default value is 10, 0 will garbage-collect old replicasets ##
+  revisionHistoryLimit: 1
+
+  ## Admission webhook support for PrometheusRules resources added in Prometheus Operator 0.30 can be enabled to prevent incorrectly formatted
+  ## rules from making their way into prometheus and potentially preventing the container from starting
+  admissionWebhooks:
+    enabled: true
+    patch:
+      enabled: true
+      resources: {}
+    # Use certmanager to generate webhook certs
+    certManager:
+      enabled: false
+      # self-signed root certificate
+      rootCert:
+        duration: "" # default to be 5y
+      admissionCert:
+        duration: "" # default to be 1y
+      issuerRef:
+        name: "ca-cluster-issuer"
+        kind: "ClusterIssuer"
+
+  ## Resource limits & requests
+  ##
+  resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 200Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 100Mi
+
+  ## Prometheus-config-reloader
+  ##
+  prometheusConfigReloader:
+    # add prometheus config reloader liveness and readiness probe. Default: false
+    enableProbe: false
+
+    # resource config for prometheusConfigReloader
+    resources:
+      {}
+      # requests:
+      #   cpu: 200m
+      #   memory: 50Mi
+      # limits:
+      #   cpu: 200m
+      #   memory: 50Mi
+
+  ## Set a Label Selector to filter watched prometheus and prometheusAgent
+  ##
+  prometheusInstanceSelector: ""
+
+  ## Set a Label Selector to filter watched alertmanager
+  ##
+  alertmanagerInstanceSelector: ""
+
+## Deploy a Prometheus instance
+##
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    ingressClassName: nginx
+
+    # annotations:  -> template
+
+    ## Redirect ingress to an additional defined port on the service
+    # servicePort: 8081
+
+    ## Hostnames.
+    ## Must be provided if Ingress is enabled.
+    ##
+    # hosts:
+    #   - prometheus.domain.com
+    #hosts:  -> template
+
+    ## TLS configuration for Prometheus Ingress
+    ## Secret must be manually created in the namespace
+    ##
+    #tls: -> template
+
+  ## Settings affecting prometheusSpec
+  ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
+  ##
+  prometheusSpec:
+    ## EnableAdminAPI enables Prometheus the administrative HTTP API which includes functionality such as deleting time series.
+    ## This is disabled by default.
+    ## ref: https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis
+    ##
+    enableAdminAPI: false
+
+    ## Resource limits & requests
+    ##
+    resources: {}
+    # requests:
+    #   memory: 400Mi
+
+    ## Prometheus StorageSpec for persistent data
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
+    ##
+    storageSpec: {}
+    ## Using PersistentVolumeClaim
+    ##
+    #  volumeClaimTemplate:
+    #    spec:
+    #      storageClassName: gluster
+    #      accessModes: ["ReadWriteOnce"]
+    #      resources:
+    #        requests:
+    #          storage: 50Gi
+    #    selector: {}
+
+    ## Using tmpfs volume
+    ##
+    #  emptyDir:
+    #    medium: Memory
+
+## Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
+##
+cleanPrometheusOperatorObjectNames: true
