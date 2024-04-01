@@ -4,6 +4,17 @@ metadata:
   name: immich-proxy
   namespace: immich-system
   annotations:
+    cert-manager.io/cluster-issuer: ca-cluster-issuer
+    cert-manager.io/common-name: "immich.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/email-sans: hiteshnayak305@gmail.com
+    cert-manager.io/subject-organizations: DEV
+    cert-manager.io/subject-organizationalunits: DEV
+    cert-manager.io/subject-countries: IN
+    cert-manager.io/subject-localities: PUNE
+    cert-manager.io/subject-streetaddresses: MH
+    cert-manager.io/usages: server auth,client auth
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
@@ -19,3 +30,7 @@ spec:
             port:
               number: 3001
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - immich.{{ kubernetes_ingress_root_domain }}
+      secretName: immich-proxy-tls

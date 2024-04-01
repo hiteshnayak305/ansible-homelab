@@ -2,6 +2,19 @@
 gateway:
   # Gateway ingress configuration
   ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: ca-cluster-issuer
+      cert-manager.io/common-name: "loki.{{ kubernetes_ingress_root_domain }}"
+      cert-manager.io/email-sans: hiteshnayak305@gmail.com
+      cert-manager.io/subject-organizations: DEV
+      cert-manager.io/subject-organizationalunits: DEV
+      cert-manager.io/subject-countries: IN
+      cert-manager.io/subject-localities: PUNE
+      cert-manager.io/subject-streetaddresses: MH
+      cert-manager.io/usages: server auth,client auth
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
     hosts:
       - host: loki.{{ kubernetes_ingress_root_domain }}
@@ -9,3 +22,7 @@ gateway:
           - path: /
             # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
             pathType: Prefix
+    tls:
+    - secretName: loki-gateway-tls
+      hosts:
+        - "loki.{{ kubernetes_ingress_root_domain }}"

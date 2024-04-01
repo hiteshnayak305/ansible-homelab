@@ -50,9 +50,8 @@ gateway:
     # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
     ingressClassName: "nginx"
     # -- Annotations for the gateway ingress
-    annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    #annotations: -> template
     # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
     # hosts: --> template
     # -- TLS configuration for the gateway ingress. Hosts passed through the `tpl` function to allow templating
-    tls: []
+    #tls: -> template
