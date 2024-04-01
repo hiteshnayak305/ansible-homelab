@@ -9,6 +9,8 @@ controller:
   ingressClassResource:
     # -- Name of the IngressClass
     name: nginx-internal
+    # -- Controller-value of the controller that is processing this ingressClass
+    controllerValue: "k8s.io/ingress-nginx-internal"
   service:
     annotations: {}
     type: ClusterIP
