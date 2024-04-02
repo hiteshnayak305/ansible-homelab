@@ -152,8 +152,8 @@ gitea:
       CLONE: 1800
       PULL: 1800
     metrics:
-      ENABLED: true
-      TOKEN: promcredential
+      # ENABLED: true
+      TOKEN: ""
     ## #356 https://gitea.com/gitea/helm-chart/issues/356
     session:
       PROVIDER: redis-cluster
@@ -165,6 +165,13 @@ gitea:
     queue:
       TYPE: redis
       CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+
+  ## @param gitea.metrics.enabled Enable Gitea metrics
+  ## @param gitea.metrics.serviceMonitor.enabled Enable Gitea metrics service monitor
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 
 ## @section redis-cluster
 ## @param redis-cluster.enabled Enable redis
@@ -227,6 +234,21 @@ redis-cluster:
     ## @param persistence.size Size of data volume
     ##
     size: 250Mi
+  ## @section Metrics sidecar parameters
+  ##
+
+  ## Prometheus Exporter / Metrics
+  ##
+  metrics:
+    ## @param metrics.enabled Start a side-car prometheus exporter
+    ##
+    enabled: true
+    ## Enable this if you're using https://github.com/coreos/prometheus-operator
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled If `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
+      ##
+      enabled: true
 
 ## @section postgresql-ha
 #
@@ -346,6 +368,13 @@ postgresql-ha:
     ## @param metrics.enabled Enable PostgreSQL Prometheus exporter
     ##
     enabled: true
+    ## Metrics serviceMonitor parameters
+    ## Enable this if you're using Prometheus Operator
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
+      ##
+      enabled: true
 
 ## @section PostgreSQL
 #
