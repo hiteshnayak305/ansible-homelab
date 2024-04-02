@@ -13,75 +13,6 @@ immich:
       # You have to specify an existing PVC to use
       existingClaim: "pvc-immich"
 
-# Dependencies
-
-postgresql:
-  enabled: true
-  ## Bitnami PostgreSQL image version
-  ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
-  ## @param image.registry [default: REGISTRY_NAME] PostgreSQL image registry
-  ## @param image.repository [default: REPOSITORY_NAME/postgresql] PostgreSQL image repository
-  ## @skip image.tag PostgreSQL image tag (immutable tags are recommended)
-  ## @param image.digest PostgreSQL image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param image.pullPolicy PostgreSQL image pull policy
-  ## @param image.pullSecrets Specify image pull secrets
-  ## @param image.debug Specify if debug values should be set
-  ##
-  image:
-    registry: docker.io
-    repository: tensorchord/pgvecto-rs
-    tag: pg14-v0.2.0
-  global:
-    postgresql:
-      auth:
-        username: immich
-        database: immich
-        password: immich
-        postgresPassword: immich
-  ## @section PostgreSQL Primary parameters
-  ##
-  primary:
-    persistence:
-      enabled: true
-      storageClass: "-"
-      existingClaim: "pvc-immich-postgresql-primary"
-      accessModes:
-        - ReadWriteOnce
-      size: 1G
-
-  ## @section Metrics Parameters
-  ##
-
-  metrics:
-    ## @param metrics.enabled Start a prometheus exporter
-    ##
-    enabled: true
-
-redis:
-  enabled: true
-  ## Bitnami Redis&reg; image
-  ## ref: https://hub.docker.com/r/bitnami/redis/tags/
-  ## @param image.registry [default: REGISTRY_NAME] Redis&reg; image registry
-  ## @param image.repository [default: REPOSITORY_NAME/redis] Redis&reg; image repository
-  ## @skip image.tag Redis&reg; image tag (immutable tags are recommended)
-  ## @param image.digest Redis&reg; image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param image.pullPolicy Redis&reg; image pull policy
-  ## @param image.pullSecrets Redis&reg; image pull secrets
-  ## @param image.debug Enable image debug mode
-  ##
-  image:
-    registry: docker.io
-    repository: bitnami/redis
-    tag: 7.2-debian-11
-  architecture: standalone
-  auth:
-    enabled: false
-  global:
-    storageClass: "nfs-client-ssd-0"
-  master:
-    persistence:
-      size: 1Gi
-
 # Immich components
 
 server:
@@ -110,3 +41,124 @@ machine-learning:
       type: pvc
       accessMode: ReadWriteMany
       storageClass: "nfs-client-ssd-0"
+
+##### Dependencies
+
+postgresql:
+  enabled: true
+  ## Bitnami PostgreSQL image version
+  ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
+  ## @param image.registry [default: REGISTRY_NAME] PostgreSQL image registry
+  ## @param image.repository [default: REPOSITORY_NAME/postgresql] PostgreSQL image repository
+  ## @skip image.tag PostgreSQL image tag (immutable tags are recommended)
+  ## @param image.digest PostgreSQL image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param image.pullPolicy PostgreSQL image pull policy
+  ## @param image.pullSecrets Specify image pull secrets
+  ## @param image.debug Specify if debug values should be set
+  ##
+  image:
+    registry: docker.io
+    repository: tensorchord/pgvecto-rs
+    tag: pg14-v0.2.0
+  global:
+    postgresql:
+      auth:
+        username: immich
+        database: immich
+        password: immich
+        postgresPassword: immich
+  ## @section PostgreSQL Primary parameters
+  ##
+  primary:
+    ## @param primary.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+    persistence:
+      enabled: true
+      storageClass: "-"
+      existingClaim: "pvc-immich-postgresql-primary"
+      accessModes:
+        - ReadWriteOnce
+      size: 1G
+
+  ## @section Metrics Parameters
+  ##
+
+  metrics:
+    ## @param metrics.enabled Start a prometheus exporter
+    ##
+    enabled: true
+    ## @param metrics.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+    resources:
+      requests:
+        cpu: 10m
+        memory: 10Mi
+      limits:
+        cpu: 50m
+        memory: 50Mi
+    ## Prometheus Operator ServiceMonitor configuration
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using Prometheus Operator
+      ##
+      enabled: true
+
+redis:
+  enabled: true
+  ## Bitnami Redis&reg; image
+  ## ref: https://hub.docker.com/r/bitnami/redis/tags/
+  ## @param image.registry [default: REGISTRY_NAME] Redis&reg; image registry
+  ## @param image.repository [default: REPOSITORY_NAME/redis] Redis&reg; image repository
+  ## @skip image.tag Redis&reg; image tag (immutable tags are recommended)
+  ## @param image.digest Redis&reg; image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param image.pullPolicy Redis&reg; image pull policy
+  ## @param image.pullSecrets Redis&reg; image pull secrets
+  ## @param image.debug Enable image debug mode
+  ##
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 7.2-debian-11
+  architecture: standalone
+  auth:
+    enabled: false
+  global:
+    storageClass: "nfs-client-ssd-0"
+  master:
+    ## @param master.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+    persistence:
+      size: 1Gi
+  ## @section Metrics Parameters
+  ##
+  metrics:
+    ## @param metrics.enabled Start a sidecar prometheus exporter to expose Redis&reg; metrics
+    ##
+    enabled: true
+    ## @param metrics.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+    resources:
+      requests:
+        cpu: 10m
+        memory: 25Mi
+      limits:
+        cpu: 50m
+        memory: 50Mi
+    ## Prometheus Service Monitor
+    ## ref: https://github.com/coreos/prometheus-operator
+    ##      https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled Create ServiceMonitor resource(s) for scraping metrics using PrometheusOperator
+      ##
+      enabled: true

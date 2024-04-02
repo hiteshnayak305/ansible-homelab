@@ -22,9 +22,12 @@ controller:
               - key: node-role.kubernetes.io/control-plane
                 operator: Exists
   resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
     limits:
       cpu: 100m
-      memory: 100Mi
+      memory: 128Mi
 
 # speaker contains configuration specific to the MetalLB speaker
 # daemonset.
@@ -34,20 +37,38 @@ speaker:
   # -- Speaker log level. Must be one of: `all`, `debug`, `info`, `warn`, `error` or `none`
   logLevel: info
   resources:
+    requests:
+      cpu: 50m
+      memory: 32Mi
     limits:
       cpu: 100m
-      memory: 100Mi
+      memory: 64Mi
   # frr contains configuration specific to the MetalLB FRR container,
   # for speaker running alongside FRR.
   frr:
     enabled: true
     resources:
+      requests:
+        cpu: 50m
+        memory: 32Mi
       limits:
         cpu: 100m
-        memory: 100Mi
+        memory: 64Mi
   # reloader
   reloader:
     resources:
+      requests:
+        cpu: 50m
+        memory: 32Mi
       limits:
         cpu: 100m
-        memory: 100Mi
+        memory: 64Mi
+  # metrics
+  frrMetrics:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 64Mi

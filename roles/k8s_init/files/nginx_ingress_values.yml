@@ -9,11 +9,11 @@ controller:
   ## https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/
   resources:
     limits:
-      cpu: 200m
-      memory: 200Mi
+      cpu: 150m
+      memory: 256Mi
     requests:
       cpu: 100m
-      memory: 90Mi
+      memory: 128Mi
   config:
     use-forwarded-headers: true # not true
     compute-full-forwarded-for: true # not true
@@ -72,11 +72,11 @@ defaultBackend:
   enabled: true
   resources:
     limits:
-      cpu: 10m
+      cpu: 20m
       memory: 20Mi
     requests:
       cpu: 10m
-      memory: 20Mi
+      memory: 10Mi
   # -- Node tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   ##

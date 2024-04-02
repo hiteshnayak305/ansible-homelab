@@ -66,11 +66,11 @@ controller:
 
   resources:
     requests:
-      cpu: "250m"
-      memory: "256Mi"
+      cpu: "300m"
+      memory: "600Mi"
     limits:
-      cpu: "1"
-      memory: "2048Mi"
+      cpu: "500m"
+      memory: "1024Mi"
 
   # jenkinsAdminEmail: --> template
 
@@ -86,7 +86,7 @@ controller:
   healthProbes: true
   probes:
     startupProbe:
-      failureThreshold: 18 # ~ 3 minutes
+      failureThreshold: 30 # ~ 5 minutes
 
   installPlugins: []
 
@@ -190,6 +190,14 @@ controller:
       # jcasc changes will cause a reboot and will only be applied at the subsequent start-up.  Auto-reload uses the
       # http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to the configScripts are detected.
       enabled: false
+
+  # Expose Prometheus metrics
+  prometheus:
+    # If enabled, add the prometheus plugin to the list of plugins to install
+    # https://plugins.jenkins.io/prometheus
+
+    # -- Enables prometheus service monitor
+    enabled: true
 
 persistence:
   enabled: true

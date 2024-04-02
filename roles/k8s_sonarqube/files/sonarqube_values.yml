@@ -54,6 +54,18 @@ initSysctl:
 initFs:
   enabled: false
 
+prometheusExporter:
+  enabled: true
+
+prometheusMonitoring:
+  # Generate a Prometheus Pod Monitor (https://github.com/coreos/prometheus-operator)
+  #
+  podMonitor:
+    # Create PodMonitor Resource for Prometheus scraping
+    enabled: true
+    # Specify a custom namespace where the PodMonitor will be created
+    namespace: "sonarqube-system"
+
 # List of plugins to install.
 # For example:
 # plugins:
@@ -91,11 +103,11 @@ env:
 ## Adjust these values to your needs, but make sure that the memory limit is never under 4 GB
 resources:
   limits:
-    cpu: 800m
+    cpu: 500m
     memory: 4Gi
   requests:
     cpu: 300m
-    memory: 250Mi
+    memory: 2Gi
 
 persistence:
   enabled: true
@@ -178,11 +190,11 @@ postgresql:
     port: 5432
   resources:
     limits:
-      cpu: 250m
+      cpu: 150m
       memory: 250Mi
     requests:
-      cpu: 200m
-      memory: 250Mi
+      cpu: 100m
+      memory: 128Mi
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
@@ -196,3 +208,17 @@ postgresql:
     ## @param metrics.enabled Start a prometheus exporter
     ##
     enabled: true
+    ## @param metrics.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 50m
+        memory: 64Mi
+    ## Prometheus Operator ServiceMonitor configuration
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using Prometheus Operator
+      ##
+      enabled: true

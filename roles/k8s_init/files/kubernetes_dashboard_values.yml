@@ -39,10 +39,10 @@ auth:
     resources:
       requests:
         cpu: 100m
-        memory: 200Mi
+        memory: 32Mi
       limits:
-        cpu: 250m
-        memory: 400Mi
+        cpu: 150m
+        memory: 64Mi
 
 # API deployment configuration
 api:
@@ -53,10 +53,10 @@ api:
     resources:
       requests:
         cpu: 100m
-        memory: 200Mi
+        memory: 64Mi
       limits:
-        cpu: 250m
-        memory: 400Mi
+        cpu: 150m
+        memory: 128Mi
 
 # WEB UI deployment configuration
 web:
@@ -67,10 +67,10 @@ web:
     resources:
       requests:
         cpu: 100m
-        memory: 200Mi
+        memory: 32Mi
       limits:
-        cpu: 250m
-        memory: 400Mi
+        cpu: 150m
+        memory: 64Mi
 
 ### Metrics Scraper
 ### Container to scrape, store, and retrieve a window of time from the Metrics Server.
@@ -103,11 +103,11 @@ kong:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   resources:
     limits:
-      cpu: 250m
-      memory: 400Mi
+      cpu: 200m
+      memory: 500Mi
     requests:
       cpu: 100m
-      memory: 200Mi
+      memory: 300Mi
   # Tolerations for pod assignment
   # Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   tolerations:
