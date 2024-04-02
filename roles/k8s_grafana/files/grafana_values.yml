@@ -248,6 +248,13 @@ dashboards:
       datasource:
         - name: DS_LOKI
           value: Loki
+    # Kubernetes > Cert Manager
+    cert-manager:
+      gnetId: 11001
+      revision: 1
+      datasource:
+        - name: DS_PROMETHEUS
+          value: Prometheus
     # Kubernetes > Ingress > Ingress Controller
     nginx-ingress-controller:
       gnetId: 9614
