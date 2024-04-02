@@ -80,3 +80,11 @@
         - "{{ tmpdir }}/keycloak_values.yml"
         - "{{ tmpdir }}/keycloak_values_var.yml"
       changed_when: false
+
+    - name: Install grafana dashboard for keycloak
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls:
+          - files/keycloak_grafana_dashboard.yml
