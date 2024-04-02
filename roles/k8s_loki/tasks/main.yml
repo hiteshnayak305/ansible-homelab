@@ -1,20 +1,10 @@
 ---
-# tasks file for k8s_grafana_loki
-- name: Execute grafana loki role
+# tasks file for k8s_loki
+- name: Execute loki role
   become: true
   become_user: "{{ kubernetes_user }}"
   block:
-    # install prereqs
-    - name: Install prereq for grafana loki
-      ansible.builtin.include_role:
-        name: utility
-        tasks_from: k8s_install_yml
-      vars:
-        k8s_install_ymls:
-          - files/grafana_loki_namespace.yml
-          - files/grafana_loki_datasource_configmap.yml
-
-    - name: Add grafana loki helm repository
+    - name: Add loki helm repository
       kubernetes.core.helm_repository:
         name: grafana
         repo_url: https://grafana.github.io/helm-charts
@@ -29,54 +19,54 @@
         src: "files/{{ item }}"
         dest: "{{ tmpdir }}/{{ item }}"
       with_items:
-        - grafana_loki_values.yml
-        - grafana_loki_promtail_values.yml
-        - grafana_loki_kubernetes_event_exporter_values.yml
+        - loki_values.yml
+        - loki_promtail_values.yml
+        - loki_kubernetes_event_exporter_values.yml
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
-        src: values/grafana_loki_values_var.j2
-        dest: "{{ tmpdir }}/grafana_loki_values_var.yml"
+        src: values/loki_values_var.j2
+        dest: "{{ tmpdir }}/loki_values_var.yml"
       changed_when: false
 
-    - name: Deploy latest version of grafana loki chart
+    - name: Deploy latest version of loki chart
       kubernetes.core.helm:
         name: loki
         chart_ref: grafana/loki
         chart_version: 5.46.0
         update_repo_cache: true
-        release_namespace: grafana-loki-system
-        create_namespace: false
+        release_namespace: loki-system
+        create_namespace: true
         values_files:
-          - "{{ tmpdir }}/grafana_loki_values.yml"
-          - "{{ tmpdir }}/grafana_loki_values_var.yml"
+          - "{{ tmpdir }}/loki_values.yml"
+          - "{{ tmpdir }}/loki_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
-    - name: Deploy latest version of grafana promtail chart
+    - name: Deploy latest version of promtail chart
       kubernetes.core.helm:
         name: promtail
         chart_ref: grafana/promtail
         chart_version: 6.15.5
         update_repo_cache: true
-        release_namespace: grafana-loki-system
+        release_namespace: loki-system
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/grafana_loki_promtail_values.yml"
+          - "{{ tmpdir }}/loki_promtail_values.yml"
         wait: true
       when: not ansible_check_mode
 
-    - name: Deploy latest version of grafana kubernetes event exporter chart
+    - name: Deploy latest version of kubernetes event exporter chart
       kubernetes.core.helm:
         name: kubernetes-event-exporter
         chart_ref: bitnami/kubernetes-event-exporter
         chart_version: 3.0.0
         update_repo_cache: true
-        release_namespace: grafana-loki-system
+        release_namespace: loki-system
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/grafana_loki_kubernetes_event_exporter_values.yml"
+          - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -85,8 +75,16 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ tmpdir }}/grafana_loki_values.yml"
-        - "{{ tmpdir }}/grafana_loki_values_var.yml"
-        - "{{ tmpdir }}/grafana_loki_promtail_values.yml"
-        - "{{ tmpdir }}/grafana_loki_kubernetes_event_exporter_values.yml"
+        - "{{ tmpdir }}/loki_values.yml"
+        - "{{ tmpdir }}/loki_values_var.yml"
+        - "{{ tmpdir }}/loki_promtail_values.yml"
+        - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
       changed_when: false
+
+    - name: Install datasource for loki
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls:
+          - files/loki_datasource_configmap.yml

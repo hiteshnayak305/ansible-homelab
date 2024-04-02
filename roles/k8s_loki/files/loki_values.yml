@@ -1,0 +1,147 @@
+loki:
+  # -- The number of old ReplicaSets to retain to allow rollback
+  revisionHistoryLimit: 1
+  # Should authentication be enabled
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: "filesystem"
+
+# -- Section for configuring optional Helm test
+test:
+  enabled: false
+
+# Monitoring section determines which monitoring features to enable
+monitoring:
+  # Dashboards for monitoring Loki
+  dashboards:
+    # -- If enabled, create configmap with dashboards for monitoring Loki
+    enabled: true
+
+  # Self monitoring determines whether Loki should scrape its own logs.
+  # This feature currently relies on the Grafana Agent Operator being installed,
+  # which is installed by default using the grafana-agent-operator sub-chart.
+  # It will create custom resources for GrafanaAgent, LogsInstance, and PodLogs to configure
+  # scrape configs to scrape its own logs with the labels expected by the included dashboards.
+  selfMonitoring:
+    enabled: true
+    # Grafana Agent configuration
+    grafanaAgent:
+      # -- Resource requests and limits for the grafanaAgent pods
+      resources:
+        limits:
+          cpu: 100m
+          memory: 150Mi
+        requests:
+          cpu: 50m
+          memory: 100Mi
+
+  # The Loki canary pushes logs to and queries from this loki installation to test
+  # that it's working correctly
+  lokiCanary:
+    enabled: true
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+
+# Configuration for the write pod(s)
+write:
+  # -- Number of replicas for the write
+  replicas: 1
+  # -- Resource requests and limits for the write
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Configuration for the read pod(s)
+read:
+  # -- Number of replicas for the read
+  replicas: 1
+  # -- Resource requests and limits for the read
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Configuration for the backend pod(s)
+backend:
+  # -- Number of replicas for the backend
+  replicas: 1
+  # -- Resource requests and limits for the backend
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Configuration for the single binary node(s)
+singleBinary:
+  replicas: 1
+  persistence:
+    # -- Enable StatefulSetAutoDeletePVC feature
+    enableStatefulSetAutoDeletePVC: true
+    # -- Enable persistent disk
+    enabled: true
+    # -- Size of persistent disk
+    size: 1Gi
+    # -- Storage class to be used.
+    # If defined, storageClassName: <storageClass>.
+    # If set to "-", storageClassName: "", which disables dynamic provisioning.
+    # If empty or set to null, no storageClassName spec is
+    # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+    storageClass: "nfs-client-hdd-0"
+  # -- Resource requests and limits for the single binary
+  resources:
+    limits:
+      cpu: 250m
+      memory: 250Mi
+    requests:
+      cpu: 150m
+      memory: 200Mi
+
+# Configuration for the gateway
+gateway:
+  # -- Resource requests and limits for the gateway
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  # Gateway ingress configuration
+  ingress:
+    # -- Specifies whether an ingress for the gateway should be created
+    enabled: true
+    # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
+    ingressClassName: "nginx"
+    # -- Annotations for the gateway ingress
+    #annotations: -> template
+    # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
+    # hosts: --> template
+    # -- TLS configuration for the gateway ingress. Hosts passed through the `tpl` function to allow templating
+    #tls: -> template
+
+sidecar:
+  # -- Resource requests and limits for the sidecar
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi

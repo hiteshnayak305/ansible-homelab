@@ -1,5 +1,5 @@
 ---
-# defaults file for k8s_authentik
+# defaults file for k8s_loki
 
 # tmpdir
 tmpdir: /tmp

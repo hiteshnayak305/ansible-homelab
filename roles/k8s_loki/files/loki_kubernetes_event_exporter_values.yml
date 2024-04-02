@@ -9,11 +9,6 @@ replicaCount: 1
 ## @param revisionHistoryLimit Desired number of old ReplicaSets to retain
 ## Defaults to 10, if set to 0 old ReplicaSets will be garbage-collected
 revisionHistoryLimit: 1
-##
-## @param containerPorts.http HTTP container port
-##
-containerPorts:
-  http: 2112
 
 image:
   ## @param image.registry [default: REGISTRY_NAME] Container image registry
@@ -78,8 +73,8 @@ config:
 ##
 resources:
   limits:
-    cpu: 300m
-    memory: 250Mi
-  requests:
     cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
     memory: 25Mi
