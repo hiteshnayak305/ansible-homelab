@@ -250,7 +250,7 @@ dashboards:
           value: Loki
     # Kubernetes > Cert Manager
     cert-manager:
-      gnetId: 11001
+      gnetId: 20340
       revision: 1
       datasource:
         - name: DS_PROMETHEUS
@@ -307,6 +307,13 @@ dashboards:
     mongodb-database:
       gnetId: 2583
       revision: 2
+      datasource:
+        - name: DS_PROMETHEUS
+          value: Prometheus
+    # Database > Redis
+    redis-dashboard-for-prometheus-redis-exporter:
+      gnetId: 11835
+      revision: 1
       datasource:
         - name: DS_PROMETHEUS
           value: Prometheus
