@@ -264,13 +264,6 @@ dashboards:
           value: Prometheus
 
     ##### Applications ##########
-    # Applications > Gitea
-    gitea:
-      gnetId: 13192
-      revision: 1
-      datasource:
-        - name: DS_PROMETHEUS
-          value: Prometheus
     # Applications > Jenkins
     jenkins-performance-and-health-overview:
       gnetId: 9964

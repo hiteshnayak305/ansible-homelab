@@ -85,3 +85,11 @@
         - "{{ tmpdir }}/gitea_values.yml"
         - "{{ tmpdir }}/gitea_values_var.yml"
       changed_when: false
+
+    - name: Install grafana dashboard for gitea
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls:
+          - files/gitea_grafana_dashboard.yml
