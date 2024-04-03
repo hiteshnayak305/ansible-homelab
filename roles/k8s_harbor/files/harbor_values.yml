@@ -1,0 +1,224 @@
+# The persistence is enabled by default and a default StorageClass
+# is needed in the k8s cluster to provision volumes dynamically.
+# Specify another StorageClass in the "storageClass" or set "existingClaim"
+# if you already have existing persistent volumes to use
+#
+# For storing images and charts, you can also use "azure", "gcs", "s3",
+# "swift" or "oss". Set it in the "imageChartStorage" section
+persistence:
+  enabled: true
+  # Setting it to "keep" to avoid removing PVCs during a helm delete
+  # operation. Leaving it empty will delete PVCs after the chart deleted
+  # (this does not apply for PVCs that are created for internal database
+  # and redis components, i.e. they are never deleted automatically)
+  resourcePolicy: "keep"
+  persistentVolumeClaim:
+    registry:
+      # Use the existing PVC which must be created manually before bound,
+      # and specify the "subPath" if the PVC is shared with other components
+      existingClaim: "pvc-harbor-registry"
+      # Specify the "storageClass" used to provision the volume. Or the default
+      # StorageClass will be used (the default).
+      # Set it to "-" to disable dynamic provisioning
+      storageClass: "-"
+    jobservice:
+      jobLog:
+        storageClass: "nfs-client-ssd-0"
+    # If external database is used, the following settings for database will
+    # be ignored
+    database:
+      existingClaim: "pvc-harbor-database"
+      storageClass: "-"
+    # If external Redis is used, the following settings for Redis will
+    # be ignored
+    redis:
+      storageClass: "nfs-client-ssd-0"
+    trivy:
+      storageClass: "nfs-client-ssd-0"
+
+# The initial password of Harbor admin. Change it from portal after launching Harbor
+# or give an existing secret for it
+# key in secret is given via (default to HARBOR_ADMIN_PASSWORD)
+existingSecretAdminPassword: harbor-admin-secret
+existingSecretAdminPasswordKey: password
+
+# The name of the secret which contains key named "ca.crt". Setting this enables the
+# download link on portal to download the CA certificate when the certificate isn't
+# generated automatically
+caSecretName: "harbor-ingress-tls"
+
+# The secret key used for encryption. Must be a string of 16 chars.
+secretKey: "bU7oqkyOAcysg5NI"
+
+# The custom ca bundle secret, the secret must contain key named "ca.crt"
+# which will be injected into the trust store for core, jobservice, registry, trivy components
+caBundleSecretName: "harbor-ingress-tls"
+
+portal:
+  replicas: 1
+  revisionHistoryLimit: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 50m
+      memory: 64Mi
+
+core:
+  replicas: 1
+  revisionHistoryLimit: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+  ## User settings configuration json string
+  configureUserSettings: |
+    {
+      "auth_mode": "oidc_auth",
+      "oidc_name": "keycloak",
+      "oidc_endpoint": "https://keycloak.hitesh.com/realms/main",
+      "oidc_client_id": "harbor",
+      "oidc_client_secret": "V8jAPeWOECXlrNB6sxrM1TdIaiQAkuJD",
+      "oidc_groups_claim": "",
+      "oidc_scope": "openid,profile,roles,email,offline_access",
+      "oidc_auto_onboard": true,
+      "oidc_user_claim": "preferred_username"
+    }
+  # Secret is used when core server communicates with other components.
+  # If a secret key is not specified, Helm will generate one. Alternatively set existingSecret to use an existing secret
+  # Must be a string of 16 chars.
+  secret: "jUWNdNn3p9RYGp37"
+
+jobservice:
+  replicas: 1
+  revisionHistoryLimit: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+  # Secret is used when job service communicates with other components.
+  # If a secret key is not specified, Helm will generate one.
+  # Must be a string of 16 chars.
+  secret: "VgiyHfgUomYhZgSd"
+
+registry:
+  registry:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
+  controller:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
+  replicas: 1
+  revisionHistoryLimit: 1
+  # Secret is used to secure the upload state from client
+  # and registry storage backend.
+  # See: https://github.com/distribution/distribution/blob/main/docs/configuration.md#http
+  # If a secret key is not specified, Helm will generate one.
+  # Must be a string of 16 chars.
+  secret: "RvFYyEKN8GJ35dHr"
+  credentials:
+    username: "harbor_registry_user"
+    # If using existingSecret, the key must be REGISTRY_PASSWD and REGISTRY_HTPASSWD
+    existingSecret: "harbor-registry-secret"
+
+trivy:
+  # enabled the flag to enable Trivy scanner
+  enabled: true
+  # replicas the number of Pod replicas
+  replicas: 1
+  # The duration to wait for scan completion
+  timeout: 5m0s
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+
+database:
+  # if external database is used, set "type" to "external"
+  # and fill the connection information in "external" section
+  type: internal
+  internal:
+    # The initial superuser password for internal database
+    password: "harbor"
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
+
+redis:
+  # if external Redis is used, set "type" to "external"
+  # and fill the connection information in "external" section
+  type: internal
+  internal:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
+
+exporter:
+  replicas: 1
+  revisionHistoryLimit: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+
+metrics:
+  enabled: true
+  core:
+    path: /metrics
+    port: 8001
+  registry:
+    path: /metrics
+    port: 8001
+  jobservice:
+    path: /metrics
+    port: 8001
+  exporter:
+    path: /metrics
+    port: 8001
+  ## Create prometheus serviceMonitor to scrape harbor metrics.
+  ## This requires the monitoring.coreos.com/v1 CRD. Please see
+  ## https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md
+  ##
+  serviceMonitor:
+    enabled: true
+
+# cache layer configurations
+# if this feature enabled, harbor will cache the resource
+# `project/project_metadata/repository/artifact/manifest` in the redis
+# which help to improve the performance of high concurrent pulling manifest.
+cache:
+  # default is not enabled.
+  enabled: true
+  # default keep cache for one day.
+  expireHours: 24

@@ -1,0 +1,54 @@
+expose:
+  # Set how to expose the service. Set the type as "ingress", "clusterIP", "nodePort" or "loadBalancer"
+  # and fill the information in the corresponding section
+  type: ingress
+  tls:
+    # Enable TLS or not.
+    # Delete the "ssl-redirect" annotations in "expose.ingress.annotations" when TLS is disabled and "expose.type" is "ingress"
+    # Note: if the "expose.type" is "ingress" and TLS is disabled,
+    # the port must be included in the command when pulling/pushing images.
+    # Refer to https://github.com/goharbor/harbor/issues/5291 for details.
+    enabled: true
+    # The source of the tls certificate. Set as "auto", "secret"
+    # or "none" and fill the information in the corresponding section
+    # 1) auto: generate the tls certificate automatically
+    # 2) secret: read the tls certificate from the specified secret.
+    # The tls certificate can be generated manually or by cert manager
+    # 3) none: configure no tls certificate for the ingress. If the default
+    # tls certificate is configured in the ingress controller, choose this option
+    certSource: secret
+    secret:
+      secretName: "harbor-ingress-tls"
+  ingress:
+    hosts:
+      core: "harbor.{{ kubernetes_ingress_root_domain }}"
+    className: "nginx"
+    harbor:
+      # harbor ingress-specific annotations
+      annotations:
+        cert-manager.io/cluster-issuer: ca-cluster-issuer
+        cert-manager.io/common-name: "harbor.{{ kubernetes_ingress_root_domain }}"
+        cert-manager.io/email-sans: hiteshnayak305@gmail.com
+        cert-manager.io/subject-organizations: DEV
+        cert-manager.io/subject-organizationalunits: DEV
+        cert-manager.io/subject-countries: IN
+        cert-manager.io/subject-localities: PUNE
+        cert-manager.io/subject-streetaddresses: MH
+        cert-manager.io/usages: server auth,client auth
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+
+# The external URL for Harbor core service. It is used to
+# 1) populate the docker/helm commands showed on portal
+# 2) populate the token service URL returned to docker client
+#
+# Format: protocol://domain[:port]. Usually:
+# 1) if "expose.type" is "ingress", the "domain" should be
+# the value of "expose.ingress.hosts.core"
+# 2) if "expose.type" is "clusterIP", the "domain" should be
+# the value of "expose.clusterIP.name"
+# 3) if "expose.type" is "nodePort", the "domain" should be
+# the IP address of k8s node
+#
+# If Harbor is deployed behind the proxy, set it as the URL of proxy
+externalURL: "https://harbor.{{ kubernetes_ingress_root_domain }}"
