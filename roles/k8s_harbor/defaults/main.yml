@@ -11,6 +11,9 @@ kubernetes_ingress_root_domain: domain.com
 #admin user
 harbor_admin_password: password
 
+# harbor oidc
+harbor_oidc_client_secret: examplesecret
+
 # harbor registry
 harbor_registry_password: password
 harbor_registry_htpasswd: $apr1$XLefHzeG$Xl4.s00sMSCCcMyJljSZb0

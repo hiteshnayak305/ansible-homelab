@@ -75,19 +75,6 @@ core:
     limits:
       cpu: 50m
       memory: 128Mi
-  ## User settings configuration json string
-  configureUserSettings: |
-    {
-      "auth_mode": "oidc_auth",
-      "oidc_name": "keycloak",
-      "oidc_endpoint": "https://keycloak.hitesh.com/realms/main",
-      "oidc_client_id": "harbor",
-      "oidc_client_secret": "V8jAPeWOECXlrNB6sxrM1TdIaiQAkuJD",
-      "oidc_groups_claim": "",
-      "oidc_scope": "openid,profile,roles,email,offline_access",
-      "oidc_auto_onboard": true,
-      "oidc_user_claim": "preferred_username"
-    }
   # Secret is used when core server communicates with other components.
   # If a secret key is not specified, Helm will generate one. Alternatively set existingSecret to use an existing secret
   # Must be a string of 16 chars.

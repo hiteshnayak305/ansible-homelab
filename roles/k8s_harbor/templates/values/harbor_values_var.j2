@@ -52,3 +52,18 @@ expose:
 #
 # If Harbor is deployed behind the proxy, set it as the URL of proxy
 externalURL: "https://harbor.{{ kubernetes_ingress_root_domain }}"
+
+core:
+  ## User settings configuration json string
+  configureUserSettings: |
+    {
+      "auth_mode": "oidc_auth",
+      "oidc_name": "keycloak",
+      "oidc_endpoint": "https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main",
+      "oidc_client_id": "harbor",
+      "oidc_client_secret": "{{ harbor_oidc_client_secret }}",
+      "oidc_groups_claim": "",
+      "oidc_scope": "openid,profile,roles,email,offline_access",
+      "oidc_auto_onboard": true,
+      "oidc_user_claim": "preferred_username"
+    }
