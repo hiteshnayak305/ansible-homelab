@@ -135,6 +135,7 @@ gitea:
       #SSH_DOMAIN: -> template
       START_SSH_SERVER: true
       ENABLE_PPROF: true
+      LFS_JWT_SECRET: SV-R-AN52OEuL6zstu6YLa9aXVnfODGZiWEHPk8Ishw
     repository.signing:
       SIGNING_KEY: 7BC3C3533076A13F
       SIGNING_NAME: Gitea
@@ -142,7 +143,14 @@ gitea:
     webhook:
       #ALLOWED_HOST_LIST: -> template
     security:
+      INTERNAL_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2ODg3Mjk4NjB9.GyUJFZfuDFqDsklP2soIo5zbXI9Q_yAJcd4e4iDVK0A
+      SECRET_KEY: qj8auJEw72KujPiveq6aHBLEp87qD4M9ILgbRmDZBDjeu69SdKsWGedaphlYok6V
       MIN_PASSWORD_LENGTH: 6
+    oauth2:
+      JWT_SECRET: _CCcxucHzz1-VxK0UluNqTj6mCjUuO9f-sni3jHwRiE
+    oauth2_client:
+      ENABLE_AUTO_REGISTRATION: true
+      # OPENID_CONNECT_SCOPES:
     service:
       DISABLE_REGISTRATION: true
     cron:
