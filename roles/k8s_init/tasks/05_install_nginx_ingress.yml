@@ -63,3 +63,11 @@
     - "{{ tmpdir }}/nginx_ingress_values.yml"
     - "{{ tmpdir }}/nginx_ingress_internal_values.yml"
   changed_when: false
+
+- name: Install grafana dashboard
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls:
+      - files/nginx_ingress_controller_dashboard.yml

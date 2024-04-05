@@ -49,13 +49,11 @@
 
     - name: Copy values file
       ansible.builtin.copy:
-        src: files/grafana_values.yml
+        src: "files/{{ item }}"
         dest: "{{ tmpdir }}/{{ item }}"
       changed_when: false
       with_items:
         - grafana_values.yml
-        - grafana_values_datasources.yml
-        - grafana_values_dashboards.yml
 
     - name: Copy values file
       ansible.builtin.template:
@@ -73,8 +71,6 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/grafana_values.yml"
-          - "{{ tmpdir }}/grafana_values_datasources.yml"
-          - "{{ tmpdir }}/grafana_values_dashboards.yml"
           - "{{ tmpdir }}/grafana_values_var.yml"
         wait: true
       when: not ansible_check_mode
@@ -85,7 +81,23 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/grafana_values.yml"
-        - "{{ tmpdir }}/grafana_values_datasources.yml"
-        - "{{ tmpdir }}/grafana_values_dashboards.yml"
         - "{{ tmpdir }}/grafana_values_var.yml"
       changed_when: false
+
+    - name: Install common dashboards grafana
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls:
+          - dashboards/kubernetes_views_global_dashboard.yml
+          - dashboards/kubernetes_views_namespace_dashboard.yml
+          - dashboards/kubernetes_views_nodes_dashboard.yml
+          - dashboards/kubernetes_views_pods_dashboard.yml
+          - dashboards/logs_app_dashboard.yml
+          - dashboards/node_exporter_full_dashboard.yml
+          - dashboards/mongodb_database_dashboard.yml
+          - dashboards/postgresql_database_dashboard.yml
+          - dashboards/rabbitmq_overview_dashboard.yml
+          - dashboards/node_js_application_dashboard.yml
+          - dashboards/spring_boot_observability_dashboard.yml

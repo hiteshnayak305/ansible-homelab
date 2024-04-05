@@ -140,3 +140,11 @@
         - "{{ tmpdir }}/jenkins_values_jcas_plugins_config_var.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_security_realm_var.yml"
       changed_when: false
+
+    - name: Install grafana dashboard
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls:
+          - files/jenkins_performance_and_health_overview_dashboard.yml

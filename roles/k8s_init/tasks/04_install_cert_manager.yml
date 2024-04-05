@@ -38,3 +38,11 @@
     k8s_install_j2s:
       - secret/cert_manager_ca_key_pair.j2
       - crd/cert_manager_cluster_issuer_ca.j2
+
+- name: Install grafana dashboard
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_yml
+  vars:
+    k8s_install_ymls:
+      - files/cert_manager_dashboard.yml
