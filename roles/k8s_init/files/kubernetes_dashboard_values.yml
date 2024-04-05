@@ -52,11 +52,11 @@ api:
   containers:
     resources:
       requests:
-        cpu: 100m
-        memory: 64Mi
-      limits:
-        cpu: 150m
+        cpu: 250m
         memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
 
 # WEB UI deployment configuration
 web:
@@ -66,10 +66,10 @@ web:
   containers:
     resources:
       requests:
-        cpu: 100m
+        cpu: 150m
         memory: 32Mi
       limits:
-        cpu: 150m
+        cpu: 250m
         memory: 64Mi
 
 ### Metrics Scraper
