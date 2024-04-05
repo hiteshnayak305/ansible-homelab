@@ -9,3 +9,5 @@ kubernetes_ingress_root_domain: domain.com
 
 grafana_admin_user: user
 grafana_admin_password: password
+
+grafana_oauth_client_secret: secret

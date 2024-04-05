@@ -18,3 +18,27 @@ ingress:
     - secretName: grafana-tls
       hosts:
         - "grafana.{{ kubernetes_ingress_root_domain }}"
+
+## Grafana's primary configuration
+## NOTE: values in map will be converted to ini format
+## ref: http://docs.grafana.org/installation/configuration/
+##
+grafana.ini:
+  auth.generic_oauth:
+    enabled: true
+    name: Keycloak
+    allow_sign_up: true
+    skip_org_role_sync: false
+    allow_assign_grafana_admin: true
+    client_id: grafana
+    client_secret: {{ grafana_oauth_client_secret }}
+    use_refresh_token: true
+    scopes: openid email profile offline_access roles groups
+    email_attribute_path: email
+    login_attribute_path: preferred_username
+    name_attribute_path: full name
+    role_attribute_path: contains(resource_access.grafana.roles[*], 'grafanaadmin') && 'GrafanaAdmin' || contains(resource_access.grafana.roles[*], 'admin') && 'Admin' || contains(resource_access.grafana.roles[*], 'editor') && 'Editor' || 'Viewer'
+    groups_attribute_path: groups
+    auth_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/auth
+    token_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/token
+    api_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/userinfo
