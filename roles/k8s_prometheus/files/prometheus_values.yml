@@ -212,6 +212,17 @@ prometheus:
     ##
     #tls: -> template
 
+  serviceMonitor:
+    ## If true, create a serviceMonitor for prometheus
+    ##
+    selfMonitor: true
+
+    #   relabel configs to apply to samples before ingestion.
+    ## ## solve https://github.com/prometheus-community/helm-charts/issues/4221
+    relabelings:
+      - targetLabel: cluster
+        replacement: 'prometheus'
+
   ## Settings affecting prometheusSpec
   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
   ##
