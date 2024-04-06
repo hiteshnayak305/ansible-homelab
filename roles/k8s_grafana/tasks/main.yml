@@ -84,6 +84,14 @@
         - "{{ tmpdir }}/grafana_values_var.yml"
       changed_when: false
 
+    - name: Install ingress internal
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - ingress/grafana_ingress_internal.j2
+
     - name: Install common dashboards grafana
       ansible.builtin.include_role:
         name: utility

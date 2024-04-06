@@ -85,6 +85,14 @@
         - "{{ tmpdir }}/harbor_values_var.yml"
       changed_when: false
 
+    - name: Install ingress internal
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - ingress/harbor_ingress_internal.j2
+
     - name: Install grafana dashboard for harbor
       ansible.builtin.include_role:
         name: utility

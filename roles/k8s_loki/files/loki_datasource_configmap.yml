@@ -12,7 +12,7 @@ data:
       - name: Loki
         type: loki
         uid: loki
-        url: http://loki-gateway.loki-system:80/
+        url: https://loki.hitesh.com/
         access: proxy
         jsonData:
           maxLines: 1000

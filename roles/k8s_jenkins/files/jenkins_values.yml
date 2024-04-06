@@ -140,10 +140,6 @@ controller:
       keyName: mail-admin-user
     - name: mail-credentials-secret
       keyName: mail-admin-password
-    - name: test-authentik-credentials-secret
-      keyName: client-id
-    - name: test-authentik-credentials-secret
-      keyName: client-secret
     - name: sonarqube-credentials-secret
       keyName: token
 

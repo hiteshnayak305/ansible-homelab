@@ -81,6 +81,14 @@
         - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
       changed_when: false
 
+    - name: Install ingress internal
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - ingress/loki_ingress_internal.j2
+
     - name: Install datasource for loki
       ansible.builtin.include_role:
         name: utility

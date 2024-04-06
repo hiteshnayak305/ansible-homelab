@@ -44,4 +44,4 @@ config:
   # Must be reference in `config.file` to configure `clients`
   # @default -- See `values.yaml`
   clients:
-    - url: http://loki-gateway.loki-system:80/loki/api/v1/push
+    - url: https://loki.hitesh.com/loki/api/v1/push

@@ -1,0 +1,73 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: harbor-ingress-internal
+  namespace: harbor-system
+  annotations:
+    cert-manager.io/cluster-issuer: ca-cluster-issuer
+    cert-manager.io/common-name: "harbor.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/email-sans: hiteshnayak305@gmail.com
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: '4096'
+    cert-manager.io/subject-countries: IN
+    cert-manager.io/subject-localities: PUNE
+    cert-manager.io/subject-organizationalunits: DEV
+    cert-manager.io/subject-organizations: DEV
+    cert-manager.io/subject-streetaddresses: MH
+    cert-manager.io/usages: server auth,client auth
+    ingress.kubernetes.io/proxy-body-size: '0'
+    ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  ingressClassName: nginx-internal
+  tls:
+    - hosts:
+        - "harbor.{{ kubernetes_ingress_root_domain }}"
+      secretName: harbor-ingress-tls-internal
+  rules:
+    - host: "harbor.{{ kubernetes_ingress_root_domain }}"
+      http:
+        paths:
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: harbor-core
+                port:
+                  number: 80
+          - path: /service/
+            pathType: Prefix
+            backend:
+              service:
+                name: harbor-core
+                port:
+                  number: 80
+          - path: /v2/
+            pathType: Prefix
+            backend:
+              service:
+                name: harbor-core
+                port:
+                  number: 80
+          - path: /chartrepo/
+            pathType: Prefix
+            backend:
+              service:
+                name: harbor-core
+                port:
+                  number: 80
+          - path: /c/
+            pathType: Prefix
+            backend:
+              service:
+                name: harbor-core
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: harbor-portal
+                port:
+                  number: 80
