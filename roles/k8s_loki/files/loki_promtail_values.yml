@@ -2,11 +2,11 @@ daemonset:
   # -- Deploys Promtail as a DaemonSet
   enabled: true
 
-image:
+# image:
   # -- The Docker registry
-  registry: docker.io
+  # registry: docker.io
   # -- Docker image repository
-  repository: hiteshnayak305/promtail
+  # repository: hiteshnayak305/promtail
   # -- Overrides the image tag whose default is the chart's appVersion
   # tag: null
 

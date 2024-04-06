@@ -10,7 +10,7 @@ replicaCount: 1
 ## Defaults to 10, if set to 0 old ReplicaSets will be garbage-collected
 revisionHistoryLimit: 1
 
-image:
+# image:
   ## @param image.registry [default: REGISTRY_NAME] Container image registry
   ## @param image.repository [default: REPOSITORY_NAME/kubernetes-event-exporter] Container image name
   ## @skip image.tag Container image tag
@@ -18,8 +18,8 @@ image:
   ## @param image.pullPolicy Container image pull policy
   ## @param image.pullSecrets Specify docker-registry secret names as an array
   ##
-  registry: docker.io
-  repository: hiteshnayak305/kubernetes-event-exporter
+  # registry: docker.io
+  # repository: hiteshnayak305/kubernetes-event-exporter
   # tag: 1.6.1-debian-12-r16
 
 ## Kubernetes event exporter configuration, rendered as a template
