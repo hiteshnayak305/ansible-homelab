@@ -43,5 +43,4 @@ config:
   # -- The config of clients of the Promtail server
   # Must be reference in `config.file` to configure `clients`
   # @default -- See `values.yaml`
-  clients:
-    - url: https://loki.hitesh.com/loki/api/v1/push
+  # clients: -> template

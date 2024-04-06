@@ -93,15 +93,7 @@ grafana:
   ##
   defaultDashboardsEditable: false
 
-  sidecar:
-    datasources:
-      ## URL of prometheus datasource
-      ##
-      url: https://prometheus.hitesh.com/
-      alertmanager:
-        ## URL of alertmanager datasource
-        ##
-        url: https://alertmanager.hitesh.com/
+  # sidecar: -> template
 
 ## Configuration for kube-state-metrics subchart
 ##

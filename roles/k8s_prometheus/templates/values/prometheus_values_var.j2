@@ -23,6 +23,19 @@ alertmanager:
         hosts:
           - "alertmanager.{{ kubernetes_ingress_root_domain }}"
 
+## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+##
+grafana:
+  sidecar:
+    datasources:
+      ## URL of prometheus datasource
+      ##
+      url: https://prometheus.{{ kubernetes_ingress_root_domain }}/
+      alertmanager:
+        ## URL of alertmanager datasource
+        ##
+        url: https://alertmanager.{{ kubernetes_ingress_root_domain }}/
+
 ## Deploy a Prometheus instance
 ##
 prometheus:

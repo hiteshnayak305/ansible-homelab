@@ -12,7 +12,7 @@ data:
       - name: Loki
         type: loki
         uid: loki
-        url: https://loki.hitesh.com/
+        url: https://loki.{{ kubernetes_ingress_root_domain }}/
         access: proxy
         jsonData:
           maxLines: 1000

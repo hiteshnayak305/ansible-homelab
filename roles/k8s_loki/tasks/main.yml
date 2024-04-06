@@ -26,9 +26,13 @@
 
     - name: Copy values file
       ansible.builtin.template:
-        src: values/loki_values_var.j2
-        dest: "{{ tmpdir }}/loki_values_var.yml"
+        src: "{{ item }}"
+        dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
       changed_when: false
+      with_items:
+        - values/loki_values_var.j2
+        - values/loki_promtail_values_var.j2
+        - values/loki_kubernetes_event_exporter_values_var.j2
 
     - name: Deploy latest version of loki chart
       kubernetes.core.helm:
@@ -54,6 +58,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/loki_promtail_values.yml"
+          - "{{ tmpdir }}/loki_promtail_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -67,6 +72,7 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
+          - "{{ tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -78,7 +84,9 @@
         - "{{ tmpdir }}/loki_values.yml"
         - "{{ tmpdir }}/loki_values_var.yml"
         - "{{ tmpdir }}/loki_promtail_values.yml"
+        - "{{ tmpdir }}/loki_promtail_values_var.yml"
         - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
+        - "{{ tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
       changed_when: false
 
     - name: Install ingress internal
@@ -92,7 +100,7 @@
     - name: Install datasource for loki
       ansible.builtin.include_role:
         name: utility
-        tasks_from: k8s_install_yml
+        tasks_from: k8s_install_j2
       vars:
-        k8s_install_ymls:
-          - files/loki_datasource_configmap.yml
+        k8s_install_j2:
+          - cm/loki_datasource_configmap.j2
