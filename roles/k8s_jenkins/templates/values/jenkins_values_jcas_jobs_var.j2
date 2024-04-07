@@ -22,7 +22,7 @@ controller:
                 scm {
                   git {
                     remote {
-                      credentials('gitea-admin')
+                      credentials('git-gitea')
                       url('https://gitea.{{ kubernetes_ingress_root_domain }}/hiteshnayak305/jenkins-dsl.git')
                     }
                     branch('master')
