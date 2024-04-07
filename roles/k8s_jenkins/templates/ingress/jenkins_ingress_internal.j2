@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-jenkins-internal
+  name: jenkins-internal
   namespace: jenkins
   annotations: 
     cert-manager.io/cluster-issuer: ca-cluster-issuer
@@ -18,16 +18,15 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-  - host: jenkins.{{ kubernetes_ingress_root_domain }}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: jenkins
-            port:
-              number: 8080
+    - host: jenkins.{{ kubernetes_ingress_root_domain }}
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              service:
+                name: jenkins
+                port:
+                  number: 8080
   ingressClassName: nginx-internal
   tls:
     - hosts:

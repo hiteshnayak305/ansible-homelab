@@ -59,18 +59,11 @@
       vars:
         k8s_install_j2s:
           - secret/jenkins_admin_secret.j2
-          - secret/gitea_credentials_secret.j2
-          - secret/kube_credentials_secret.j2
-          - secret/mail_credentials_secret.j2
-          - secret/sonarqube_credentials_secret.j2
-
-    - name: Install prereq for jenkins
-      ansible.builtin.include_role:
-        name: utility
-        tasks_from: k8s_install_j2
-      vars:
-        k8s_install_j2s:
-          - ingress/jenkins_ingress.j2
+          - secret/git_gitea_secret.j2
+          - secret/docker_harbor_secret.j2
+          - secret/kubectl_default_secret.j2
+          - secret/sonarqube_sonarqube_secret.j2
+          - secret/mail_gmail_selfhost_secret.j2
 
     - name: Add Jenkins helm repository
       kubernetes.core.helm_repository:
@@ -84,11 +77,12 @@
       changed_when: false
       with_items:
         - files/jenkins_values.yml
+        - files/jenkins_values_jcas_jenkins.yml
         - files/jenkins_values_jcas_credentials.yml
-        - files/jenkins_values_jcas_plugins_config.yml
+        - files/jenkins_values_jcas_unclassified.yml
         - files/jenkins_values_agent.yml
-        - files/jenkins_values_jcas_security_config.yml
-        - files/jenkins_values_jcas_appearance_config.yml
+        - files/jenkins_values_jcas_security.yml
+        - files/jenkins_values_jcas_appearance.yml
 
     - name: Copy values file
       ansible.builtin.template:
@@ -98,8 +92,8 @@
       with_items:
         - values/jenkins_values_var.j2
         - values/jenkins_values_jcas_jobs_var.j2
-        - values/jenkins_values_jcas_plugins_config_var.j2
-        - values/jenkins_values_jcas_security_realm_var.j2
+        - values/jenkins_values_jcas_unclassified_var.j2
+        - values/jenkins_values_jcas_jenkins_var.j2
 
     - name: Deploy latest version of jenkins chart
       kubernetes.core.helm:
@@ -111,15 +105,16 @@
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/jenkins_values.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_jenkins.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_unclassified.yml"
           - "{{ tmpdir }}/jenkins_values_agent.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_appearance_config.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_security.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_appearance.yml"
           - "{{ tmpdir }}/jenkins_values_var.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_jobs_var.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_plugins_config_var.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_security_realm_var.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
+          - "{{ tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
         wait: true
       when: not ansible_check_mode
 
@@ -129,15 +124,16 @@
         state: absent
       with_items:
         - "{{ tmpdir }}/jenkins_values.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_jenkins.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_plugins_config.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_unclassified.yml"
         - "{{ tmpdir }}/jenkins_values_agent.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_security_config.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_appearance_config.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_security.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_appearance.yml"
         - "{{ tmpdir }}/jenkins_values_var.yml"
         - "{{ tmpdir }}/jenkins_values_jcas_jobs_var.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_plugins_config_var.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_security_realm_var.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
+        - "{{ tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
       changed_when: false
 
     - name: Install ingress internal

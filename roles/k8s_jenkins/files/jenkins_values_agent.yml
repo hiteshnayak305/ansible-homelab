@@ -100,11 +100,11 @@ agent:
   podName: default
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
-  idleMinutes: 0
+  idleMinutes: 1
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
   yamlMergeStrategy: merge
   # Timeout in seconds for an agent to be online
-  connectTimeout: 120
+  connectTimeout: 300
   # Annotations to apply to the pod.
   annotations: {}
 
@@ -133,11 +133,6 @@ agent:
             resourceRequestMemory: "500Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
-        volumes:
-          - secretVolume:
-              mountPath: /kaniko/.docker/
-              secretName: gitea-docker-credentials-secret
-              defaultMode: 256
         yamlMergeStrategy: merge
     k8s: |
       - name: k8s
@@ -156,15 +151,6 @@ agent:
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
-        volumes:
-          - secretVolume:
-              mountPath: /root/.docker/
-              secretName: gitea-docker-credentials-secret
-              defaultMode: 256
-          - secretVolume:
-              mountPath: /root/.kube/
-              secretName: kube-credentials-secret
-              defaultMode: 256
         yamlMergeStrategy: merge
     jdk21: |
       - name: jdk21
