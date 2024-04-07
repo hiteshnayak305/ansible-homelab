@@ -22,7 +22,7 @@ controller:
           sonarGlobalConfiguration:
             buildWrapperEnabled: false
             installations:
-            - credentialsId: "sonarqube-token"
+            - credentialsId: "sonarqube-sonarqube"
               name: "sonarqube"
               serverUrl: "https://sonarqube.{{ kubernetes_ingress_root_domain }}"
               triggers:
