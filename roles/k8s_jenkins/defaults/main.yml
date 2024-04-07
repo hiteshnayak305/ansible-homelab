@@ -10,15 +10,19 @@ kubernetes_ingress_root_domain: domain.com
 jenkins_admin_username: admin
 jenkins_admin_password: password
 
-# mail cerdential
-mail_admin_username: admin
-mail_admin_password: password
+#admin user
+gitea_admin_username: admin
+gitea_admin_password: password
 
 # gitea registry
-gitea_docker_config_json_base64: ""
+docker_config_json: ""
 
 # kubectl
 kubectl_config: ""
 
 #sonarqube token
 sonarqube_token: ""
+
+# mail cerdential
+mail_selfhost_username: admin
+mail_selfhost_password: password
