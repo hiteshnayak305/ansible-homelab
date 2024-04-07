@@ -14,3 +14,7 @@ gitea_admin_password: password
 
 # system gpg key
 gitea_gpg_key: ""
+
+# oauth secret
+gitea_oauth_key: key
+gitea_oauth_secret: secret

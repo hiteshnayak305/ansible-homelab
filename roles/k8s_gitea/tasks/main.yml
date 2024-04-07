@@ -45,6 +45,7 @@
         k8s_install_j2s:
           - secret/gitea_admin_secret.j2
           - secret/gitea_gpg_key.j2
+          - secret/gitea_oauth_secret.j2
 
     - name: Add Gitea helm repository
       kubernetes.core.helm_repository:

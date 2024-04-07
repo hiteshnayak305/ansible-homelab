@@ -25,6 +25,13 @@ ingress:
 gitea:
   admin:
     email: gitea@gitea.{{ kubernetes_ingress_root_domain }}
+  # Either specify inline `key` and `secret` or refer to them via `existingSecret`
+  ## @param gitea.oauth OAuth configuration
+  oauth:
+    - name: 'keycloak'
+      provider: openidConnect
+      existingSecret: gitea-oauth-secret
+      autoDiscoverUrl: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/.well-known/openid-configuration
   config:
     server:
       DOMAIN: gitea.{{ kubernetes_ingress_root_domain }}
