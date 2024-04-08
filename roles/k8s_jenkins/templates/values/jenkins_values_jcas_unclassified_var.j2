@@ -28,4 +28,15 @@ controller:
               triggers:
                 skipScmCause: false
                 skipUpstreamCause: false
-                    
+      mailer-configuration: |
+        unclassified:
+          mailer:
+            authentication:
+              password: "{{ mail_selfhost_password_encrypted }}"
+              username: "{{ mail_selfhost_username }}"
+            charset: "UTF-8"
+            replyToAddress: "{{ mail_selfhost_username }}"
+            smtpHost: "smtp.gmail.com"
+            smtpPort: "465"
+            useSsl: true
+            useTls: false
