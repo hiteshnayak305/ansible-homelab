@@ -11,8 +11,8 @@ jenkins_admin_username: admin
 jenkins_admin_password: password
 
 #admin user
-gitea_admin_username: admin
-gitea_admin_password: password
+git_gitea_username: admin
+git_gitea_password: password
 
 # gitea registry
 docker_config_json: ""
