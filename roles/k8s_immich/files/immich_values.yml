@@ -3,9 +3,12 @@
 ## Refer there for more detail about the supported values
 
 image:
-  tag: v1.99.0
+  tag: v1.101.0
 
 immich:
+  metrics:
+    # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
+    enabled: true
   persistence:
     # Main data store for all photos shared between different components.
     library:
