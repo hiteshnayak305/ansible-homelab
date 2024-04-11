@@ -1,63 +1,78 @@
+# -- Deployment mode lets you specify how to deploy Loki.
+# There are 3 options:
+# - SingleBinary: Loki is deployed as a single binary, useful for small installs typically without HA, up to a few tens of GB/day.
+# - SimpleScalable: Loki is deployed as 3 targets: read, write, and backend. Useful for medium installs easier to manage than distributed, up to a about 1TB/day.
+# - Distributed: Loki is deployed as individual microservices. The most complicated but most capable, useful for large installs, typically over 1TB/day.
+# There are also 2 additional modes used for migrating between deployment modes:
+# - SingleBinary<->SimpleScalable: Migrate from SingleBinary to SimpleScalable (or vice versa)
+# - SimpleScalable<->Distributed: Migrate from SimpleScalable to Distributed (or vice versa)
+# Note: SimpleScalable and Distributed REQUIRE the use of object storage.
+deploymentMode: SingleBinary
+
+######################################################################################################################
+#
+# Base Loki Configs including kubernetes configurations and configurations for Loki itself,
+# see below for more specifics on Loki's configuration.
+#
+######################################################################################################################
+# -- Configuration for running Loki
 loki:
   # -- The number of old ReplicaSets to retain to allow rollback
   revisionHistoryLimit: 1
+  ######################################################################################################################
+  #
+  # Loki Configuration
+  #
+  # There are several ways to pass configuration to Loki, listing them here in order of our preference for how
+  # you should use this chart.
+  # 1. Use the templated value of loki.config below and the corresponding override sections which follow.
+  #    This allows us to set a lot of important Loki configurations and defaults and also allows us to maintain them
+  #    over time as Loki changes and evolves.
+  # 2. Use the loki.structuredConfig section.
+  #    This will completely override the templated value of loki.config, so you MUST provide the entire Loki config
+  #    including any configuration that we set in loki.config unless you explicitly are trying to change one of those
+  #    values and are not able to do so with the templated sections.
+  #    If you choose this approach the burden is on you to maintain any changes we make to the templated config.
+  # 3. Use an existing secret or configmap to provide the configuration.
+  #    This option is mostly provided for folks who have external processes which provide or modify the configuration.
+  #    When using this option you can specify a different name for loki.generatedConfigObjectName and configObjectName
+  #    if you have a process which takes the generated config and modifies it, or you can stop the chart from generating
+  #    a config entirely by setting loki.generatedConfigObjectName to
+  #
+  ######################################################################################################################
+
   # Should authentication be enabled
   auth_enabled: false
+  # -- Check https://grafana.com/docs/loki/latest/configuration/#common_config for more info on how to provide a common configuration
   commonConfig:
     replication_factor: 1
+  # -- Storage config. Providing this will automatically populate all necessary storage configs in the templated config.
   storage:
-    type: "filesystem"
+    # Loki requires a bucket for chunks and the ruler. GEL requires a third bucket for the admin API.
+    # Please provide these values if you are using object storage.
+    # bucketNames:
+    #   chunks: FIXME
+    #   ruler: FIXME
+    #   admin: FIXME
+    type: filesystem
+  # -- a real Loki install requires a proper schemaConfig defined above this, however for testing or playing around
+  # you can enable useTestSchema
+  useTestSchema: true
+######################################################################################################################
+#
+# Chart Testing
+#
+######################################################################################################################
 
 # -- Section for configuring optional Helm test
 test:
   enabled: false
 
-# Monitoring section determines which monitoring features to enable
-monitoring:
-  # Dashboards for monitoring Loki
-  dashboards:
-    # -- If enabled, create configmap with dashboards for monitoring Loki
-    enabled: false
-  # Recording rules for monitoring Loki, required for some dashboards
-  rules:
-    # -- If enabled, create PrometheusRule resource with Loki recording rules
-    enabled: false
-
-  # Self monitoring determines whether Loki should scrape its own logs.
-  # This feature currently relies on the Grafana Agent Operator being installed,
-  # which is installed by default using the grafana-agent-operator sub-chart.
-  # It will create custom resources for GrafanaAgent, LogsInstance, and PodLogs to configure
-  # scrape configs to scrape its own logs with the labels expected by the included dashboards.
-  selfMonitoring:
-    enabled: true
-    # Grafana Agent configuration
-    grafanaAgent:
-      # -- Resource requests and limits for the grafanaAgent pods
-      resources:
-        limits:
-          cpu: 100m
-          memory: 150Mi
-        requests:
-          cpu: 50m
-          memory: 100Mi
-
-  # The Loki canary pushes logs to and queries from this loki installation to test
-  # that it's working correctly
-  lokiCanary:
-    enabled: true
-    resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
-
-# Configuration for the write pod(s)
-write:
-  # -- Number of replicas for the write
-  replicas: 1
-  # -- Resource requests and limits for the write
+# The Loki canary pushes logs to and queries from this loki installation to test
+# that it's working correctly
+lokiCanary:
+  enabled: true
+  # -- Resource requests and limits for the canary
   resources:
     limits:
       cpu: 100m
@@ -66,79 +81,115 @@ write:
       cpu: 50m
       memory: 64Mi
 
-# Configuration for the read pod(s)
-read:
-  # -- Number of replicas for the read
-  replicas: 1
-  # -- Resource requests and limits for the read
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 50m
-      memory: 64Mi
+######################################################################################################################
+#
+# Gateway and Ingress
+#
+# By default this chart will deploy a Nginx container to act as a gateway which handles routing of traffic
+# and can also do auth.
+#
+# If you would prefer you can optionally disable this and enable using k8s ingress to do the incoming routing.
+#
+######################################################################################################################
 
-# Configuration for the backend pod(s)
-backend:
-  # -- Number of replicas for the backend
-  replicas: 1
-  # -- Resource requests and limits for the backend
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 50m
-      memory: 64Mi
+# Configuration for the gateway
+gateway:
+  # -- Specifies whether the gateway should be enabled
+  enabled: false
+
+# -- Ingress configuration Use either this ingress or the gateway, but not both at once.
+# If you enable this, make sure to disable the gateway.
+# You'll need to supply authn configuration for your ingress controller.
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  # annotations: -> template
+  # -- Hosts configuration for the ingress, passed through the `tpl` function to allow templating
+  # hosts: -> template
+  # -- TLS configuration for the ingress. Hosts passed through the `tpl` function to allow templating
+  # tls: -> template
+
+######################################################################################################################
+#
+# Single Binary Deployment
+#
+# For small Loki installations up to a few 10's of GB per day, or for testing and development.
+#
+######################################################################################################################
 
 # Configuration for the single binary node(s)
 singleBinary:
+  # -- Number of replicas for the single binary
   replicas: 1
+  # -- Resource requests and limits for the single binary
+  resources:
+    limits:
+      cpu: 300m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
   persistence:
     # -- Enable StatefulSetAutoDeletePVC feature
     enableStatefulSetAutoDeletePVC: true
     # -- Enable persistent disk
     enabled: true
     # -- Size of persistent disk
-    size: 1Gi
+    size: 5Gi
     # -- Storage class to be used.
     # If defined, storageClassName: <storageClass>.
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: "nfs-client-hdd-0"
-  # -- Resource requests and limits for the single binary
-  resources:
-    limits:
-      cpu: 250m
-      memory: 250Mi
-    requests:
-      cpu: 150m
-      memory: 200Mi
+    storageClass: null
 
-# Configuration for the gateway
-gateway:
-  # -- Resource requests and limits for the gateway
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 50m
-      memory: 64Mi
-  # Gateway ingress configuration
-  ingress:
-    # -- Specifies whether an ingress for the gateway should be created
-    enabled: true
-    # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
-    ingressClassName: "nginx"
-    # -- Annotations for the gateway ingress
-    #annotations: -> template
-    # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
-    # hosts: --> template
-    # -- TLS configuration for the gateway ingress. Hosts passed through the `tpl` function to allow templating
-    #tls: -> template
+######################################################################################################################
+#
+# Simple Scalable Deployment (SSD) Mode
+#
+# For small to medium size Loki deployments up to around 1 TB/day, this is the default mode for this helm chart
+#
+######################################################################################################################
+
+# Configuration for the write pod(s)
+write:
+  # -- Number of replicas for the write
+  replicas: 0
+
+# --  Configuration for the read pod(s)
+read:
+  # -- Number of replicas for the read
+  replicas: 0
+
+# --  Configuration for the backend pod(s)
+backend:
+  # -- Number of replicas for the backend
+  replicas: 0
+
+######################################################################################################################
+#
+# Microservices Mode
+#
+# For large Loki deployments ingesting more than 1 TB/day
+#
+######################################################################################################################
+
+# -- Configuration for the ruler
+ruler:
+  # -- The ruler component is optional and can be disabled if desired.
+  enabled: false
+
+memcachedExporter:
+  # -- Whether memcached metrics should be exported
+  enabled: false
+
+resultsCache:
+  # -- Specifies whether memcached based results-cache should be enabled
+  enabled: false
+
+chunksCache:
+  # -- Specifies whether memcached based chunks-cache should be enabled
+  enabled: false
 
 sidecar:
   # -- Resource requests and limits for the sidecar
@@ -149,3 +200,14 @@ sidecar:
     requests:
       cpu: 50m
       memory: 50Mi
+  rules:
+    # -- Whether or not to create a sidecar to ingest rule from specific ConfigMaps and/or Secrets.
+    enabled: true
+    # -- Label that the configmaps/secrets with rules will be marked with.
+    label: loki_rule
+    # -- Label value that the configmaps/secrets with rules will be set to.
+    labelValue: "1"
+    # -- Comma separated list of namespaces. If specified, the sidecar will search for config-maps/secrets inside these namespaces.
+    # Otherwise the namespace in which the sidecar is running will be used.
+    # It's also possible to specify 'ALL' to search in all namespaces.
+    searchNamespace: ALL

@@ -100,7 +100,7 @@ agent:
   podName: default
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
-  idleMinutes: 1
+  idleMinutes: 0
   # Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates: merge or override
   yamlMergeStrategy: merge
   # Timeout in seconds for an agent to be online

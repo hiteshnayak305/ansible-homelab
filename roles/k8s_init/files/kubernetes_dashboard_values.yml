@@ -53,10 +53,10 @@ api:
     resources:
       requests:
         cpu: 250m
-        memory: 128Mi
+        memory: 256Mi
       limits:
         cpu: 500m
-        memory: 256Mi
+        memory: 512Mi
 
 # WEB UI deployment configuration
 web:
