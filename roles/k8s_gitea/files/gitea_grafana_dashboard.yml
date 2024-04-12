@@ -89,7 +89,7 @@ data:
                 "type": "prometheus",
                 "uid": "prometheus"
               },
-              "expr": "process_resident_memory_bytes{job=\"gitea\"}",
+              "expr": "process_resident_memory_bytes{job=\"gitea-http\"}",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -181,7 +181,7 @@ data:
                 "type": "prometheus",
                 "uid": "prometheus"
               },
-              "expr": "process_cpu_seconds_total{job=\"gitea\"}",
+              "expr": "process_cpu_seconds_total{job=\"gitea-http\"}",
               "instant": false,
               "interval": "",
               "legendFormat": "",
@@ -274,7 +274,7 @@ data:
                 "type": "prometheus",
                 "uid": "prometheus"
               },
-              "expr": "process_open_fds{job=\"gitea\"}",
+              "expr": "process_open_fds{job=\"gitea-http\"}",
               "format": "time_series",
               "instant": false,
               "interval": "",
