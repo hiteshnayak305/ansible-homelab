@@ -1,3 +1,0 @@
-KUBELET_KUBEADM_ARGS=""
-KUBELET_CONFIG_DROPIN_DIR_ALPHA=true # for --config-dir
-KUBELET_EXTRA_ARGS="--config-dir=/var/lib/kubelet/config.d"
