@@ -1,0 +1,41 @@
+- name: Create kubeadm config manifest
+  ansible.builtin.template:
+    src: config-map/kubeadm_config.j2
+    dest: "{{ tmpdir }}/kubeadm_config.yml"
+  changed_when: false
+
+- name: Create cluster config manifest
+  ansible.builtin.template:
+    src: config-map/ClusterConfiguration.j2
+    dest: "{{ tmpdir }}/ClusterConfiguration.yml"
+  changed_when: false
+
+- name: Install kubeadm config map
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ tmpdir }}/kubeadm_config.yml"
+    wait: true
+  register: config
+  when: not ansible_check_mode
+
+- name: Recreate control-plane manifests
+  become: true
+  become_user: root
+  ansible.builtin.shell: "kubeadm init phase control-plane all --config {{ tmpdir }}/ClusterConfiguration.yml"
+  when: config is changed
+
+- name: Recreate etcd manifests
+  become: true
+  become_user: root
+  ansible.builtin.shell: "kubeadm init phase etcd local --config {{ tmpdir }}/ClusterConfiguration.yml"
+  when: config is changed
+
+- name: Remove temp files (delete file)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items: 
+    - "{{ tmpdir }}/kubeadm_config.yml"
+    - "{{ tmpdir }}/ClusterConfiguration.yml"
+  changed_when: false
+
