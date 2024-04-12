@@ -1,0 +1,5 @@
+metrics:
+  # metrics.enabled -- Expose metrics in Prometheus format with default configuration.
+  enabled: true
+  serviceMonitor:
+    enabled: true

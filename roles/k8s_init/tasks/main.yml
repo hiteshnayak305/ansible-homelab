@@ -26,3 +26,6 @@
 
     - name: Installing NFS Subdirectory External Provisioner
       include_tasks: 07_install_nfs-subdir-external-provisioner.yml
+
+    - name: Installing Node Problem Detector
+      include_tasks: 08_install_node_problem_detector.yml
