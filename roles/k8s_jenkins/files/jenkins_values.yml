@@ -142,6 +142,8 @@ controller:
       keyName: password
     - name: docker-harbor-secret
       keyName: config-json
+    - name: helm-harbor-secret
+      keyName: config-json
     - name: kubectl-default-secret
       keyName: config
     - name: sonarqube-sonarqube-secret
