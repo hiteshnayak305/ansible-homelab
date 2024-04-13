@@ -320,10 +320,10 @@ postgresql-ha:
     ##
     resources:
       limits:
-        memory: 256Mi
+        memory: 512Mi
         cpu: 150m
       requests:
-        memory: 128Mi
+        memory: 256Mi
         cpu: 100m
   pgpool:
     ## Bitnami Pgpool image
@@ -352,11 +352,11 @@ postgresql-ha:
     ##
     resources:
       limits:
-        memory: 500Mi
-        cpu: 150m
+        memory: 1Gi
+        cpu: 200m
       requests:
-        memory: 350Mi
-        cpu: 50m
+        memory: 512Mi
+        cpu: 150m
   service:
     ports:
       postgresql: 5432

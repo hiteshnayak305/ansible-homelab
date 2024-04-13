@@ -194,8 +194,8 @@ data:
           {
             "current": {
               "selected": true,
-              "text": "kube-system/k8s-master-01.hitesh.com",
-              "value": "kube-system/k8s-master-01.hitesh.com"
+              "text": "nginx-system/ingress-nginx",
+              "value": "nginx-system/ingress-nginx"
             },
             "datasource": {
               "type": "loki",
@@ -241,7 +241,7 @@ data:
         ]
       },
       "time": {
-        "from": "now-15m",
+        "from": "now-5m",
         "to": "now"
       },
       "timepicker": {

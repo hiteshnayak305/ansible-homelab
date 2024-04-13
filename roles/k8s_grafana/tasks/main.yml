@@ -65,7 +65,7 @@
       kubernetes.core.helm:
         name: grafana
         chart_ref: grafana/grafana
-        chart_version: 7.3.7
+        chart_version: 7.3.8
         update_repo_cache: true
         release_namespace: grafana-system
         create_namespace: false
@@ -102,7 +102,6 @@
           - dashboards/kubernetes_views_namespace_dashboard.yml
           - dashboards/kubernetes_views_nodes_dashboard.yml
           - dashboards/kubernetes_views_pods_dashboard.yml
-          - dashboards/logs_app_dashboard.yml
           - dashboards/node_exporter_full_dashboard.yml
           - dashboards/mongodb_database_dashboard.yml
           - dashboards/postgresql_database_dashboard.yml
