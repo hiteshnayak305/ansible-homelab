@@ -28,6 +28,16 @@ production: true
 ##
 proxy: edge
 
+## @param extraEnvVars Extra environment variables to be set on Keycloak container
+## Example:
+## extraEnvVars:
+##   - name: FOO
+##     value: "bar"
+##
+extraEnvVars:
+  - name: KC_HEALTH_ENABLED
+    value: "true"
+
 ## @section Keycloak statefulset parameters
 
 ## @param replicaCount Number of Keycloak replicas to deploy
@@ -45,6 +55,29 @@ resources:
   limits:
     cpu: 500m
     memory: 1024Mi
+
+## @param customLivenessProbe Custom Liveness probes for Keycloak
+##
+customLivenessProbe:
+  httpGet:
+    path: "{{ .Values.httpRelativePath }}health/live"
+    port: http
+
+## @param customReadinessProbe Custom Rediness probes Keycloak
+##
+customReadinessProbe:
+  httpGet:
+    path: "{{ .Values.httpRelativePath }}health/ready"
+    port: http
+
+## @param customStartupProbe Custom Startup probes for Keycloak
+##
+customStartupProbe:
+  httpGet:
+    path: "{{ .Values.httpRelativePath }}health/started"
+    port: http
+  failureThreshold: 10
+  periodSeconds: 30
 
 ## @section Exposure parameters
 ##
