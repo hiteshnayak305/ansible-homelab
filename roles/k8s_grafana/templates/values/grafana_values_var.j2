@@ -36,7 +36,7 @@ grafana.ini:
     scopes: openid email profile offline_access roles groups
     email_attribute_path: email
     login_attribute_path: preferred_username
-    name_attribute_path: full name
+    name_attribute_path: name
     role_attribute_path: contains(resource_access.grafana.roles[*], 'grafanaadmin') && 'GrafanaAdmin' || contains(resource_access.grafana.roles[*], 'admin') && 'Admin' || contains(resource_access.grafana.roles[*], 'editor') && 'Editor' || 'Viewer'
     groups_attribute_path: groups
     auth_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/auth
