@@ -62,7 +62,7 @@
       kubernetes.core.helm:
         name: keycloak
         chart_ref: bitnami/keycloak
-        chart_version: 21.0.0
+        chart_version: 21.0.2
         update_repo_cache: true
         release_namespace: keycloak-system
         create_namespace: true
