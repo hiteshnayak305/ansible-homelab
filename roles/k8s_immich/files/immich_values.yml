@@ -30,12 +30,29 @@ immich:
 # Immich components
 
 server:
+  enabled: true
+  # -- Set the resource requests / limits for the container.
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 300m
+      memory: 512Mi
   ingress:
     main:
       enabled: false
 
 microservices:
   enabled: true
+  # -- Set the resource requests / limits for the container.
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
   persistence:
     geodata-cache:
       enabled: true
@@ -47,6 +64,14 @@ microservices:
 
 machine-learning:
   enabled: true
+  # -- Set the resource requests / limits for the container.
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 150m
+      memory: 512Mi
   persistence:
     cache:
       enabled: true
@@ -87,11 +112,11 @@ postgresql:
     ## @param primary.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 200m
+        cpu: 300m
         memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
     persistence:
       enabled: true
       storageClass: "-"
@@ -111,10 +136,10 @@ postgresql:
     resources:
       requests:
         cpu: 10m
-        memory: 10Mi
+        memory: 32Mi
       limits:
         cpu: 50m
-        memory: 50Mi
+        memory: 64Mi
     ## Prometheus Operator ServiceMonitor configuration
     ##
     serviceMonitor:
