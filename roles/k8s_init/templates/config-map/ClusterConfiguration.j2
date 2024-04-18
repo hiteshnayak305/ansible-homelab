@@ -1,7 +1,7 @@
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 imageRepository: registry.k8s.io
-kubernetesVersion: v1.29.2
+kubernetesVersion: v1.29.4
 certificatesDir: /etc/kubernetes/pki
 clusterName: kubernetes
 controlPlaneEndpoint: k8s-master.{{ kubernetes_ingress_root_domain }}:6443

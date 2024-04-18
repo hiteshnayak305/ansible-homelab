@@ -49,5 +49,5 @@ data:
     shutdownGracePeriodCriticalPods: 0s
     staticPodPath: /etc/kubernetes/manifests
     streamingConnectionIdleTimeout: 0s
-    syncFrequency: 0s
+    syncFrequency: 1m0s
     volumeStatsAggPeriod: 0s
