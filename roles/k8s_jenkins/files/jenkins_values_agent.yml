@@ -11,7 +11,7 @@ agent:
   enabled: true
   image:
     repository: "docker.io/hiteshnayak305/inbound-agent"
-    tag: "3206.vb_15dcf73f6a_9-7-alpine"
+    tag: "3248.v65ecb_254c298-1-alpine"
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   customJenkinsLabels: []
@@ -142,7 +142,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: docker.io/hiteshnayak305/k8s:1.29.2
+            image: docker.io/hiteshnayak305/k8s:1.29.4
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false

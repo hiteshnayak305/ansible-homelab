@@ -100,7 +100,7 @@
       kubernetes.core.helm:
         name: jenkins
         chart_ref: jenkins/jenkins
-        chart_version: 5.1.6
+        chart_version: 5.1.18
         update_repo_cache: true
         release_namespace: jenkins
         create_namespace: false
