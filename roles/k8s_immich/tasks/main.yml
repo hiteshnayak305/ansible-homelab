@@ -23,7 +23,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_immich.j2
           - pv/pv_immich_postgresql_primary.j2
 
@@ -32,7 +32,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/immich_namespace.yml
           - files/pvc_immich.yml
           - files/pvc_immich_postgresql_primary.yml
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/immich_ingress.j2
 
     - name: Add immich helm repository
@@ -54,13 +54,14 @@
       ansible.builtin.copy:
         src: files/immich_values.yml
         dest: "{{ tmpdir }}/immich_values.yml"
+        mode: preserve
       changed_when: false
 
     - name: Deploy latest version of immich chart
       kubernetes.core.helm:
         name: immich
         chart_ref: immich/immich
-        chart_version: 0.6.0
+        chart_version: 0.7.0
         update_repo_cache: true
         release_namespace: immich-system
         create_namespace: false
@@ -82,5 +83,5 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/immich_ingress_internal.j2

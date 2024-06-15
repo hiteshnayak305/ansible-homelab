@@ -13,7 +13,7 @@
   kubernetes.core.helm:
     name: cert-manager
     chart_ref: jetstack/cert-manager
-    chart_version: 1.14.5
+    chart_version: 1.15.0
     update_repo_cache: true
     release_namespace: cert-manager
     create_namespace: true

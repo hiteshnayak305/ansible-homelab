@@ -325,6 +325,9 @@ postgresql-ha:
       requests:
         memory: 256Mi
         cpu: 100m
+    ## @param postgresql.upgradeRepmgrExtension Upgrade repmgr extension in the database
+    ##
+    upgradeRepmgrExtension: true
   pgpool:
     ## Bitnami Pgpool image
     ## ref: https://hub.docker.com/r/bitnami/pgpool/tags/

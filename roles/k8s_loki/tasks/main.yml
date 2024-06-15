@@ -18,6 +18,7 @@
       ansible.builtin.copy:
         src: "files/{{ item }}"
         dest: "{{ tmpdir }}/{{ item }}"
+        mode: preserve
       with_items:
         - loki_values.yml
         - loki_promtail_values.yml
@@ -28,6 +29,7 @@
       ansible.builtin.template:
         src: "{{ item }}"
         dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
+        mode: preserve
       changed_when: false
       with_items:
         - values/loki_values_var.j2
@@ -38,7 +40,7 @@
       kubernetes.core.helm:
         name: loki
         chart_ref: grafana/loki
-        chart_version: 6.5.2
+        chart_version: 6.6.3
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: true
@@ -52,7 +54,7 @@
       kubernetes.core.helm:
         name: promtail
         chart_ref: grafana/promtail
-        chart_version: 6.15.5
+        chart_version: 6.16.0
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: false
@@ -66,7 +68,7 @@
       kubernetes.core.helm:
         name: kubernetes-event-exporter
         chart_ref: bitnami/kubernetes-event-exporter
-        chart_version: 3.0.5
+        chart_version: 3.2.3
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: false
@@ -94,7 +96,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/loki_ingress_internal.j2
 
     - name: Install datasource for loki
@@ -102,7 +104,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2:
+        utility_k8s_install_j2:
           - cm/loki_datasource_configmap.j2
 
     - name: Install grafana dashboards
@@ -110,5 +112,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - dashboards/logs_app_dashboard.yml

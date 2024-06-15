@@ -13,19 +13,21 @@
       ansible.builtin.copy:
         src: files/prometheus_values.yml
         dest: "{{ tmpdir }}/prometheus_values.yml"
+        mode: preserve
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/prometheus_values_var.j2
         dest: "{{ tmpdir }}/prometheus_values_var.yml"
+        mode: preserve
       changed_when: false
 
     - name: Deploy latest version of kube-prometheus-stack chart
       kubernetes.core.helm:
         name: kube-prometheus-stack
         chart_ref: prometheus-community/kube-prometheus-stack
-        chart_version: 58.5.3
+        chart_version: 60.1.0
         update_repo_cache: true
         release_namespace: prometheus-system
         create_namespace: true
@@ -49,6 +51,6 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/alertmanager_ingress_internal.j2
           - ingress/prometheus_ingress_internal.j2

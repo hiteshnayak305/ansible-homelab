@@ -23,7 +23,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_gitea.j2
           - pv/pv_gitea_postgresql_ha_primary.j2
 
@@ -32,7 +32,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/gitea_namespace.yml
           - files/pvc_gitea.yml
           - files/pvc_gitea_postgresql_ha_primary.yml
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/gitea_admin_secret.j2
           - secret/gitea_gpg_key.j2
           - secret/gitea_oauth_secret.j2
@@ -56,19 +56,21 @@
       ansible.builtin.copy:
         src: files/gitea_values.yml
         dest: "{{ tmpdir }}/gitea_values.yml"
+        mode: preserve
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/gitea_values_var.j2
         dest: "{{ tmpdir }}/gitea_values_var.yml"
+        mode: preserve
       changed_when: false
 
     - name: Deploy latest version of gitea chart
       kubernetes.core.helm:
         name: gitea
         chart_ref: gitea-charts/gitea
-        chart_version: 10.1.4
+        chart_version: 10.2.0
         update_repo_cache: true
         release_namespace: gitea-system
         create_namespace: false
@@ -92,7 +94,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/gitea_ingress_internal.j2
 
     - name: Install grafana dashboard for gitea
@@ -100,5 +102,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/gitea_grafana_dashboard.yml

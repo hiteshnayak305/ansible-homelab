@@ -21,7 +21,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_keycloak_postgresql_ha_primary.j2
 
     - name: Install prereq for keycloak
@@ -29,7 +29,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/keycloak_namespace.yml
           - files/pvc_keycloak_postgresql_ha_primary.yml
 
@@ -38,7 +38,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/keycloak_admin_secret.j2
 
     - name: Add bitnami helm repository
@@ -50,19 +50,21 @@
       ansible.builtin.copy:
         src: files/keycloak_values.yml
         dest: "{{ tmpdir }}/keycloak_values.yml"
+        mode: preserve
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/keycloak_values_var.j2
         dest: "{{ tmpdir }}/keycloak_values_var.yml"
+        mode: preserve
       changed_when: false
 
     - name: Deploy latest version of keycloak chart
       kubernetes.core.helm:
         name: keycloak
         chart_ref: bitnami/keycloak
-        chart_version: 21.2.1
+        chart_version: 21.4.1
         update_repo_cache: true
         release_namespace: keycloak-system
         create_namespace: true
@@ -86,7 +88,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/keycloak_ingress_internal.j2
 
     - name: Install grafana dashboard for keycloak
@@ -94,5 +96,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/keycloak_grafana_dashboard.yml

@@ -28,7 +28,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_jenkins.j2
           - pv/pv_jenkins_maven.j2
           - pv/pv_jenkins_gradle.j2
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/jenkins_namespace.yml
           - files/pvc_jenkins.yml
           - files/pvc_jenkins_maven.yml
@@ -57,7 +57,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/jenkins_admin_secret.j2
           - secret/git_gitea_secret.j2
           - secret/docker_harbor_secret.j2
@@ -75,6 +75,7 @@
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ tmpdir }}/{{ item | basename }}"
+        mode: preserve
       changed_when: false
       with_items:
         - files/jenkins_values.yml
@@ -89,6 +90,7 @@
       ansible.builtin.template:
         src: "{{ item }}"
         dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
+        mode: preserve
       changed_when: false
       with_items:
         - values/jenkins_values_var.j2
@@ -100,7 +102,7 @@
       kubernetes.core.helm:
         name: jenkins
         chart_ref: jenkins/jenkins
-        chart_version: 5.1.18
+        chart_version: 5.2.2
         update_repo_cache: true
         release_namespace: jenkins
         create_namespace: false
@@ -142,7 +144,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/jenkins_ingress_internal.j2
 
     - name: Install grafana dashboard
@@ -150,5 +152,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/jenkins_performance_and_health_overview_dashboard.yml

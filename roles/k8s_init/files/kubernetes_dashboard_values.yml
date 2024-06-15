@@ -122,9 +122,7 @@ kong:
             matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: Exists
-  manager:
-    # Enable creating a Kubernetes service for Kong Manager
-    enabled: true
+  proxy:
     type: ClusterIP
   # Enable/disable migration jobs, and set annotations for them
   migrations:

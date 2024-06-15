@@ -4,47 +4,47 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
-  # Set the verbosity of cert-manager. Range of 0 - 6 with 6 being the most verbose.
+  # The number of old ReplicaSets to retain to allow rollback (if not set, the default Kubernetes value is set to 10).
+  # +docs:property
+  revisionHistoryLimit: 1
+  # Set the verbosity of cert-manager. A range of 0 - 6, with 6 being the most verbose.
   logLevel: 2
 
-# Install the cert-manager CRDs, it is recommended to not use Helm to manage
-# the CRDs
-installCRDs: true
+crds:
+  # This option decides if the CRDs should be installed
+  # as part of the Helm installation.
+  enabled: true
 
 # +docs:section=Controller
 
-# Number of replicas of the cert-manager controller to run.
+# The number of replicas of the cert-manager controller to run.
 #
-# The default is 1, but in production you should set this to 2 or 3 to provide high
+# The default is 1, but in production set this to 2 or 3 to provide high
 # availability.
 #
-# If `replicas > 1` you should also consider setting `podDisruptionBudget.enabled=true`.
+# If `replicas > 1`, consider setting `podDisruptionBudget.enabled=true`.
 #
-# Note: cert-manager uses leader election to ensure that there can
+# Note that cert-manager uses leader election to ensure that there can
 # only be a single instance active at a time.
 replicaCount: 1
 
-# The maximum number of challenges that can be scheduled as 'processing' at once
+# The maximum number of challenges that can be scheduled as 'processing' at once.
 maxConcurrentChallenges: 60
 
-# When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
+# When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted.
 enableCertificateOwnerRef: true
 
-# Resources to provide to the cert-manager controller pod
+# Resources to provide to the cert-manager controller pod.
 #
 # For example:
 #  requests:
 #    cpu: 10m
 #    memory: 32Mi
 #
-# ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-resources:
-  {}
-  # requests:
-  #   cpu: 10m
-  #   memory: 32Mi
+# For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+resources: {}
 
-# A Kubernetes Affinity, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core
+# A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
 #
 # For example:
 #   affinity:
@@ -58,7 +58,7 @@ resources:
 #            - master
 affinity: {}
 
-# A list of Kubernetes Tolerations, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core
+# A list of Kubernetes Tolerations, if required. For more information, see [Toleration v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core).
 #
 # For example:
 #   tolerations:
@@ -78,6 +78,7 @@ prometheus:
   # with your own ServiceMonitor (managed outside of this Helm chart).
   # Otherwise, a ServiceMonitor/ PodMonitor is created.
   enabled: true
+
   servicemonitor:
     # Create a ServiceMonitor to add cert-manager to Prometheus
     enabled: true
@@ -87,23 +88,23 @@ prometheus:
 webhook:
   # Number of replicas of the cert-manager webhook to run.
   #
-  # The default is 1, but in production you should set this to 2 or 3 to provide high
+  # The default is 1, but in production set this to 2 or 3 to provide high
   # availability.
   #
-  # If `replicas > 1` you should also consider setting `webhook.podDisruptionBudget.enabled=true`.
+  # If `replicas > 1`, consider setting `webhook.podDisruptionBudget.enabled=true`.
   replicaCount: 1
 
-  # Resources to provide to the cert-manager webhook pod
+  # Resources to provide to the cert-manager webhook pod.
   #
   # For example:
   #  requests:
   #    cpu: 10m
   #    memory: 32Mi
   #
-  # ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
   resources: {}
 
-  # A Kubernetes Affinity, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core
+  # A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
   #
   # For example:
   #   affinity:
@@ -117,7 +118,7 @@ webhook:
   #            - master
   affinity: {}
 
-  # A list of Kubernetes Tolerations, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core
+  # A list of Kubernetes Tolerations, if required. For more information, see [Toleration v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core).
   #
   # For example:
   #   tolerations:
@@ -133,28 +134,28 @@ cainjector:
   # Create the CA Injector deployment
   enabled: true
 
-  # Number of replicas of the cert-manager cainjector to run.
+  # The number of replicas of the cert-manager cainjector to run.
   #
-  # The default is 1, but in production you should set this to 2 or 3 to provide high
+  # The default is 1, but in production set this to 2 or 3 to provide high
   # availability.
   #
-  # If `replicas > 1` you should also consider setting `cainjector.podDisruptionBudget.enabled=true`.
+  # If `replicas > 1`, consider setting `cainjector.podDisruptionBudget.enabled=true`.
   #
-  # Note: cert-manager uses leader election to ensure that there can
+  # Note that cert-manager uses leader election to ensure that there can
   # only be a single instance active at a time.
   replicaCount: 1
 
-  # Resources to provide to the cert-manager cainjector pod
+  # Resources to provide to the cert-manager cainjector pod.
   #
   # For example:
   #  requests:
   #    cpu: 10m
   #    memory: 32Mi
   #
-  # ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
   resources: {}
 
-  # A Kubernetes Affinity, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core
+  # A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
   #
   # For example:
   #   affinity:
@@ -168,7 +169,7 @@ cainjector:
   #            - master
   affinity: {}
 
-  # A list of Kubernetes Tolerations, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core
+  # A list of Kubernetes Tolerations, if required. For more information, see [Toleration v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core).
   #
   # For example:
   #   tolerations:
@@ -182,21 +183,21 @@ cainjector:
 # This startupapicheck is a Helm post-install hook that waits for the webhook
 # endpoints to become available.
 # The check is implemented using a Kubernetes Job - if you are injecting mesh
-# sidecar proxies into cert-manager pods, you probably want to ensure that they
-# are not injected into this Job's pod. Otherwise the installation may time out
-# due to the Job never being completed because the sidecar proxy does not exit.
-# See https://github.com/cert-manager/cert-manager/pull/4414 for context.
+# sidecar proxies into cert-manager pods, ensure that they
+# are not injected into this Job's pod. Otherwise, the installation may time out
+# owing to the Job never being completed because the sidecar proxy does not exit.
+# For more information, see [this note](https://github.com/cert-manager/cert-manager/pull/4414).
 
 startupapicheck:
-  # Enables the startup api check
+  # Enables the startup api check.
   enabled: true
 
-  # Resources to provide to the cert-manager controller pod
+  # Resources to provide to the cert-manager controller pod.
   #
   # For example:
   #  requests:
   #    cpu: 10m
   #    memory: 32Mi
   #
-  # ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
   resources: {}

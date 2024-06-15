@@ -31,7 +31,7 @@ tolerations:
 # ServiceMonitor configuration
 serviceMonitor:
   # -- If enabled, ServiceMonitor resources for Prometheus Operator are created
-  enabled: true
+  enabled: false
 
 # Extra volumes to be added in addition to those specified under `defaultVolumes`.
 extraVolumes:

@@ -3,26 +3,8 @@
 # Declare name/value pairs to be passed into your templates.
 # name: value
 
-## Overrides for generated resource names
-# See templates/_helpers.tpl
-# nameOverride:
-# fullnameOverride:
-# namespaceOverride:
-
-# For FQDN resolving of the controller service. Change this value to match your existing configuration.
-# ref: https://github.com/kubernetes/dns/blob/master/docs/specification.md
-clusterZone: "cluster.local"
-
-# The URL of the Kubernetes API server
-kubernetesURL: "https://kubernetes.default"
-
-# The Jenkins credentials to access the Kubernetes API server. For the the default cluster it is not needed.
-credentialsId:
-
-renderHelmLabels: true
-
 controller:
-  # Used for label app.kubernetes.io/component
+  # -- Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   # -- Affinity settings
   affinity:
@@ -36,34 +18,56 @@ controller:
                 values:
                   - k8s-worker-03.hitesh.com
   image:
-    registry: docker.io
+    # -- Controller image registry
+    registry: "docker.io"
+    # -- Controller image repository
     repository: "hiteshnayak305/jenkins"
-    # tag: "2.440.1-alpine"
+
+    # -- Controller image tag override; i.e., tag: "2.440.1-jdk17"
+    # tag:
+
+    # -- Controller image tag label
     tagLabel: alpine
+
+  # -- Disable use of remember me
   disableRememberMe: false
+
+  # -- Set Number of executors
   numExecutors: 0
-  # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE
+
+  # -- Sets the executor mode of the Jenkins node. Possible values are "NORMAL" or "EXCLUSIVE"
   executorMode: "NORMAL"
-  # This is ignored if enableRawHtmlMarkupFormatter is true
-  markupFormatter: plainText
-  customJenkinsLabels: []
+
+
   hostNetworking: false
 
   # When enabling LDAP or another non-Jenkins identity source, the built-in admin account will no longer exist.
   # If you disable the non-Jenkins identity store and instead use the Jenkins internal one,
   # you should revert controller.admin.username to your preferred admin user:
   admin:
-    username: "jenkins"
-    # password: <defaults to random>
 
+    # -- Admin username created as a secret if `controller.admin.createSecret` is true
+    username: "jenkins"
+    # -- Admin password created as a secret if `controller.admin.createSecret` is true
+    # @default -- <random password>
+    # password:
+
+    # -- The key in the existing admin secret containing the username
     userKey: jenkins-admin-user
+    # -- The key in the existing admin secret containing the password
     passwordKey: jenkins-admin-password
 
     # The default configuration uses this secret to configure an admin user
-    # If you don't need that user or use a different security realm then you can disable it
+    # If you don't need that user or use a different security realm, then you can disable it
+    # -- Create secret for admin user
     createSecret: true
-    existingSecret: "jenkins-admin-secret"
 
+    # -- The name of an existing secret containing the admin credentials
+    existingSecret: "jenkins-admin-secret"
+  # -- Email address for the administrator of the Jenkins instance
+  # jenkinsAdminEmail: --> template
+
+  # -- Resource allocation (Requests and Limits)
   resources:
     requests:
       cpu: "300m"
@@ -72,69 +76,79 @@ controller:
       cpu: "500m"
       memory: "1024Mi"
 
-  # jenkinsAdminEmail: --> template
-
-  # If you are using the ingress definitions provided by this chart via the `controller.ingress` block the configured hostname will be the ingress hostname starting with `https://` or `http://` depending on the `tls` configuration.
-  # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
-  # jenkinsUrlProtocol: "https"
-  # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
+  # -- Set Jenkins URL if you are not using the ingress definitions provided by the chart
   # jenkinsUrl: -> template
 
   # Enable Kubernetes Startup, Liveness and Readiness Probes
   # if Startup Probe is supported, enable it too
   # ~ 2 minutes to allow Jenkins to restart when upgrading plugins. Set ReadinessTimeout to be shorter than LivenessTimeout.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes
+  # -- Enable Kubernetes Probes configuration configured in `controller.probes`
   healthProbes: true
+
   probes:
     startupProbe:
+      # -- Set the failure threshold for the startup probe
       failureThreshold: 30 # ~ 5 minutes
 
+  # Plugins will be installed during Jenkins controller start
+  # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
   installPlugins: false
 
-  # Set to false to download the minimum required version of all dependencies.
+  # If set to false, Jenkins will download the minimum required version of all dependencies.
+  # -- Download the minimum required version or latest version of all dependencies
   installLatestPlugins: false
 
-  # Set to true to download latest dependencies of any plugin that is requested to have the latest version.
+  # -- Set to true to download the latest version of any plugin that is requested to have the latest version
   installLatestSpecifiedPlugins: false
 
-  # List of plugins to install in addition to those listed in controller.installPlugins
+  # -- List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins: []
 
-  # Enable to initialize the Jenkins controller only once on initial installation.
-  # Without this, whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates which has the potential to cause breakage.
+  # Without this; whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates that have the potential to cause breakage.
   # Note that for this to work, `persistence.enabled` needs to be set to `true`
+  # -- Initialize only on first installation. Ensures plugins do not get updated inadvertently. Requires `persistence.enabled` to be set to `true`
   initializeOnce: false
 
   # Enable to always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
-  # overwritePlugins: true
+  # -- Overwrite installed plugins on start
+  overwritePlugins: false
 
   # Configures if plugins bundled with `controller.image` should be overwritten with the values of 'controller.installPlugins' on upgrade or redeployment.
+  # -- Overwrite plugins that are already installed in the controller image
   overwritePluginsFromImage: false
 
   # Configures the restrictions for naming projects. Set this key to null or empty to skip it in the default config.
   projectNamingStrategy: standard
 
-  # Enable HTML parsing using OWASP Markup Formatter Plugin (antisamy-markup-formatter), useful with ghprb plugin.
-  # The plugin is not installed by default, please update controller.installPlugins.
+  # Useful with ghprb plugin. The OWASP plugin is not installed by default, please update controller.installPlugins.
+  # -- Enable HTML parsing using OWASP Markup Formatter Plugin (antisamy-markup-formatter)
   enableRawHtmlMarkupFormatter: false
+
   # Used to approve a list of groovy functions in pipelines used the script-security plugin. Can be viewed under /scriptApproval
+  # -- List of groovy functions to approve
   scriptApproval: []
   #  - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
   #  - "new groovy.json.JsonSlurperClassic"
-  # List of groovy init scripts to be executed during Jenkins controller start
-  initScripts: []
-  #  - |
+
+  # -- Map of groovy init scripts to be executed during Jenkins controller start
+  initScripts: {}
+  #  test: |-
   #    print 'adding global pipeline libraries, register properties, bootstrap jobs...'
+  # -- Name of the existing ConfigMap that contains init scripts
+  initConfigMap:
 
-  # 'name' is a name of an existing secret in same namespace as jenkins,
-  # 'keyName' is the name of one of the keys inside current secret.
+  # 'name' is a name of an existing secret in the same namespace as jenkins,
+  # 'keyName' is the name of one of the keys inside the current secret.
   # the 'name' and 'keyName' are concatenated with a '-' in between, so for example:
-  # an existing secret "secret-credentials" and a key inside it named "github-password" should be used in Jcasc as ${secret-credentials-github-password}
+  # an existing secret "secret-credentials" and a key inside it named "github-password" should be used in JCasC as ${secret-credentials-github-password}
   # 'name' and 'keyName' must be lowercase RFC 1123 label must consist of lower case alphanumeric characters or '-',
-  # and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc')
-  # existingSecret existing secret "secret-credentials" and a key inside it named "github-username" should be used in Jcasc as ${github-username}
+  # and must start and end with an alphanumeric character (e.g. 'my-name', or '123-abc')
+  # existingSecret existing secret "secret-credentials" and a key inside it named "github-username" should be used in JCasC as ${github-username}
   # When using existingSecret no need to specify the keyName under additionalExistingSecrets.
-  existingSecret: ""
+  existingSecret:
 
+  # -- List of additional existing secrets to mount
   additionalExistingSecrets:
     - name: git-gitea-secret
       keyName: username
@@ -153,26 +167,33 @@ controller:
     - name: mail-gmail-selfhost-secret
       keyName: password
 
+  # -- List of additional secrets to create and mount
   additionalSecrets: []
+  # ref: https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
+  # additionalSecrets:
   #  - name: nameOfSecret
   #    value: secretText
 
-  # Name of default cloud configuration.
+  # -- Name of default cloud configuration.
   cloudName: "kubernetes"
 
-  # Below is the implementation of Jenkins Configuration as Code.  Add a key under configScripts for each configuration area,
-  # where each corresponds to a plugin or section of the UI.  Each key (prior to | character) is just a label, and can be any value.
-  # Keys are only used to give the section a meaningful name.  The only restriction is they may only contain RFC 1123 \ DNS label
-  # characters: lowercase letters, numbers, and hyphens.  The keys become the name of a configuration yaml file on the controller in
-  # /var/jenkins_home/casc_configs (by default) and will be processed by the Configuration as Code Plugin.  The lines after each |
-  # become the content of the configuration yaml file.  The first line after this is a JCasC root element, eg jenkins, credentials,
-  # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
+  # Below is the implementation of Jenkins Configuration as Code. Add a key under configScripts for each configuration area,
+  # where each corresponds to a plugin or section of the UI. Each key (prior to | character) is just a label, and can be any value.
+  # Keys are only used to give the section a meaningful name. The only restriction is they may only contain RFC 1123 \ DNS label
+  # characters: lowercase letters, numbers, and hyphens. The keys become the name of a configuration yaml file on the controller in
+  # /var/jenkins_home/casc_configs (by default) and will be processed by the Configuration as Code Plugin. The lines after each |
+  # become the content of the configuration yaml file. The first line after this is a JCasC root element, e.g., jenkins, credentials,
+  # etc. Best reference is https://<jenkins_url>/configuration-as-code/reference. The example below creates a welcome message:
   JCasC:
     # -- Enables default Jenkins configuration via configuration as code plugin
     defaultConfig: true
+
     # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: true
+    
+    # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
+    # -- Jenkins Config as Code security-section
     security:
       apiToken:
         creationOfLegacyTokenEnabled: false
@@ -181,9 +202,11 @@ controller:
 
   sidecars:
     configAutoReload:
-      # If enabled: true, Jenkins Configuration as Code will be reloaded on-the-fly without a reboot.  If false or not-specified,
-      # jcasc changes will cause a reboot and will only be applied at the subsequent start-up.  Auto-reload uses the
-      # http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to the configScripts are detected.
+      # If enabled: true, Jenkins Configuration as Code will be reloaded on-the-fly without a reboot.
+      # If false or not-specified, JCasC changes will cause a reboot and will only be applied at the subsequent start-up.
+      # Auto-reload uses the http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to
+      # the configScripts are detected.
+      # -- Enables Jenkins Config as Code auto-reload
       enabled: false
 
   ingress:
@@ -213,22 +236,29 @@ controller:
     enabled: true
 
 persistence:
+  # -- Enable the use of a Jenkins PVC
   enabled: true
-  ## A manually managed Persistent Volume and Claim
-  ## Requires persistence.enabled: true
-  ## If defined, PVC must be created manually before volume will be bound
+
+  # A manually managed Persistent Volume and Claim
+  # Requires persistence.enabled: true
+  # If defined, PVC must be created manually before volume will be bound
+  # -- Provide the name of a PVC
   existingClaim: pvc-jenkins-controller
-  ## jenkins data Persistent Volume Storage Class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
+
+  # jenkins data Persistent Volume Storage Class
+  # If defined, storageClassName: <storageClass>
+  # If set to "-", storageClassName: "", which disables dynamic provisioning
+  # If undefined (the default) or set to null, no storageClassName spec is
+  #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS & OpenStack)
+  # -- Storage class for the PVC
   storageClass: "-"
+  # -- Annotations for the PVC
   annotations: {}
+  # -- Labels for the PVC
   labels: {}
+  # -- The PVC access mode
   accessMode: "ReadWriteOnce"
+  # -- The size of the PVC
   size: "8Gi"
 
 checkDeprecation: true

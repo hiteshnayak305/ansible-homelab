@@ -22,7 +22,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_grafana.j2
 
     - name: Install prereq for grafana
@@ -30,7 +30,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/grafana_namespace.yml
           - files/pvc_grafana.yml
 
@@ -39,7 +39,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/grafana_admin_secret.j2
 
     - name: Add Grafana helm repository
@@ -51,6 +51,7 @@
       ansible.builtin.copy:
         src: "files/{{ item }}"
         dest: "{{ tmpdir }}/{{ item }}"
+        mode: preserve
       changed_when: false
       with_items:
         - grafana_values.yml
@@ -59,13 +60,14 @@
       ansible.builtin.template:
         src: values/grafana_values_var.j2
         dest: "{{ tmpdir }}/grafana_values_var.yml"
+        mode: preserve
       changed_when: false
 
     - name: Deploy latest version of grafana chart
       kubernetes.core.helm:
         name: grafana
         chart_ref: grafana/grafana
-        chart_version: 7.3.11
+        chart_version: 8.0.2
         update_repo_cache: true
         release_namespace: grafana-system
         create_namespace: false
@@ -89,7 +91,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/grafana_ingress_internal.j2
 
     - name: Install common dashboards grafana
@@ -97,7 +99,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - dashboards/kubernetes_views_global_dashboard.yml
           - dashboards/kubernetes_views_namespace_dashboard.yml
           - dashboards/kubernetes_views_nodes_dashboard.yml
