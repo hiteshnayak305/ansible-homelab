@@ -2,6 +2,12 @@
 ## You can find it at https://github.com/bjw-s/helm-charts/tree/main/charts/library/common
 ## Refer there for more detail about the supported values
 
+# These entries are shared between all the Immich components
+
+env:
+  TZ: "Asia/Kolkata"
+  CPU_CORES: "2"
+
 image:
   tag: v1.106.4
 
@@ -168,10 +174,10 @@ machine-learning:
   # -- Set the resource requests / limits for the container.
   resources:
     limits:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 1
+      memory: 2Gi
     requests:
-      cpu: 150m
+      cpu: 500m
       memory: 512Mi
   persistence:
     cache:
