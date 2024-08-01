@@ -9,7 +9,9 @@ controller:
   ingressClassResource:
     # -- Name of the IngressClass
     name: nginx-internal
-    # -- Controller-value of the controller that is processing this ingressClass
+    # -- Controller of the IngressClass. An Ingress Controller looks for IngressClasses it should reconcile by this value.
+    # This value is also being set as the `--controller-class` argument of this Ingress Controller.
+    # Ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class
     controllerValue: "k8s.io/ingress-nginx-internal"
   service:
     annotations: {}

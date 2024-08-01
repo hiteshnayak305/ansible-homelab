@@ -14,6 +14,8 @@ controller:
     requests:
       cpu: 100m
       memory: 128Mi
+  # -- Global configuration passed to the ConfigMap consumed by the controller. Values may contain Helm templates.
+  # Ref.: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
   config:
     use-forwarded-headers: true # not true
     compute-full-forwarded-for: true # not true
