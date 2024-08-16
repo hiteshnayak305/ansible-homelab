@@ -23,6 +23,9 @@ auth:
 ## @param production Run Keycloak in production mode. TLS configuration is required except when using proxy=edge.
 ##
 production: true
+## @param proxyHeaders Set Keycloak proxy headers
+##
+# proxyHeaders: "forwarded|xforwarded"
 ## @param proxy reverse Proxy mode edge, reencrypt, passthrough or none
 ## ref: https://www.keycloak.org/server/reverseproxy
 ##
@@ -37,6 +40,8 @@ proxy: edge
 extraEnvVars:
   - name: KC_HEALTH_ENABLED
     value: "true"
+  - name: KC_METRICS_ENABLED
+    value: "true"
 
 ## @section Keycloak statefulset parameters
 
@@ -46,6 +51,13 @@ replicaCount: 1
 ## @param revisionHistoryLimitCount Number of controller revisions to keep
 ##
 revisionHistoryLimitCount: 1
+
+## @param extraContainerPorts Optionally specify extra list of additional port-mappings for Keycloak container
+##
+extraContainerPorts:
+  - name: management
+    containerPort: 9000
+    protocol: TCP
 
 ## @param resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
 resources:
@@ -61,23 +73,32 @@ resources:
 customLivenessProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/live"
-    port: http
+    port: management
+
+livenessProbe:
+  enabled: false
 
 ## @param customReadinessProbe Custom Rediness probes Keycloak
 ##
 customReadinessProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/ready"
-    port: http
+    port: management
+
+readinessProbe:
+  enabled: false
 
 ## @param customStartupProbe Custom Startup probes for Keycloak
 ##
 customStartupProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/started"
-    port: http
-  failureThreshold: 10
+    port: management
+  failureThreshold: 60
   periodSeconds: 30
+
+startupProbe:
+  enabled: false
 
 ## @section Exposure parameters
 ##
@@ -160,12 +181,29 @@ metrics:
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/keycloak#enabling-statistics
   ##
   enabled: true
+  ## Keycloak metrics service parameters
+  ##
+  service:
+    ## @param metrics.service.extraPorts [array] Add additional ports to the keycloak metrics service (i.e. admin port 9000)
+    ##
+    extraPorts:
+      - name: management
+        port: 9000
+        protocol: TCP
+        targetPort: management
   ## Prometheus Operator ServiceMonitor configuration
   ##
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
     ##
     enabled: true
+    ## @param metrics.serviceMonitor.endpoints [array] The endpoint configuration of the ServiceMonitor. Path is mandatory. Interval, timeout and labellings can be overwritten.
+    ##
+    endpoints:
+      - path: '{{ include "keycloak.httpPath" . }}metrics'
+        port: management
+      - path: '{{ include "keycloak.httpPath" . }}realms/{{ .Values.adminRealm }}/metrics'
+        port: http
 
 ## @section Database parameters
 

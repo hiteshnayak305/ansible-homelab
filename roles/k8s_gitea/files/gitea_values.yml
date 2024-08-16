@@ -35,6 +35,8 @@ service:
   ## @param service.http.ipFamilies HTTP service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/).
   ## @param service.http.loadBalancerSourceRanges Source range filter for http loadbalancer
   ## @param service.http.annotations HTTP service annotations
+  ## @param service.http.labels HTTP service additional labels
+  ## @param service.http.loadBalancerClass Loadbalancer class
   http:
     type: ClusterIP
     port: 3000
@@ -51,6 +53,8 @@ service:
   ## @param service.ssh.hostPort HostPort for ssh service
   ## @param service.ssh.loadBalancerSourceRanges Source range filter for ssh loadbalancer
   ## @param service.ssh.annotations SSH service annotations
+  ## @param service.ssh.labels SSH service additional labels
+  ## @param service.ssh.loadBalancerClass Loadbalancer class
   ssh:
     type: ClusterIP
     port: 22
@@ -123,6 +127,7 @@ gitea:
   ## @param gitea.admin.existingSecret Use an existing secret to store admin user credentials
   ## @param gitea.admin.password Password for the Gitea admin user
   ## @param gitea.admin.email Email for the Gitea admin user
+  ## @param gitea.admin.passwordMode Mode for how to set/update the admin user password. Options are: initialOnlyNoReset, initialOnlyRequireReset, and keepUpdated
   admin:
     existingSecret: gitea-admin-secret
     #email: -> template
@@ -183,35 +188,54 @@ gitea:
       enabled: true
 
 ## @section redis-cluster
-## @param redis-cluster.enabled Enable redis
+## @param redis-cluster.enabled Enable redis cluster
 ## @param redis-cluster.usePassword Whether to use password authentication
+## @descriptionStart
+## Redis cluster and [Redis](#redis) cannot be enabled at the same time.
+## @descriptionEnd
 redis-cluster:
+  enabled: false
+
+## @section redis
+## @param redis.enabled Enable redis standalone or replicated
+## @param redis.architecture Whether to use standalone or replication
+## @param redis.global.redis.password Required password
+## @param redis.master.count Number of Redis master instances to deploy
+## @descriptionStart
+## Redis and [Redis cluster](#redis-cluster) cannot be enabled at the same time.
+## @descriptionEnd
+redis:
   enabled: true
-  ## Bitnami Redis&reg; image version
+  ## Bitnami Redis&reg; image
   ## ref: https://hub.docker.com/r/bitnami/redis/tags/
-  ## @param image.registry [default: REGISTRY_NAME] Redis&reg; cluster image registry
-  ## @param image.repository [default: REPOSITORY_NAME/redis-cluster] Redis&reg; cluster image repository
-  ## @skip image.tag Redis&reg; cluster image tag (immutable tags are recommended)
-  ## @param image.digest Redis&reg; cluster image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param image.pullPolicy Redis&reg; cluster image pull policy
-  ## @param image.pullSecrets Specify docker-registry secret names as an array
+  ## @param image.registry [default: REGISTRY_NAME] Redis&reg; image registry
+  ## @param image.repository [default: REPOSITORY_NAME/redis] Redis&reg; image repository
+  ## @skip image.tag Redis&reg; image tag (immutable tags are recommended)
+  ## @param image.digest Redis&reg; image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param image.pullPolicy Redis&reg; image pull policy
+  ## @param image.pullSecrets Redis&reg; image pull secrets
   ## @param image.debug Enable image debug mode
   ##
   image:
-    repository: bitnami/redis-cluster
+    repository: bitnami/redis
     tag: 7.2-debian-12
-  usePassword: false
-  ## @section Redis&reg; statefulset parameters
+  ## @param architecture Redis&reg; architecture. Allowed values: `standalone` or `replication`
   ##
-  redis:
-    ## Container resource requests and limits
-    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-    ## We usually recommend not to specify default resources and to leave this as a conscious
-    ## choice for the user. This also increases chances charts run on environments with little
-    ## resources, such as Minikube. If you do want to specify resources, uncomment the following
-    ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    ## @param updateJob.resources.limits The resources limits for the container
-    ## @param updateJob.resources.requests The requested resources for the container
+  architecture: standalone
+  ## Redis&reg; Authentication parameters
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/redis#setting-the-server-password-on-first-run
+  ##
+  auth:
+    ## @param auth.enabled Enable password authentication
+    ##
+    enabled: false
+  ## @section Redis&reg; master configuration parameters
+  ##
+  master:
+    ## @param master.count Number of Redis&reg; master instances to deploy (experimental, requires additional configuration)
+    ##
+    count: 1
+    ## @param master.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
     ##
     resources:
       limits:
@@ -220,32 +244,21 @@ redis-cluster:
       requests:
         cpu: 50m
         memory: 64Mi
-  ## Redis&reg; Cluster settings
-  ##
-  cluster:
-    ## @param cluster.nodes The number of master nodes should always be >= 3, otherwise cluster creation will fail
+    ## Enable persistence using Persistent Volume Claims
+    ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
-    nodes: 6
-    ## @param cluster.replicas Number of replicas for every master in the cluster
-    ## Parameter to be passed as --cluster-replicas to the redis-cli --cluster create
-    ## 1 means that we want a replica for every master created
-    ##
-    replicas: 1
-  ## Enable persistence using Persistent Volume Claims
-  ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
-  ##
-  persistence:
-    ## @param persistence.storageClass Storage class of backing PVC
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    storageClass: "nfs-client-ssd-0"
-    ## @param persistence.size Size of data volume
-    ##
-    size: 250Mi
+    persistence:
+      ## @param persistence.storageClass Storage class of backing PVC
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      storageClass: "nfs-client-ssd-0"
+      ## @param persistence.size Size of data volume
+      ##
+      size: 250Mi
   ## @section Metrics sidecar parameters
   ##
 

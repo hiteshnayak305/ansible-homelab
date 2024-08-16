@@ -37,7 +37,7 @@ testFramework:
 createConfigmap: true
 
 serviceMonitor:
-  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## If true, a ServiceMonitor CR is created for a prometheus operator
   ## https://github.com/coreos/prometheus-operator
   ##
   enabled: true
@@ -128,8 +128,8 @@ grafana.ini:
   grafana_net:
     url: https://grafana.net
   server:
-    domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
-    root_url: "https://{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
+    domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
+    root_url: "https://{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
   # auth.generic_oauth: -> template
 
 ## Sidecars that collect the configmaps with specified label and stores the included files them into the respective folders

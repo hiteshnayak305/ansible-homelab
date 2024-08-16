@@ -58,7 +58,7 @@
       kubernetes.core.helm:
         name: sonarqube
         chart_ref: sonarqube/sonarqube
-        chart_version: "10.5.1+2816"
+        chart_version: "10.6.1+3163"
         update_repo_cache: true
         release_namespace: sonarqube-system
         create_namespace: false

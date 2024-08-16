@@ -14,7 +14,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "hiteshnayak305/inbound-agent"
     # -- Tag of the image to pull
-    tag: "3248.v65ecb_254c298-1-alpine"
+    tag: "3261.v9c670a_4748a_9-1-alpine"
   # -- Configure working directory for default agent
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
@@ -162,7 +162,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: hiteshnayak305/k8s:1.29.4
+            image: hiteshnayak305/k8s:1.29.7
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false
