@@ -9,7 +9,7 @@ env:
   CPU_CORES: "2"
 
 image:
-  tag: v1.106.4
+  tag: v1.112.1
 
 immich:
   metrics:
@@ -168,22 +168,17 @@ server:
   ingress:
     main:
       enabled: false
+  probes:
+    startup:
+      enabled: true
+      # -- The spec field contains the values for the default startupProbe.
+      # If you selected `custom: true`, this field holds the definition of the startupProbe.
+      # @default -- See below
+      spec:
+        initialDelaySeconds: 60
+        ## This means it has a maximum of 10*60=600 seconds to start up before it fails
+        periodSeconds: 10
+        failureThreshold: 60
 
 machine-learning:
-  enabled: true
-  # -- Set the resource requests / limits for the container.
-  resources:
-    limits:
-      cpu: 1
-      memory: 2Gi
-    requests:
-      cpu: 500m
-      memory: 512Mi
-  persistence:
-    cache:
-      enabled: true
-      size: 10Gi
-      # Optional: Set this to pvc to avoid downloading the ML models every start.
-      type: pvc
-      accessMode: ReadWriteMany
-      storageClass: "nfs-client-ssd-0"
+  enabled: false
