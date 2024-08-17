@@ -200,6 +200,9 @@ metrics:
   serviceMonitor:
     enabled: true
 
+trace:
+  enabled: false
+
 # cache layer configurations
 # if this feature enabled, harbor will cache the resource
 # `project/project_metadata/repository/artifact/manifest` in the redis
