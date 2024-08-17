@@ -6,7 +6,7 @@ metadata:
   labels:
     grafana_dashboard: "1"
     gnetId: "15758"
-    revision: "34"
+    revision: "35"
 data:
   kubernetes-views-namespace-dashboard.json: |
     {
@@ -113,7 +113,7 @@ data:
             "sizing": "auto",
             "text": {}
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -188,7 +188,7 @@ data:
             "sizing": "auto",
             "text": {}
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -440,6 +440,7 @@ data:
             "graphMode": "none",
             "justifyMode": "center",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -452,7 +453,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -541,6 +542,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -553,7 +555,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -873,7 +875,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -989,7 +992,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1104,7 +1108,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1208,7 +1213,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1312,7 +1318,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1416,7 +1423,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1555,7 +1563,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2255,7 +2264,7 @@ data:
               "type": "prometheus",
               "uid": "${datasource}"
             },
-            "definition": "label_values(kube_pod_info{namespace=~\"$namespace\", container!=\"\", cluster=\"$cluster\"},created_by_name)",
+            "definition": "label_values(kube_pod_info{namespace=~\"$namespace\", cluster=\"$cluster\"},created_by_name)",
             "description": "Can be used to filter on a specific deployment, statefulset or deamonset (only relevant panels).",
             "hide": 0,
             "includeAll": true,
@@ -2263,7 +2272,7 @@ data:
             "name": "created_by",
             "options": [],
             "query": {
-              "query": "label_values(kube_pod_info{namespace=~\"$namespace\", container!=\"\", cluster=\"$cluster\"},created_by_name)",
+              "query": "label_values(kube_pod_info{namespace=~\"$namespace\", cluster=\"$cluster\"},created_by_name)",
               "refId": "PrometheusVariableQueryEditor-VariableQuery"
             },
             "refresh": 2,

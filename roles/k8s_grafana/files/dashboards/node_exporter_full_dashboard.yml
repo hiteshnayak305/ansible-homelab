@@ -6,7 +6,7 @@ metadata:
   labels:
     grafana_dashboard: "1"
     gnetId: "1860"
-    revision: "36"
+    revision: "37"
 data:
   node-exporter-full-dashboard.json: |
     {
@@ -147,7 +147,7 @@ data:
             "text": {},
             "valueMode": "color"
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -271,7 +271,7 @@ data:
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -361,7 +361,7 @@ data:
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -442,7 +442,7 @@ data:
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -548,7 +548,7 @@ data:
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -636,7 +636,7 @@ data:
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -709,6 +709,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "horizontal",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -720,7 +721,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -793,6 +794,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "horizontal",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -804,7 +806,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -881,6 +883,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "horizontal",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -892,7 +895,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -967,6 +970,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "horizontal",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -978,7 +982,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -1051,6 +1055,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "horizontal",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -1062,7 +1067,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.1.3",
           "targets": [
             {
               "datasource": {
@@ -21876,7 +21881,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 0,
-                "y": 49
+                "y": 33
               },
               "id": 221,
               "links": [],
@@ -21992,7 +21997,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 12,
-                "y": 49
+                "y": 33
               },
               "id": 81,
               "links": [],
@@ -22108,7 +22113,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 0,
-                "y": 59
+                "y": 43
               },
               "id": 115,
               "links": [],
@@ -22236,7 +22241,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 12,
-                "y": 59
+                "y": 43
               },
               "id": 50,
               "links": [],
@@ -22363,7 +22368,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 0,
-                "y": 69
+                "y": 53
               },
               "id": 55,
               "links": [],
@@ -22478,7 +22483,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 12,
-                "y": 69
+                "y": 53
               },
               "id": 109,
               "links": [],
@@ -22654,7 +22659,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 0,
-                "y": 79
+                "y": 63
               },
               "id": 299,
               "links": [],
@@ -22772,7 +22777,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 12,
-                "y": 79
+                "y": 63
               },
               "id": 104,
               "links": [],
@@ -22865,6 +22870,32 @@ data:
                   "interval": "",
                   "legendFormat": "OutRsts - Segments sent with RST flag",
                   "refId": "F"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "${datasource}"
+                  },
+                  "editorMode": "code",
+                  "expr": "irate(node_netstat_TcpExt_TCPRcvQDrop{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+                  "hide": false,
+                  "interval": "",
+                  "legendFormat": "TCPRcvQDrop - Packets meant to be queued in rcv queue but dropped because socket rcvbuf limit hit",
+                  "range": true,
+                  "refId": "G"
+                },
+                {
+                  "datasource": {
+                    "type": "prometheus",
+                    "uid": "${datasource}"
+                  },
+                  "editorMode": "code",
+                  "expr": "irate(node_netstat_TcpExt_TCPOFOQueue{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+                  "hide": false,
+                  "interval": "",
+                  "legendFormat": "TCPOFOQueue - TCP layer receives an out of order packet and has enough memory to queue it",
+                  "range": true,
+                  "refId": "H"
                 }
               ],
               "title": "TCP Errors",
@@ -22953,7 +22984,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 0,
-                "y": 89
+                "y": 73
               },
               "id": 85,
               "links": [],
@@ -23084,7 +23115,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 12,
-                "y": 89
+                "y": 73
               },
               "id": 91,
               "links": [],
@@ -23216,7 +23247,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 0,
-                "y": 99
+                "y": 83
               },
               "id": 82,
               "links": [],
@@ -23329,7 +23360,7 @@ data:
                 "h": 10,
                 "w": 12,
                 "x": 12,
-                "y": 99
+                "y": 83
               },
               "id": 320,
               "links": [],
@@ -23734,7 +23765,7 @@ data:
           },
           {
             "current": {
-              "selected": false,
+              "selected": true,
               "text": "node-exporter",
               "value": "node-exporter"
             },
@@ -23849,4 +23880,4 @@ data:
       "uid": "rYdddlPWk",
       "version": 1,
       "weekStart": ""
-    }
+    }    
