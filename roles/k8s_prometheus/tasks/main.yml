@@ -51,6 +51,6 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/alertmanager_ingress_internal.j2
           - ingress/prometheus_ingress_internal.j2

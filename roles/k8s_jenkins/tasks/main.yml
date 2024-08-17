@@ -28,7 +28,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - pv/pv_jenkins.j2
           - pv/pv_jenkins_maven.j2
           - pv/pv_jenkins_gradle.j2
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/jenkins_namespace.yml
           - files/pvc_jenkins.yml
           - files/pvc_jenkins_maven.yml
@@ -57,7 +57,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - secret/jenkins_admin_secret.j2
           - secret/git_gitea_secret.j2
           - secret/docker_harbor_secret.j2
@@ -144,7 +144,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/jenkins_ingress_internal.j2
 
     - name: Install grafana dashboard
@@ -152,5 +152,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/jenkins_performance_and_health_overview_dashboard.yml

@@ -22,7 +22,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - pv/pv_grafana.j2
 
     - name: Install prereq for grafana
@@ -30,7 +30,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/grafana_namespace.yml
           - files/pvc_grafana.yml
 
@@ -39,7 +39,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - secret/grafana_admin_secret.j2
 
     - name: Add Grafana helm repository
@@ -91,7 +91,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/grafana_ingress_internal.j2
 
     - name: Install common dashboards grafana
@@ -99,7 +99,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - dashboards/kubernetes_views_global_dashboard.yml
           - dashboards/kubernetes_views_namespace_dashboard.yml
           - dashboards/kubernetes_views_nodes_dashboard.yml

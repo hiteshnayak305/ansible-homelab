@@ -23,7 +23,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - pv/pv_immich.j2
           - pv/pv_immich_postgresql_primary.j2
 
@@ -32,7 +32,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/immich_namespace.yml
           - files/pvc_immich.yml
           - files/pvc_immich_postgresql_primary.yml
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/immich_ingress.j2
 
     - name: Add immich helm repository
@@ -83,5 +83,5 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/immich_ingress_internal.j2

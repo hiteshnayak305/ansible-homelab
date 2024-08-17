@@ -21,7 +21,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - pv/pv_keycloak_postgresql_ha_primary.j2
 
     - name: Install prereq for keycloak
@@ -29,7 +29,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/keycloak_namespace.yml
           - files/pvc_keycloak_postgresql_ha_primary.yml
 
@@ -38,7 +38,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - secret/keycloak_admin_secret.j2
 
     - name: Add bitnami helm repository
@@ -88,7 +88,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/keycloak_ingress_internal.j2
 
     - name: Install grafana dashboard for keycloak
@@ -96,5 +96,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/keycloak_grafana_dashboard.yml

@@ -96,7 +96,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/loki_ingress_internal.j2
 
     - name: Install datasource for loki
@@ -104,7 +104,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2:
+        k8s_install_j2:
           - cm/loki_datasource_configmap.j2
 
     - name: Install grafana dashboards
@@ -112,5 +112,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - dashboards/logs_app_dashboard.yml

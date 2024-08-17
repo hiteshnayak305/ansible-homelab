@@ -23,7 +23,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - pv/pv_gitea.j2
           - pv/pv_gitea_postgresql_ha_primary.j2
 
@@ -32,7 +32,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/gitea_namespace.yml
           - files/pvc_gitea.yml
           - files/pvc_gitea_postgresql_ha_primary.yml
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - secret/gitea_admin_secret.j2
           - secret/gitea_gpg_key.j2
           - secret/gitea_oauth_secret.j2
@@ -94,7 +94,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        utility_k8s_install_j2s:
+        k8s_install_j2s:
           - ingress/gitea_ingress_internal.j2
 
     - name: Install grafana dashboard for gitea
@@ -102,5 +102,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        utility_k8s_install_ymls:
+        k8s_install_ymls:
           - files/gitea_grafana_dashboard.yml
