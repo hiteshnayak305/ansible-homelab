@@ -26,6 +26,12 @@
         port: "{{ item.port }}"
       loop: "{{ ufw_rules }}"
 
+    - name: Allow incomming from kubernetes podcidr
+      community.general.ufw:
+        rule: allow
+        direction: in
+        src: "10.244.0.0/16"
+
     - name: Allow SSH access from local
       community.general.ufw:
         name: OpenSSH
