@@ -7,10 +7,19 @@
         name: ufw
         state: present
 
+    - name: Disable UFW
+      community.general.ufw:
+        state: disabled
+
+    - name: Reset All Rules
+      community.general.ufw:
+        state: reset
+
     - name: Allow incoming accesses
       community.general.ufw:
         rule: allow
         direction: in
+        interface: "{{ ufw_interface | default('') }}"
         route: "{{ item.route | default(false) }}"
         proto: "{{ item.proto | default('any') }}"
         src: "{{ item.src | default('any') }}"
@@ -21,6 +30,8 @@
       community.general.ufw:
         name: OpenSSH
         rule: allow
+        interface: "{{ ufw_interface | default('') }}"
+        direction: in
 
     - name: Reject all incomming and enable UFW
       community.general.ufw:

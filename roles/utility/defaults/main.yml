@@ -15,6 +15,9 @@ netplan_ethernets:
   #       - to: default
   #         via: x.x.x.x
 
+# interface for ufw rules
+ufw_interface: ''
+
 # firewall rules
 ufw_rules: []
 
