@@ -54,3 +54,19 @@
         k8s_install_j2s:
           - ingress/alertmanager_ingress_internal.j2
           - ingress/prometheus_ingress_internal.j2
+
+    - name: Install external services
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_j2
+      vars:
+        k8s_install_j2s:
+          - service/nfs_server_service.j2
+
+    - name: Install external services monitors
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: k8s_install_yml
+      vars:
+        k8s_install_ymls:
+          - files/nfs_server_service_monitor.yml
