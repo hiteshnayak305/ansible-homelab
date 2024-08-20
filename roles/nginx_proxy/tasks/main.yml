@@ -7,3 +7,5 @@
       include_tasks: 01_install_binaries.yml
     - name: Install configuration files
       include_tasks: 02_configure_proxy.yml
+    - name: Install node exporter
+      include_tasks: 03_configure_node_exporter.yml

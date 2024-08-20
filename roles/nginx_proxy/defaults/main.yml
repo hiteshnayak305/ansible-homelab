@@ -7,3 +7,4 @@ enabled_sites_config_file_path: /etc/nginx/sites-enabled
 # default site values
 nginx_domain: domain.com
 nginx_domain_ip: 127.0.0.1
+node_exporter_version: ""

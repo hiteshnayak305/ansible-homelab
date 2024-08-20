@@ -37,6 +37,11 @@
       ansible.builtin.command: swapoff -a
       when: ansible_swaptotal_mb > 0
 
+    - name: Install Node Exporter
+      ansible.builtin.include_role:
+        name: utility
+        tasks_from: install_node_exporter
+
     # - name: Cleanup ssd volume archives -> /mnt/nfs/ssd_0/archived-*
     #   ansible.builtin.shell: "rm -rf /mnt/nfs/ssd_0/archived-*"
 

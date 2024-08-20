@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy-server
+  namespace: default
+  labels:
+    app.kubernetes.io/name: proxy-server
+    jobLabel: node-exporter
+spec:
+  type: ClusterIP
+  #externalName: 192.168.1.100
+  ports:
+    - name: http-metrics
+      port: 9100
+      protocol: TCP
+      targetPort: 9100
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: proxy-server
+  namespace: default
+  labels:
+    app.kubernetes.io/name: proxy-server
+subsets:
+- addresses:
+  - ip: 192.168.1.199
+  ports:
+  - name: http-metrics
+    port: 9100
+    protocol: TCP
