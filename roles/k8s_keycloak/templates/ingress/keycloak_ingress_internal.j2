@@ -16,6 +16,8 @@ metadata:
     cert-manager.io/subject-streetaddresses: MH
     cert-manager.io/usages: server auth,client auth
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
+    nginx.ingress.kubernetes.io/proxy-buffer-size: '16k'
 spec:
   ingressClassName: nginx-internal
   tls:

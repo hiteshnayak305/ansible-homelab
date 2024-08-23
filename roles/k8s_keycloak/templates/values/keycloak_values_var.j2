@@ -13,6 +13,8 @@ ingress:
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
+    nginx.ingress.kubernetes.io/proxy-buffer-size: '16k'
   tls: true
 
 adminIngress:
@@ -30,4 +32,6 @@ adminIngress:
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
+    nginx.ingress.kubernetes.io/proxy-buffer-size: '16k'
   tls: true
