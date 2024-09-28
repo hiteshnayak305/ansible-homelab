@@ -51,17 +51,17 @@
         interface: "{{ ufw_interface | default('') }}"
         direction: in
 
-    - name: Reject all incomming and enable UFW
-      community.general.ufw:
-        state: enabled
-        default: reject
-        direction: incoming
+    # - name: Reject all incomming and enable UFW
+    #   community.general.ufw:
+    #     state: enabled
+    #     default: reject
+    #     direction: incoming
 
-    - name: Allow all outgoing and enable UFW
-      community.general.ufw:
-        state: enabled
-        default: allow
-        direction: outgoing
+    # - name: Allow all outgoing and enable UFW
+    #   community.general.ufw:
+    #     state: enabled
+    #     default: allow
+    #     direction: outgoing
 
     - name: Set logging
       community.general.ufw:
