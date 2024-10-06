@@ -13,7 +13,7 @@
   kubernetes.core.helm:
     name: kubernetes-dashboard
     chart_ref: kubernetes-dashboard/kubernetes-dashboard
-    chart_version: 7.5.0
+    chart_version: 7.7.0
     update_repo_cache: true
     release_namespace: kubernetes-dashboard
     create_namespace: true

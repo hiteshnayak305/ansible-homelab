@@ -9,7 +9,7 @@ env:
   CPU_CORES: "2"
 
 image:
-  tag: v1.112.1
+  tag: v1.117.0
 
 immich:
   metrics:
@@ -53,7 +53,7 @@ immich:
     map:
       enabled: false
     oauth:
-      enabled: true
+      enabled: false
       issuerUrl: "https://keycloak.hitesh.com/realms/main"
       clientId: immich
       clientSecret: zS7GITFC9hn1IouagJEhniNEQZN75WvG

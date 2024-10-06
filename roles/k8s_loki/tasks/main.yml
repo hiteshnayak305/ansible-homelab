@@ -40,7 +40,7 @@
       kubernetes.core.helm:
         name: loki
         chart_ref: grafana/loki
-        chart_version: 6.10.0
+        chart_version: 6.16.0
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: true
@@ -54,7 +54,7 @@
       kubernetes.core.helm:
         name: promtail
         chart_ref: grafana/promtail
-        chart_version: 6.16.4
+        chart_version: 6.16.6
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: false
@@ -68,7 +68,7 @@
       kubernetes.core.helm:
         name: kubernetes-event-exporter
         chart_ref: bitnami/kubernetes-event-exporter
-        chart_version: 3.2.10
+        chart_version: 3.2.13
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: false
