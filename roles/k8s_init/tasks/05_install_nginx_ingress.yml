@@ -39,6 +39,7 @@
     values_files:
       - "{{ tmpdir }}/nginx_ingress_values.yml"
     wait: true
+    timeout: '10m0s'
   when: not ansible_check_mode
 
 - name: Deploy latest version of nginx-ingress chart (internal)
@@ -53,6 +54,7 @@
       - "{{ tmpdir }}/nginx_ingress_values.yml"
       - "{{ tmpdir }}/nginx_ingress_internal_values.yml"
     wait: true
+    timeout: '10m0s'
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

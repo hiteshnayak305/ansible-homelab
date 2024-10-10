@@ -20,6 +20,7 @@
     values_files:
       - "{{ tmpdir }}/cert_manager_values.yml"
     wait: true
+    timeout: '10m0s'
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

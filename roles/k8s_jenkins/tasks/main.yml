@@ -119,6 +119,7 @@
           - "{{ tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
           - "{{ tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
         wait: true
+        timeout: '10m0s'
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)

@@ -75,6 +75,7 @@
           - "{{ tmpdir }}/grafana_values.yml"
           - "{{ tmpdir }}/grafana_values_var.yml"
         wait: true
+        timeout: '10m0s'
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)
