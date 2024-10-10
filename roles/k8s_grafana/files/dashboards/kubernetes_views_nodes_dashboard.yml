@@ -6,7 +6,7 @@ metadata:
   labels:
     grafana_dashboard: "1"
     gnetId: "15759"
-    revision: "29"
+    revision: "32"
 data:
   kubernetes-views-nodes-dashboard.json: |
     {
@@ -37,7 +37,7 @@ data:
       "fiscalYearStartMonth": 0,
       "gnetId": 15759,
       "graphTooltip": 1,
-      "id": 69,
+      "id": 2033,
       "links": [],
       "liveNow": false,
       "panels": [
@@ -113,7 +113,7 @@ data:
             "sizing": "auto",
             "text": {}
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -186,7 +186,7 @@ data:
             "sizing": "auto",
             "text": {}
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -237,6 +237,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -249,7 +250,7 @@ data:
             "textMode": "value",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -388,7 +389,7 @@ data:
             "showHeader": true,
             "sortBy": []
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -524,6 +525,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -536,7 +538,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -588,6 +590,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -600,7 +603,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -651,6 +654,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -663,7 +667,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -715,6 +719,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -727,7 +732,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -787,6 +792,7 @@ data:
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -799,7 +805,7 @@ data:
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.4.0",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -851,6 +857,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -952,6 +959,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1123,6 +1131,7 @@ data:
                 "axisLabel": "CPU Cores",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1153,7 +1162,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1218,6 +1228,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1248,7 +1259,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1314,6 +1326,7 @@ data:
                 "axisLabel": "CPU CORES",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1348,7 +1361,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1438,6 +1452,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1471,7 +1486,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1564,6 +1580,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1594,7 +1611,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1674,6 +1692,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1707,7 +1726,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1786,6 +1806,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1819,7 +1840,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1918,6 +1940,7 @@ data:
                 "axisLabel": "BANDWIDTH",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -1948,7 +1971,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1956,7 +1980,7 @@ data:
                   }
                 ]
               },
-              "unit": "bytes"
+              "unit": "binBps"
             },
             "overrides": []
           },
@@ -2008,7 +2032,7 @@ data:
               "refId": "B"
             }
           ],
-          "title": "Network usage (bytes)",
+          "title": "Network usage (bytes/s)",
           "type": "timeseries"
         },
         {
@@ -2028,6 +2052,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2058,7 +2083,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2136,6 +2162,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2166,7 +2193,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2246,6 +2274,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2276,7 +2305,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2354,6 +2384,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2384,7 +2415,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2451,6 +2483,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2481,7 +2514,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2595,6 +2629,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2626,7 +2661,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2699,7 +2735,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2756,7 +2793,7 @@ data:
             "showHeader": true,
             "sortBy": []
           },
-          "pluginVersion": "10.2.2",
+          "pluginVersion": "11.2.1",
           "targets": [
             {
               "datasource": {
@@ -2854,6 +2891,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -2885,7 +2923,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2969,6 +3008,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3000,7 +3040,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3068,6 +3109,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3099,7 +3141,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3167,6 +3210,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3198,7 +3242,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3265,6 +3310,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3296,7 +3342,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3364,6 +3411,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3395,7 +3443,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3462,6 +3511,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3493,7 +3543,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3561,6 +3612,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3592,7 +3644,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3659,6 +3712,7 @@ data:
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
+                "barWidthFactor": 0.6,
                 "drawStyle": "line",
                 "fillOpacity": 25,
                 "gradientMode": "opacity",
@@ -3690,7 +3744,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3845,8 +3900,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "",
-              "value": ""
+              "text": "k8s-master-01.hitesh.com",
+              "value": "k8s-master-01.hitesh.com"
             },
             "datasource": {
               "type": "prometheus",
@@ -3897,13 +3952,13 @@ data:
         ]
       },
       "time": {
-        "from": "now-1h",
+        "from": "now-15m",
         "to": "now"
       },
       "timepicker": {},
       "timezone": "",
       "title": "Kubernetes / Views / Nodes",
-      "uid": "k8s_views_nodes",
-      "version": 1,
+      "uid": "k8s_views_nodes_1",
+      "version": 2,
       "weekStart": ""
     }

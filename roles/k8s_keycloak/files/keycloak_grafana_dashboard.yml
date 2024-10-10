@@ -5,6 +5,7 @@ metadata:
   namespace: keycloak-system
   labels:
     grafana_dashboard: "1"
+    gnetId: "10441"
     revision: "2"
 data:
   keycloak-metrics-dashboard.json: |

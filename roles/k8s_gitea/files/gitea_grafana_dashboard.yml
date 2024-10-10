@@ -5,6 +5,7 @@ metadata:
   namespace: gitea-system
   labels:
     grafana_dashboard: "1"
+    gnetId: "13192"
     revision: "1"
 data:
   gitea-dashboard.json: |

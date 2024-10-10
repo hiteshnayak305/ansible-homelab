@@ -5,6 +5,7 @@ metadata:
   namespace: harbor-system
   labels:
     grafana_dashboard: "1"
+    gnetId: "19716"
     revision: "1"
 data:
   harbor-dashboard.json: |
