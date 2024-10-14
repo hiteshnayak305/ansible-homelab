@@ -1,0 +1,35 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: tempo-server-internal
+  namespace: tempo-system
+  annotations:
+    cert-manager.io/cluster-issuer: ca-cluster-issuer
+    cert-manager.io/common-name: "tempo.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/email-sans: hiteshnayak305@gmail.com
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: '4096'
+    cert-manager.io/subject-countries: IN
+    cert-manager.io/subject-localities: PUNE
+    cert-manager.io/subject-organizationalunits: DEV
+    cert-manager.io/subject-organizations: DEV
+    cert-manager.io/subject-streetaddresses: MH
+    cert-manager.io/usages: server auth,client auth
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+spec:
+  ingressClassName: nginx-internal
+  tls:
+    - hosts:
+        - "tempo.{{ kubernetes_ingress_root_domain }}"
+      secretName: tempo-server-internal-tls
+  rules:
+    - host: "tempo.{{ kubernetes_ingress_root_domain }}"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tempo
+                port:
+                  number: 3100

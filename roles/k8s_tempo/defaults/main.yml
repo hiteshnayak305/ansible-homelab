@@ -1,0 +1,7 @@
+---
+# defaults file for k8s_tempo
+# tmpdir
+tmpdir: /tmp
+
+nfs_server: nfs.domain.com
+kubernetes_ingress_root_domain: domain.com
