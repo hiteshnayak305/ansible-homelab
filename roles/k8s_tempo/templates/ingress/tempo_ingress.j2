@@ -27,14 +27,14 @@ spec:
       http:
         paths:
           - path: /otlp
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: tempo
                 port:
                   number: 4318
           - path: /
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: tempo
