@@ -26,6 +26,13 @@ spec:
     - host: "tempo.{{ kubernetes_ingress_root_domain }}"
       http:
         paths:
+          - path: /otlp
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tempo
+                port:
+                  number: 4318
           - path: /
             pathType: ImplementationSpecific
             backend:

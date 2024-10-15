@@ -45,16 +45,7 @@
       vars:
         k8s_install_j2s:
           - ingress/tempo_ingress.j2
-          - ingress/otlp_tempo_ingress.j2
-
-    - name: Install ingress internal
-      ansible.builtin.include_role:
-        name: utility
-        tasks_from: k8s_install_j2
-      vars:
-        k8s_install_j2s:
           - ingress/tempo_ingress_internal.j2
-          - ingress/otlp_tempo_ingress_internal.j2
 
     - name: Install grafana datasource
       ansible.builtin.include_role:
