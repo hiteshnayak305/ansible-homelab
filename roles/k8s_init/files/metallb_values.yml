@@ -1,6 +1,20 @@
 # Default values for metallb.
 # This is a YAML-formatted file.
 
+prometheus:
+  # prometheus doens't have the permission to scrape all namespaces so we give it permission to scrape metallb's one
+  rbacPrometheus: false
+  # Prometheus Operator ServiceMonitors. To be used as an alternative
+  # to podMonitor, supports secure metrics.
+  serviceMonitor:
+    # enable support for Prometheus Operator
+    enabled: true
+
+  # Prometheus Operator alertmanager alerts
+  prometheusRule:
+    # enable alertmanager alerts
+    enabled: true
+
 # controller contains configuration specific to the MetalLB cluster
 # controller.
 controller:
@@ -49,10 +63,10 @@ speaker:
     enabled: true
     resources:
       requests:
-        cpu: 50m
+        cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 100m
+        cpu: 200m
         memory: 256Mi
   # reloader
   reloader:
