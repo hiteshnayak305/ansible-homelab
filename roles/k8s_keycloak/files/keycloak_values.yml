@@ -66,7 +66,7 @@ resources:
     memory: 512Mi
   limits:
     cpu: 500m
-    memory: 1024Mi
+    memory: 1Gi
 
 ## @param customLivenessProbe Custom Liveness probes for Keycloak
 ##
@@ -219,20 +219,6 @@ metrics:
 ##
 postgresql:
   enabled: true
-  ## Bitnami PostgreSQL image version
-  ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
-  ## @param image.registry PostgreSQL image registry
-  ## @param image.repository PostgreSQL image repository
-  ## @param image.tag PostgreSQL image tag (immutable tags are recommended)
-  ## @param image.digest PostgreSQL image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param image.pullPolicy PostgreSQL image pull policy
-  ## @param image.pullSecrets Specify image pull secrets
-  ## @param image.debug Specify if debug values should be set
-  ##
-  # image:
-  #   registry: docker.io
-  #   repository: bitnami/postgresql
-  #   tag: 15-debian-12
   auth:
     postgresPassword: "keycloak"
     username: keycloak

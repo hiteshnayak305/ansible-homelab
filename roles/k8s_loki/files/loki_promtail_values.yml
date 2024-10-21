@@ -13,10 +13,10 @@ image:
 # -- Resource requests and limits
 resources:
   limits:
-    cpu: 200m
+    cpu: 300m
     memory: 128Mi
   requests:
-    cpu: 150m
+    cpu: 250m
     memory: 100Mi
 
 # -- Tolerations for pods. By default, pods will be scheduled on master/control-plane nodes.

@@ -186,7 +186,7 @@ agent:
             alwaysPullImage: false
             ttyEnabled: true
             resourceRequestCpu: "1"
-            resourceRequestMemory: "256Mi"
+            resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
@@ -204,7 +204,7 @@ agent:
             alwaysPullImage: false
             ttyEnabled: true
             resourceRequestCpu: "1"
-            resourceRequestMemory: "256Mi"
+            resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
@@ -222,7 +222,7 @@ agent:
             alwaysPullImage: false
             ttyEnabled: true
             resourceRequestCpu: "1"
-            resourceRequestMemory: "256Mi"
+            resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
@@ -240,7 +240,7 @@ agent:
             alwaysPullImage: false
             ttyEnabled: true
             resourceRequestCpu: "1"
-            resourceRequestMemory: "256Mi"
+            resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge

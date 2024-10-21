@@ -64,7 +64,7 @@
       kubernetes.core.helm:
         name: keycloak
         chart_ref: bitnami/keycloak
-        chart_version: 24.0.0
+        chart_version: 24.0.1
         update_repo_cache: true
         release_namespace: keycloak-system
         create_namespace: true
@@ -72,7 +72,7 @@
           - "{{ tmpdir }}/keycloak_values.yml"
           - "{{ tmpdir }}/keycloak_values_var.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: '15m0s'
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)

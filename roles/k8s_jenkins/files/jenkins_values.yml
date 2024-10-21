@@ -38,7 +38,6 @@ controller:
   # -- Sets the executor mode of the Jenkins node. Possible values are "NORMAL" or "EXCLUSIVE"
   executorMode: "NORMAL"
 
-
   hostNetworking: false
 
   # When enabling LDAP or another non-Jenkins identity source, the built-in admin account will no longer exist.
@@ -71,7 +70,7 @@ controller:
   resources:
     requests:
       cpu: "300m"
-      memory: "600Mi"
+      memory: "640Mi"
     limits:
       cpu: "500m"
       memory: "1024Mi"

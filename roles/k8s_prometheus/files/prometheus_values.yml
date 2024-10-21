@@ -241,10 +241,10 @@ prometheus:
     ##
     resources:
       requests:
-        memory: "500Mi"
+        memory: "512Mi"
         cpu: "100m"
       limits:
-        memory: "1000Mi"
+        memory: "1Gi"
         cpu: "200m"
 
     ## Prometheus StorageSpec for persistent data

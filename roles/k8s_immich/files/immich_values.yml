@@ -9,7 +9,7 @@ env:
   CPU_CORES: "2"
 
 image:
-  tag: v1.117.0
+  tag: v1.118.2
 
 immich:
   metrics:
@@ -145,20 +145,6 @@ postgresql:
 
 redis:
   enabled: true
-  ## Bitnami Redis&reg; image
-  ## ref: https://hub.docker.com/r/bitnami/redis/tags/
-  ## @param image.registry [default: REGISTRY_NAME] Redis&reg; image registry
-  ## @param image.repository [default: REPOSITORY_NAME/redis] Redis&reg; image repository
-  ## @skip image.tag Redis&reg; image tag (immutable tags are recommended)
-  ## @param image.digest Redis&reg; image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param image.pullPolicy Redis&reg; image pull policy
-  ## @param image.pullSecrets Redis&reg; image pull secrets
-  ## @param image.debug Enable image debug mode
-  ##
-  image:
-    registry: docker.io
-    repository: bitnami/redis
-    tag: 7.2-debian-11
   architecture: standalone
   auth:
     enabled: false
