@@ -149,11 +149,11 @@ database:
     password: "harbor"
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 200m
+        memory: 384Mi
       limits:
-        cpu: 150m
-        memory: 450Mi
+        cpu: 300m
+        memory: 512Mi
 
 redis:
   # if external Redis is used, set "type" to "external"
