@@ -13,14 +13,14 @@
   kubernetes.core.helm:
     name: kubernetes-dashboard
     chart_ref: kubernetes-dashboard/kubernetes-dashboard
-    chart_version: 7.8.0
+    chart_version: 7.9.0
     update_repo_cache: true
     release_namespace: kubernetes-dashboard
     create_namespace: true
     values_files:
       - "{{ tmpdir }}/kubernetes_dashboard_values.yml"
     wait: true
-    timeout: '10m0s'
+    timeout: "10m0s"
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

@@ -27,7 +27,7 @@
   kubernetes.core.helm:
     name: flannel
     chart_ref: flannel/flannel
-    chart_version: v0.25.7
+    chart_version: v0.26.0
     update_repo_cache: true
     release_namespace: kube-flannel
     create_namespace: false
@@ -35,7 +35,7 @@
       - "{{ tmpdir }}/flannel_values.yml"
       - "{{ tmpdir }}/flannel_values_var.yml"
     wait: true
-    timeout: '10m0s'
+    timeout: "10m0s"
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

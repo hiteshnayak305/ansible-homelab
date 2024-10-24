@@ -37,10 +37,10 @@ controller:
                 operator: Exists
   resources:
     requests:
-      cpu: 50m
+      cpu: 100m
       memory: 64Mi
     limits:
-      cpu: 100m
+      cpu: 150m
       memory: 128Mi
 
 # speaker contains configuration specific to the MetalLB speaker
@@ -52,10 +52,10 @@ speaker:
   logLevel: info
   resources:
     requests:
-      cpu: 50m
+      cpu: 100m
       memory: 32Mi
     limits:
-      cpu: 100m
+      cpu: 150m
       memory: 64Mi
   # frr contains configuration specific to the MetalLB FRR container,
   # for speaker running alongside FRR.
@@ -63,10 +63,10 @@ speaker:
     enabled: true
     resources:
       requests:
-        cpu: 100m
+        cpu: 200m
         memory: 128Mi
       limits:
-        cpu: 200m
+        cpu: 350m
         memory: 256Mi
   # reloader
   reloader:
