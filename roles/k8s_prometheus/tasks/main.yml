@@ -27,7 +27,7 @@
       kubernetes.core.helm:
         name: kube-prometheus-stack
         chart_ref: prometheus-community/kube-prometheus-stack
-        chart_version: 65.3.1
+        chart_version: 65.4.0
         update_repo_cache: true
         release_namespace: prometheus-system
         create_namespace: true
@@ -35,7 +35,7 @@
           - "{{ tmpdir }}/prometheus_values.yml"
           - "{{ tmpdir }}/prometheus_values_var.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: "10m0s"
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)

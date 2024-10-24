@@ -106,6 +106,18 @@ kube-state-metrics:
       memory: "128Mi"
       cpu: "100m"
 
+## Deploy node exporter as a daemonset to all nodes
+##
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    aix:
+      enabled: false
+    darwin:
+      enabled: false
+
 ## Configuration for prometheus-node-exporter subchart
 ##
 prometheus-node-exporter:
@@ -144,9 +156,9 @@ prometheusOperator:
       enabled: false
       # self-signed root certificate
       rootCert:
-        duration: ""  # default to be 5y
+        duration: "" # default to be 5y
       admissionCert:
-        duration: ""  # default to be 1y
+        duration: "" # default to be 1y
       issuerRef:
         name: "ca-cluster-issuer"
         kind: "ClusterIssuer"
@@ -221,7 +233,7 @@ prometheus:
     ## ## solve https://github.com/prometheus-community/helm-charts/issues/4221
     relabelings:
       - targetLabel: cluster
-        replacement: 'prometheus'
+        replacement: "prometheus"
 
   ## Settings affecting prometheusSpec
   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
