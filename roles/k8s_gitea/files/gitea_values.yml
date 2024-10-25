@@ -107,7 +107,7 @@ persistence:
   enabled: true
   create: false
   claimName: pvc-gitea
-  size: 10Gi
+  size: 20Gi
 
 # Configure commit/action signing prerequisites
 ## @section Signing
