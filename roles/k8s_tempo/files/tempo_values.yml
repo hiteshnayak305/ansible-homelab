@@ -10,13 +10,15 @@ tempo:
   pullPolicy: IfNotPresent
 
   updateStrategy: RollingUpdate
+  memBallastSizeMbs: 256
+  retention: 168h
   resources:
-   requests:
-     cpu: 200m
-     memory: 256Mi
-   limits:
-     cpu: 500m
-     memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
   # -- If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs
   reportingEnabled: false
@@ -25,8 +27,8 @@ serviceMonitor:
   enabled: true
 
 persistence:
-  enabled: false
-  # storageClassName: local-path
+  enabled: true
+  storageClassName: nfs-client-hdd-0
   accessModes:
     - ReadWriteOnce
   size: 10Gi

@@ -48,7 +48,7 @@
           - "{{ tmpdir }}/loki_values.yml"
           - "{{ tmpdir }}/loki_values_var.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: "10m0s"
       when: not ansible_check_mode
 
     - name: Deploy latest version of promtail chart
@@ -63,7 +63,7 @@
           - "{{ tmpdir }}/loki_promtail_values.yml"
           - "{{ tmpdir }}/loki_promtail_values_var.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: "10m0s"
       when: not ansible_check_mode
 
     - name: Deploy latest version of kubernetes event exporter chart
@@ -78,7 +78,7 @@
           - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
           - "{{ tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: "10m0s"
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)
@@ -107,7 +107,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2:
+        k8s_install_j2s:
           - cm/loki_datasource_configmap.j2
 
     - name: Install grafana dashboards

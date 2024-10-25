@@ -249,6 +249,14 @@ prometheus:
       matchLabels:
         app.kubernetes.io/managed-by: Helm
 
+    ## How long to retain metrics
+    ##
+    retention: 30d
+
+    ## Maximum size of metrics
+    ##
+    retentionSize: "9GiB"
+
     ## Resource limits & requests
     ##
     resources:
@@ -271,7 +279,7 @@ prometheus:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 1Gi
+              storage: 10Gi
         #  selector: {}
 
     ## Using tmpfs volume

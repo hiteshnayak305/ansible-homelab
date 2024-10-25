@@ -15,3 +15,8 @@ data:
       uid: tempo
       url: "https://tempo.{{ kubernetes_ingress_root_domain }}/"
       access: proxy
+      jsonData:
+		    tracesToLogsV2:
+		      datasourceUid: loki
+		      filterBySpanID: false
+		      filterByTraceID: true

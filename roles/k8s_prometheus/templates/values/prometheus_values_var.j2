@@ -31,6 +31,11 @@ grafana:
       ## URL of prometheus datasource
       ##
       url: https://prometheus.{{ kubernetes_ingress_root_domain }}/
+      ## Field with internal link pointing to existing data source in Grafana.
+      ## Can be provisioned via additionalDataSources
+      exemplarTraceIdDestinations:
+        datasourceUid: tempo
+        traceIdLabelName: TraceID
       alertmanager:
         ## URL of alertmanager datasource
         ##
