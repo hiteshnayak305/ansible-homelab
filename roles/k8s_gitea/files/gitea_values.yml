@@ -170,15 +170,17 @@ gitea:
       TOKEN: ""
     ## #356 https://gitea.com/gitea/helm-chart/issues/356
     session:
-      PROVIDER: redis-cluster
-      PROVIDER_CONFIG: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+      ENABLED: true
+      PROVIDER: redis
+      PROVIDER_CONFIG: redis://:gitea@gitea-redis-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
     cache:
       ENABLED: true
-      ADAPTER: redis-cluster
-      HOST: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+      ADAPTER: redis
+      HOST: redis://:gitea@gitea-redis-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
     queue:
+      ENABLED: true
       TYPE: redis
-      CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+      CONN_STR: redis://:gitea@gitea-redis-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
 
   ## @param gitea.metrics.enabled Enable Gitea metrics
   ## @param gitea.metrics.serviceMonitor.enabled Enable Gitea metrics service monitor
@@ -209,13 +211,16 @@ redis:
   ## @param architecture Redis&reg; architecture. Allowed values: `standalone` or `replication`
   ##
   architecture: standalone
+  global:
+    redis:
+      password: gitea
   ## Redis&reg; Authentication parameters
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/redis#setting-the-server-password-on-first-run
   ##
   auth:
     ## @param auth.enabled Enable password authentication
     ##
-    enabled: false
+    enabled: true
   ## @section Redis&reg; master configuration parameters
   ##
   master:
