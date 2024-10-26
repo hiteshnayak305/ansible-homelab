@@ -71,9 +71,9 @@ core:
   resources:
     requests:
       cpu: 100m
-      memory: 64Mi
+      memory: 96Mi
     limits:
-      cpu: 300m
+      cpu: 200m
       memory: 128Mi
   # Secret is used when core server communicates with other components.
   # If a secret key is not specified, Helm will generate one. Alternatively set existingSecret to use an existing secret
@@ -88,7 +88,7 @@ jobservice:
       cpu: 100m
       memory: 64Mi
     limits:
-      cpu: 300m
+      cpu: 200m
       memory: 128Mi
   # Secret is used when job service communicates with other components.
   # If a secret key is not specified, Helm will generate one.
@@ -99,11 +99,11 @@ registry:
   registry:
     resources:
       requests:
-        cpu: 10m
-        memory: 64Mi
-      limits:
-        cpu: 50m
+        cpu: 150m
         memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 160Mi
   controller:
     resources:
       requests:
@@ -131,13 +131,13 @@ trivy:
   # replicas the number of Pod replicas
   replicas: 1
   # The duration to wait for scan completion
-  timeout: 5m0s
+  timeout: 10m0s
   resources:
     requests:
-      cpu: 250m
-      memory: 256Mi
+      cpu: 400m
+      memory: 368Mi
     limits:
-      cpu: 500m
+      cpu: 600m
       memory: 512Mi
 
 database:
