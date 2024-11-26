@@ -44,7 +44,6 @@ controller:
   # If you disable the non-Jenkins identity store and instead use the Jenkins internal one,
   # you should revert controller.admin.username to your preferred admin user:
   admin:
-
     # -- Admin username created as a secret if `controller.admin.createSecret` is true
     username: "jenkins"
     # -- Admin password created as a secret if `controller.admin.createSecret` is true
@@ -111,7 +110,7 @@ controller:
 
   # Enable to always override the installed plugins with the values of 'controller.installPlugins' on upgrade or redeployment.
   # -- Overwrite installed plugins on start
-  overwritePlugins: false
+  overwritePlugins: true
 
   # Configures if plugins bundled with `controller.image` should be overwritten with the values of 'controller.installPlugins' on upgrade or redeployment.
   # -- Overwrite plugins that are already installed in the controller image
@@ -190,7 +189,7 @@ controller:
     # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: true
-    
+
     # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
     # -- Jenkins Config as Code security-section
     security:
