@@ -1,5 +1,5 @@
 ---
-- name: execute postinstallation for k8s
+- name: Execute postinstallation for k8s
   become: true
   become_user: "{{ kubernetes_user }}"
   block:
@@ -13,25 +13,28 @@
     #   include_tasks: 00_config_kubeadm.yml
 
     - name: Installing Helm
-      include_tasks: 01_install_helm.yml
+      ansible.builtin.include_tasks: 01_install_helm.yml
 
     - name: Installing Flannel Network Plugin
-      include_tasks: 02_install_flannel.yml
+      ansible.builtin.include_tasks: 02_install_flannel.yml
 
     - name: Installing MetalLB
-      include_tasks: 03_install_metallb.yml
+      ansible.builtin.include_tasks: 03_install_metallb.yml
 
     - name: Installing Cert Manager
-      include_tasks: 04_install_cert_manager.yml
+      ansible.builtin.include_tasks: 04_install_cert_manager.yml
 
     - name: Installing Nginx Ingress
-      include_tasks: 05_install_nginx_ingress.yml
+      ansible.builtin.include_tasks: 05_install_nginx_ingress.yml
 
     - name: Installing Kubernetes Dashboard
-      include_tasks: 06_install_kubernetes_dashboard.yml
+      ansible.builtin.include_tasks: 06_install_kubernetes_dashboard.yml
 
     - name: Installing NFS Subdirectory External Provisioner
-      include_tasks: 07_install_nfs-subdir-external-provisioner.yml
+      ansible.builtin.include_tasks: 07_install_nfs-subdir-external-provisioner.yml
 
     - name: Installing Node Problem Detector
-      include_tasks: 08_install_node_problem_detector.yml
+      ansible.builtin.include_tasks: 08_install_node_problem_detector.yml
+
+    - name: Installing Helm Dashboard
+      ansible.builtin.include_tasks: 09_install_helm_dashboard.yml
