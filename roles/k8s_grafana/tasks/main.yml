@@ -67,7 +67,7 @@
       kubernetes.core.helm:
         name: grafana
         chart_ref: grafana/grafana
-        chart_version: 8.5.8
+        chart_version: 8.6.2
         update_repo_cache: true
         release_namespace: grafana-system
         create_namespace: false
@@ -75,7 +75,7 @@
           - "{{ tmpdir }}/grafana_values.yml"
           - "{{ tmpdir }}/grafana_values_var.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: "10m0s"
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)

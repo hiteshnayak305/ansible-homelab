@@ -55,7 +55,7 @@ revisionHistoryLimitCount: 1
 ## @param extraContainerPorts Optionally specify extra list of additional port-mappings for Keycloak container
 ##
 extraContainerPorts:
-  - name: management
+  - name: metrics
     containerPort: 9000
     protocol: TCP
 
@@ -73,7 +73,7 @@ resources:
 customLivenessProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/live"
-    port: management
+    port: metrics
 
 livenessProbe:
   enabled: false
@@ -83,7 +83,7 @@ livenessProbe:
 customReadinessProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/ready"
-    port: management
+    port: metrics
 
 readinessProbe:
   enabled: false
@@ -93,7 +93,7 @@ readinessProbe:
 customStartupProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/started"
-    port: management
+    port: metrics
   failureThreshold: 60
   periodSeconds: 30
 
@@ -187,10 +187,10 @@ metrics:
     ## @param metrics.service.extraPorts [array] Add additional ports to the keycloak metrics service (i.e. admin port 9000)
     ##
     extraPorts:
-      - name: management
+      - name: metrics
         port: 9000
         protocol: TCP
-        targetPort: management
+        targetPort: metrics
   ## Prometheus Operator ServiceMonitor configuration
   ##
   serviceMonitor:
@@ -201,7 +201,7 @@ metrics:
     ##
     endpoints:
       - path: '{{ include "keycloak.httpPath" . }}metrics'
-        port: management
+        port: metrics
       - path: '{{ include "keycloak.httpPath" . }}realms/{{ .Values.adminRealm }}/metrics'
         port: http
 

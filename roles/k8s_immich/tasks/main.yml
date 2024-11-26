@@ -61,14 +61,14 @@
       kubernetes.core.helm:
         name: immich
         chart_ref: immich/immich
-        chart_version: 0.8.2
+        chart_version: 0.8.4
         update_repo_cache: true
         release_namespace: immich-system
         create_namespace: false
         values_files:
           - "{{ tmpdir }}/immich_values.yml"
         wait: true
-        timeout: '10m0s'
+        timeout: "10m0s"
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)

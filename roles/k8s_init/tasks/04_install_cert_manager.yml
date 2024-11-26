@@ -13,14 +13,14 @@
   kubernetes.core.helm:
     name: cert-manager
     chart_ref: jetstack/cert-manager
-    chart_version: 1.16.1
+    chart_version: 1.16.2
     update_repo_cache: true
     release_namespace: cert-manager
     create_namespace: true
     values_files:
       - "{{ tmpdir }}/cert_manager_values.yml"
     wait: true
-    timeout: '10m0s'
+    timeout: "10m0s"
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

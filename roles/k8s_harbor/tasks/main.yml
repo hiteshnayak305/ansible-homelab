@@ -66,7 +66,7 @@
       kubernetes.core.helm:
         name: harbor
         chart_ref: harbor/harbor
-        chart_version: 1.15.1
+        chart_version: 1.16.0
         update_repo_cache: true
         release_namespace: harbor-system
         create_namespace: false
@@ -74,7 +74,7 @@
           - "{{ tmpdir }}/harbor_values.yml"
           - "{{ tmpdir }}/harbor_values_var.yml"
         wait: true
-        timeout: '15m0s'
+        timeout: "15m0s"
       when: not ansible_check_mode
 
     - name: Remove temp files (delete file)

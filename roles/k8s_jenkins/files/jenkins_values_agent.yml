@@ -162,7 +162,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: hiteshnayak305/k8s:1.29.9
+            image: hiteshnayak305/k8s:1.30.7
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false

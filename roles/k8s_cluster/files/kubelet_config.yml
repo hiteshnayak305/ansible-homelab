@@ -38,6 +38,8 @@ data:
       options:
         json:
           infoBufferSize: "0"
+        text:
+          infoBufferSize: "0"
       verbosity: 0
     memorySwap: {}
     nodeStatusReportFrequency: 0s
@@ -49,5 +51,5 @@ data:
     shutdownGracePeriodCriticalPods: 0s
     staticPodPath: /etc/kubernetes/manifests
     streamingConnectionIdleTimeout: 0s
-    syncFrequency: 1m0s
+    syncFrequency: 0s
     volumeStatsAggPeriod: 0s
