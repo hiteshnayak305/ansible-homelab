@@ -50,6 +50,10 @@ api:
     replicas: 1
     revisionHistoryLimit: 1
   containers:
+    # Additional container arguments
+    # Full list of arguments: https://github.com/kubernetes/dashboard/blob/master/docs/common/arguments.md
+    args:
+      - --cache-enabled=false
     resources:
       requests:
         cpu: 250m
