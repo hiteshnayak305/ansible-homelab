@@ -36,6 +36,7 @@
           - files/immich_namespace.yml
           - files/pvc_immich.yml
           - files/pvc_immich_postgresql_primary.yml
+          - files/svc_immich_machine_learning.yml
 
     - name: Install prereq for immich
       ansible.builtin.include_role:

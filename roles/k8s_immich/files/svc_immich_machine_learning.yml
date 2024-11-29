@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: immich-machine-learning
+  namespace: immich-system
+  labels:
+    app.kubernetes.io/name: immich-machine-learning
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3003
+      protocol: TCP
+      targetPort: 3003
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: immich-machine-learning
+  namespace: immich-system
+  labels:
+    app.kubernetes.io/name: immich-machine-learning
+subsets:
+  - addresses:
+      - ip: 192.168.1.101
+    ports:
+      - name: http
+        port: 3003
+        protocol: TCP
