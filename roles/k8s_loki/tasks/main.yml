@@ -40,7 +40,7 @@
       kubernetes.core.helm:
         name: loki
         chart_ref: grafana/loki
-        chart_version: 6.21.0
+        chart_version: 6.22.0
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: true
