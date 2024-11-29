@@ -87,7 +87,7 @@ controller:
   probes:
     startupProbe:
       # -- Set the failure threshold for the startup probe
-      failureThreshold: 60 # ~ 5 minutes
+      failureThreshold: 120 # ~ 10 minutes
 
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
