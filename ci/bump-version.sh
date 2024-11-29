@@ -16,3 +16,4 @@ sed -i "s/version: $1/version: $2/1" galaxy.yml
 git add .
 git commit -m "chore(dev): bump version to $2"
 git tag $2
+git push origin master --tags
