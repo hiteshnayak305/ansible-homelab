@@ -245,6 +245,20 @@ postgresql:
       existingClaim: "pvc-keycloak-postgresql-primary"
       accessModes:
         - ReadWriteOnce
+    ## @param primary.affinity Affinity for PostgreSQL primary pods assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ## Note: primary.podAffinityPreset, primary.podAntiAffinityPreset, and primary.nodeAffinityPreset will be ignored when it's set
+    ##
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-worker-01.hitesh.com
     ## @param primary.pgHbaConfiguration PostgreSQL Primary client authentication configuration
     ## ref: https://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
     ## e.g:#

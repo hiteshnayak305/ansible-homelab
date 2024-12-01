@@ -36,6 +36,19 @@ ingress:
   #  traffic-type: internal
   #tls: -> template
 
+# Affinity for pod assignment
+# Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k8s-worker-03.hitesh.com
+
 startupProbe:
   initialDelaySeconds: 90
   periodSeconds: 10
@@ -201,7 +214,21 @@ postgresql:
     size: 1Gi
     storageClass: "-"
     existingClaim: pvc-sonarqube-postgresql-primary
-
+  primary:
+    ## @param primary.affinity Affinity for PostgreSQL primary pods assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ## Note: primary.podAffinityPreset, primary.podAntiAffinityPreset, and primary.nodeAffinityPreset will be ignored when it's set
+    ##
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-worker-01.hitesh.com
   ## Configure metrics exporter
   ##
   metrics:

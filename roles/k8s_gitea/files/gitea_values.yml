@@ -320,6 +320,20 @@ postgresql-ha:
     ## @param postgresql.upgradeRepmgrExtension Upgrade repmgr extension in the database
     ##
     upgradeRepmgrExtension: true
+    ## @param postgresql.affinity Affinity for PostgreSQL pods assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ## Note: postgresql.podAffinityPreset, postgresql.podAntiAffinityPreset, and postgresql.nodeAffinityPreset will be ignored when it's set
+    ##
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-worker-01.hitesh.com
   pgpool:
     adminPassword: gitea
     ## Pgpool containers' resource requests and limits
@@ -338,6 +352,20 @@ postgresql-ha:
       requests:
         memory: 512Mi
         cpu: 150m
+    ## @param pgpool.affinity Affinity for Pgpool pods assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ## Note: pgpool.podAffinityPreset, pgpool.podAntiAffinityPreset, and pgpool.nodeAffinityPreset will be ignored when it's set
+    ##
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-worker-01.hitesh.com
   service:
     ports:
       postgresql: 5432
