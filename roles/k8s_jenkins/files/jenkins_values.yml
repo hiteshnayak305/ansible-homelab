@@ -164,6 +164,8 @@ controller:
       keyName: username
     - name: mail-gmail-selfhost-secret
       keyName: password
+    - name: nvd-api-secret
+      keyName: token
 
   # -- List of additional secrets to create and mount
   additionalSecrets: []

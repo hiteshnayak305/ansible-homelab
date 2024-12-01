@@ -30,3 +30,6 @@ sonarqube_token: ""
 mail_selfhost_username: admin
 mail_selfhost_password: password
 mail_selfhost_password_encrypted: { AQA....lfn83GBt }
+
+# nvd api key
+nvd_api_key: ""
