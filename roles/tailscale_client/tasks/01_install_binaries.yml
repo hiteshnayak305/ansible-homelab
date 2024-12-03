@@ -28,7 +28,8 @@
 #   ansible.builtin.command: tailscale login
 
 - name: Tailscale up
-  ansible.builtin.command: "tailscale up --authkey {{ tailscale_authkey }}"
-  when: "tailscale_authkey and tailscale_authkey|length > 0"
+  ansible.builtin.command: "tailscale up --authkey {{ tailscale_client_tailscale_authkey }}"
+  when: "tailscale_client_tailscale_authkey and tailscale_client_tailscale_authkey|length > 0"
+  changed_when: "tailscale_client_tailscale_authkey and tailscale_client_tailscale_authkey|length > 0"
   notify:
-    - restart tailscale
+    - Restart Tailscale
