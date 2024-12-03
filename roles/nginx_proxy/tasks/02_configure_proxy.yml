@@ -1,7 +1,7 @@
 ---
 - name: Ensuring available-modules config path exists
   ansible.builtin.file:
-    dest: "{{ available_modules_config_file_path }}"
+    dest: "{{ nginx_proxy_available_modules_config_file_path }}"
     owner: "root"
     group: "root"
     mode: 0755
@@ -10,7 +10,7 @@
 - name: Install custom config file
   ansible.builtin.template:
     src: etc/nginx/modules-available/module_config.j2
-    dest: "{{ available_modules_config_file_path }}/{{ nginx_domain }}"
+    dest: "{{ nginx_proxy_available_modules_config_file_path }}/{{ nginx_proxy_nginx_domain }}"
     owner: "root"
     group: "root"
     mode: 0755
@@ -18,14 +18,14 @@
 
 - name: Disable default http config file
   ansible.builtin.file:
-    path: "{{ enabled_sites_config_file_path }}/default"
+    path: "{{ nginx_proxy_enabled_sites_config_file_path }}/default"
     state: absent
   register: config1
 
 - name: Enable custom config file
   ansible.builtin.file:
-    src: "{{ available_modules_config_file_path }}/{{ nginx_domain }}"
-    dest: "{{ enabled_modules_config_file_path }}/{{ nginx_domain }}.conf"
+    src: "{{ nginx_proxy_available_modules_config_file_path }}/{{ nginx_proxy_nginx_domain }}"
+    dest: "{{ nginx_proxy_enabled_modules_config_file_path }}/{{ nginx_proxy_nginx_domain }}.conf"
     owner: "root"
     group: "root"
     mode: 0755
@@ -35,5 +35,6 @@
 - name: Test Configuration
   ansible.builtin.command: "nginx -t"
   when: config0 is changed or config1 is changed or config2 is changed
+  changed_when: config0 is changed or config1 is changed or config2 is changed
   notify:
-    - restart nginx
+    - Restart Nginx

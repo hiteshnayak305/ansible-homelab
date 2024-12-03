@@ -1,2 +1,6 @@
 ---
-# vars file for nfs_server
+# vars file for nginx_proxy
+
+nginx_proxy_available_modules_config_file_path: /etc/nginx/modules-available
+nginx_proxy_enabled_modules_config_file_path: /etc/nginx/modules-enabled
+nginx_proxy_enabled_sites_config_file_path: /etc/nginx/sites-enabled
