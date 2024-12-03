@@ -1,6 +1,6 @@
 ---
 # handlers file for k8s_cluster
-- name: restart kubelet
+- name: Restart Kubelet
   become: true
   ansible.builtin.service:
     name: kubelet

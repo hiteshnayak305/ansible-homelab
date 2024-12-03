@@ -2,14 +2,15 @@
 - name: Copy kubelet config file
   ansible.builtin.copy:
     src: files/kubelet_config.yml
-    dest: "{{ tmpdir }}/kubelet_config.yml"
+    dest: "{{ k8s_cluster_tmpdir }}/kubelet_config.yml"
+    mode: "0644"
   when: inventory_hostname == 'k8s-master-01'
   changed_when: false
 
 - name: Install kubelet config map
   kubernetes.core.k8s:
     state: present
-    src: "{{ tmpdir }}/kubelet_config.yml"
+    src: "{{ k8s_cluster_tmpdir }}/kubelet_config.yml"
     wait: true
   register: config
   when: not ansible_check_mode and inventory_hostname == 'k8s-master-01'
@@ -17,14 +18,15 @@
 - name: Reconfigure and Restart kubelet
   become: true
   become_user: root
-  ansible.builtin.shell: kubeadm upgrade node phase kubelet-config
+  ansible.builtin.command: kubeadm upgrade node phase kubelet-config
+  changed_when: true
   notify:
-    - restart kubelet
+    - Restart Kubelet
 
 - name: Remove temp files (delete file)
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/kubelet_config.yml"
+    - "{{ k8s_cluster_tmpdir }}/kubelet_config.yml"
   changed_when: false

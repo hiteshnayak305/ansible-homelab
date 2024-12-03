@@ -6,6 +6,6 @@
   with_items:
     - "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_join_command"
     - "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
-    - "{{ tmpdir }}/kubernetes_join_command"
-    - "{{ tmpdir }}/kubernetes_master_join_command"
+    - "{{ k8s_cluster_tmpdir }}/kubernetes_join_command"
+    - "{{ k8s_cluster_tmpdir }}/kubernetes_master_join_command"
   changed_when: false

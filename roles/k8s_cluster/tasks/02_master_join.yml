@@ -14,7 +14,7 @@
 - name: Copy join command from nfs share to local.
   ansible.builtin.copy:
     src: "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
-    dest: "{{ tmpdir }}/kubernetes_master_join_command"
+    dest: "{{ k8s_cluster_tmpdir }}/kubernetes_master_join_command"
     mode: 0777
     remote_src: true
   when: not cluster_crt.stat.exists and join_command.stat.exists
@@ -22,11 +22,12 @@
 - name: Join the master nodes to the cluster
   become: true
   become_user: root
-  ansible.builtin.command: "sh {{ tmpdir }}/kubernetes_master_join_command"
+  ansible.builtin.command: "sh {{ k8s_cluster_tmpdir }}/kubernetes_master_join_command"
   register: joined_or_not
   when: not cluster_crt.stat.exists and join_command.stat.exists
+  changed_when: not cluster_crt.stat.exists and join_command.stat.exists
 
-- name: copies admin.conf to user's kube config
+- name: Copies admin.conf to user's kube config
   ansible.builtin.copy:
     src: /etc/kubernetes/admin.conf
     dest: "/home/{{ kubernetes_user }}/.kube/config"
