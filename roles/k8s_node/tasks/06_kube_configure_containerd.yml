@@ -1,3 +1,4 @@
+---
 - name: Make sure the folder exists => /etc/containerd
   ansible.builtin.file:
     path: /etc/containerd
@@ -17,8 +18,8 @@
 - name: Ensure Systemd Cgroup is used
   ansible.builtin.lineinfile:
     path: "{{ tmpdir }}/containerd_config.toml"
-    regexp: '^            SystemdCgroup ='
-    line: '            SystemdCgroup = true'
+    regexp: "^            SystemdCgroup ="
+    line: "            SystemdCgroup = true"
     backrefs: true
     state: present
   changed_when: false
@@ -26,7 +27,7 @@
 - name: Ensure sandbox image version
   ansible.builtin.lineinfile:
     path: "{{ tmpdir }}/containerd_config.toml"
-    regexp: '^    sandbox_image ='
+    regexp: "^    sandbox_image ="
     line: '    sandbox_image = "registry.k8s.io/pause:3.9"'
     backrefs: true
     state: present
@@ -37,7 +38,7 @@
     remote_src: true
     src: "{{ tmpdir }}/containerd_config.toml"
     dest: /etc/containerd/config.toml
-  notify: 
+  notify:
     - restart containerd
 
 - name: Cleanup temporary file

@@ -1,3 +1,4 @@
+---
 - name: Ensuring available-modules config path exists
   ansible.builtin.file:
     dest: "{{ available_modules_config_file_path }}"

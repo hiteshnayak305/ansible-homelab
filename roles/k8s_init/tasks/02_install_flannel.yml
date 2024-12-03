@@ -1,3 +1,4 @@
+---
 - name: Add Flannel helm repository
   kubernetes.core.helm_repository:
     name: flannel

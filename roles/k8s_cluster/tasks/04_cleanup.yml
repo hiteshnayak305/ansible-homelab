@@ -1,11 +1,11 @@
+---
 - name: Remove join command files (delete file)
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
-  with_items: 
+  with_items:
     - "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_join_command"
     - "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
     - "{{ tmpdir }}/kubernetes_join_command"
     - "{{ tmpdir }}/kubernetes_master_join_command"
   changed_when: false
-  

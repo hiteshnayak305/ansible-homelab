@@ -1,3 +1,4 @@
+---
 - name: Add kubernetes dashboard helm repository
   kubernetes.core.helm_repository:
     name: kubernetes-dashboard

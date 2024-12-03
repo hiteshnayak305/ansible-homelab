@@ -2,8 +2,9 @@
 # tmpdir
 tmpdir: /tmp
 
-#ip addresses
+# ip addresses
 netplan_ethernets:
+  []
   # - interface: enp0s3
   #   body:
   #     addresses:
@@ -16,7 +17,7 @@ netplan_ethernets:
   #         via: x.x.x.x
 
 # interface for ufw rules
-ufw_interface: ''
+ufw_interface: ""
 
 # firewall rules
 ufw_rules: []
@@ -60,7 +61,7 @@ k8s_install_urls: []
 # j2 template k8s manifests
 k8s_install_j2s: []
 
-#htop users
+# htop users
 htop_users: []
 
 # timezone

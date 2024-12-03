@@ -1,3 +1,4 @@
+---
 - name: Add metalLB helm repository
   kubernetes.core.helm_repository:
     name: metallb
@@ -28,7 +29,7 @@
     values_files:
       - "{{ tmpdir }}/metallb_values.yml"
     wait: true
-    timeout: '10m0s'
+    timeout: "10m0s"
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

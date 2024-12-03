@@ -1,3 +1,4 @@
+---
 - name: Remove swapfile from /etc/fstab
   ansible.builtin.mount:
     name: "{{ item }}"

@@ -1,3 +1,4 @@
+---
 daemonset:
   # -- Deploys Promtail as a DaemonSet
   enabled: true

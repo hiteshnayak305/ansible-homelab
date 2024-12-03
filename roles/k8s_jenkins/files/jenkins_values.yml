@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare name/value pairs to be passed into your templates.
 # name: value
-
+---
 controller:
   # -- Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
@@ -86,8 +86,8 @@ controller:
 
   probes:
     startupProbe:
-      # -- Set the failure threshold for the startup probe
-      failureThreshold: 120 # ~ 10 minutes
+      # -- Set the failure threshold for the startup probe ~ 10 minutes
+      failureThreshold: 120
 
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`

@@ -1,3 +1,4 @@
+---
 - name: Restart services
   become: true
   become_user: root

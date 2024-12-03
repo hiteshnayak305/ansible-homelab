@@ -1,3 +1,4 @@
+---
 - name: Install NFS Subdirectory External Provisioner prereqs
   ansible.builtin.include_role:
     name: utility
@@ -38,7 +39,7 @@
       - "{{ tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
       - "{{ tmpdir }}/{{ item }}"
     wait: true
-    timeout: '10m0s'
+    timeout: "10m0s"
   with_items:
     - nfs-subdir-external-provisioner_ssd_0_values.yml
     - nfs-subdir-external-provisioner_hdd_0_values.yml

@@ -29,7 +29,7 @@
   ansible.builtin.copy:
     src: /etc/kubernetes/admin.conf
     dest: "/home/{{ kubernetes_user }}/.kube/config"
-    remote_src: yes
+    remote_src: true
     owner: "{{ kubernetes_user }}"
     group: "{{ kubernetes_user }}"
     mode: 0600
@@ -39,7 +39,7 @@
   ansible.builtin.fetch:
     src: "/home/{{ kubernetes_user }}/.kube/config"
     dest: /home/hitesh/.kube/config
-    flat: yes
+    flat: true
   when: not result.stat.exists
 
 - name: correct Permission of kube config

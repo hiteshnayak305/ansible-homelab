@@ -1,3 +1,4 @@
+---
 - name: Add deliveryhero helm repository
   kubernetes.core.helm_repository:
     name: deliveryhero
@@ -20,7 +21,7 @@
     values_files:
       - "{{ tmpdir }}/node_problem_detector_values.yml"
     wait: true
-    timeout: '10m0s'
+    timeout: "10m0s"
   when: not ansible_check_mode
 
 - name: Remove temp files (delete file)

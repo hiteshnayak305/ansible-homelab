@@ -1,20 +1,21 @@
+---
 - name: Apt update, upgrade, reboot
   become: true
   become_user: root
   block:
     - name: Upgrade all APT packages
       ansible.builtin.apt:
-        upgrade: yes
-        update_cache: yes
+        upgrade: "yes"
+        update_cache: true
       register: upgrade
 
     - name: Remove useless packages from the cache
       ansible.builtin.apt:
-        autoclean: yes
+        autoclean: true
 
     - name: Remove useless packages from the system
       ansible.builtin.apt:
-        autoremove: yes
+        autoremove: true
 
     - name: Reboot Machine
       include_tasks: reboot.yml

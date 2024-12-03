@@ -1,3 +1,4 @@
+---
 - name: Install k8s yml manifests
   become: true
   become_user: "{{ kubernetes_user }}"
@@ -18,7 +19,7 @@
             wait: true
           with_items: "{{ k8s_install_ymls }}"
           when: not ansible_check_mode
-        
+
         - name: Remove temp files (delete file)
           ansible.builtin.file:
             path: "{{ tmpdir }}/{{ item | basename }}"
@@ -32,7 +33,7 @@
           ansible.builtin.get_url:
             url: "{{ item }}"
             dest: "{{ tmpdir }}/{{ item | basename }}"
-            mode: '0664'
+            mode: "0664"
           with_items: "{{ k8s_install_urls }}"
           changed_when: false
 

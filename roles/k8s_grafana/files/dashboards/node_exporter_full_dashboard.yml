@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -23880,4 +23881,4 @@ data:
       "uid": "rYdddlPWk",
       "version": 1,
       "weekStart": ""
-    }    
+    }

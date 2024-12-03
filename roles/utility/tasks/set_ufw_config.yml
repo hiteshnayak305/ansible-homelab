@@ -1,3 +1,4 @@
+---
 - name: Configure Firewall
   become: true
   become_user: root
@@ -65,4 +66,4 @@
 
     - name: Set logging
       community.general.ufw:
-        logging: on
+        logging: "on"

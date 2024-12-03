@@ -1,3 +1,4 @@
+---
 - name: Install Node Exporter
   become: true
   become_user: root
@@ -10,13 +11,13 @@
 
     - name: Download latest node exporter
       command: wget https://github.com/prometheus/node_exporter/releases/download/v{{node_exporter_version}}/node_exporter-{{node_exporter_version}}.linux-amd64.tar.gz
-    
+
     - name: Extract node exporter archieve
       command: tar xvfz node_exporter-{{node_exporter_version}}.linux-amd64.tar.gz
- 
+
     - name: Move node-exporter to /usr/sbin
       command: mv node_exporter-{{node_exporter_version}}.linux-amd64/node_exporter /usr/sbin
- 
+
     - name: Cleanup extracted files
       ansible.builtin.file:
         state: absent
@@ -30,8 +31,8 @@
     - name: Create user node_exporter
       user:
         name: node_exporter
-        system: yes
-        create_home: no
+        system: true
+        create_home: false
         shell: /sbin/nologin
 
     - name: Create text file collector directory
@@ -50,23 +51,22 @@
       copy:
         src: files/etc/sysconfig/node_exporter
         dest: /etc/sysconfig/node_exporter
-        mode: '0644'
+        mode: "0644"
 
     - name: Create node_exporter.socket
       copy:
         src: files/etc/systemd/system/node_exporter.socket
         dest: /etc/systemd/system/node_exporter.socket
-        mode: '0644'
+        mode: "0644"
 
     - name: Create node_exporter.service
       copy:
         src: files/etc/systemd/system/node_exporter.service
         dest: /etc/systemd/system/node_exporter.service
-        mode: '0644'
+        mode: "0644"
 
     - name: Restart and enable node exporter service
       ansible.builtin.service:
         name: node_exporter
-        daemon_reload: yes
         state: restarted
         enabled: true

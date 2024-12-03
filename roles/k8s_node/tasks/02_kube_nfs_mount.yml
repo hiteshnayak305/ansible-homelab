@@ -1,10 +1,11 @@
+---
 - name: Make sure the folder exists
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: nobody
     group: nogroup
-  with_items: 
+  with_items:
     - "/home/{{ kubernetes_user }}/nfs/ssd_0"
     - "/home/{{ kubernetes_user }}/nfs/hdd_0"
 
@@ -25,4 +26,3 @@
     state: mounted
     fstype: nfs
   when: nfs_server is defined
-  

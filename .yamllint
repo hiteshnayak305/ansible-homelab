@@ -2,9 +2,11 @@
 extends: default
 
 rules:
-  line-length:
-    max: 150
-    level: warning
+  line-length: disable
 
 ignore: |
-  .github/workflows/release.yml
+  .github
+  .vscode
+  *.md
+  LICENSE
+  *.sh

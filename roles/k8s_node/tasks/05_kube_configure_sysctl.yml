@@ -1,3 +1,4 @@
+---
 - name: Make sure the folder exists => /etc/modules-load.d
   ansible.builtin.file:
     path: /etc/modules-load.d
@@ -21,7 +22,7 @@
 - name: set ipv4 forward to 1
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
-    value: '1'
+    value: "1"
     sysctl_set: true
     state: present
     reload: true

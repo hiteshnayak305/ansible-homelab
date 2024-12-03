@@ -24,8 +24,8 @@
     - name: Clean IP tables
       ansible.builtin.shell: |
         iptables -F
-        iptables -t nat -F 
-        iptables -t mangle -F 
+        iptables -t nat -F
+        iptables -t mangle -F
         iptables -X
       when: result.stat.exists
 
@@ -40,8 +40,8 @@
       when: result.stat.exists
 
     - name: Delete local kube config
-      local_action: 
-        module: ansible.builtin.file 
+      local_action:
+        module: ansible.builtin.file
         path: /home/hitesh/.kube/config
         state: absent
       when: result.stat.exists

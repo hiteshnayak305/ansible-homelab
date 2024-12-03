@@ -10,7 +10,7 @@
         group: "{{ nfs_server_group }}"
         mode: "{{ item['mode']|default(omit) }}"
         state: "directory"
-      with_items: '{{ nfs_server_exports }}'
+      with_items: "{{ nfs_server_exports }}"
       when: nfs_server_exports is defined
 
     - name: Configuring /etc/exports
@@ -41,9 +41,3 @@
       ansible.builtin.include_role:
         name: utility
         tasks_from: install_node_exporter
-
-    # - name: Cleanup ssd volume archives -> /mnt/nfs/ssd_0/archived-*
-    #   ansible.builtin.shell: "rm -rf /mnt/nfs/ssd_0/archived-*"
-
-    # - name: Cleanup hdd volume archives -> /mnt/nfs/hdd_0/archived-*
-    #   ansible.builtin.shell: "rm -rf /mnt/nfs/hdd_0/archived-*"

@@ -1,3 +1,4 @@
+---
 # Default values for kube-prometheus-stack.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -54,7 +55,6 @@ alertmanager:
           resources:
             requests:
               storage: 1Gi
-          # selector: {}
 
     ## Define resources requests and limits for single Pods.
     ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
@@ -156,9 +156,11 @@ prometheusOperator:
       enabled: false
       # self-signed root certificate
       rootCert:
-        duration: "" # default to be 5y
+        # default to be 5y
+        duration: ""
       admissionCert:
-        duration: "" # default to be 1y
+        # default to be 1y
+        duration: ""
       issuerRef:
         name: "ca-cluster-issuer"
         kind: "ClusterIssuer"
@@ -217,12 +219,12 @@ prometheus:
     ##
     # hosts:
     #   - prometheus.domain.com
-    #hosts:  -> template
+    # hosts:  -> template
 
     ## TLS configuration for Prometheus Ingress
     ## Secret must be manually created in the namespace
     ##
-    #tls: -> template
+    # tls: -> template
 
   serviceMonitor:
     ## If true, create a serviceMonitor for prometheus
@@ -280,12 +282,6 @@ prometheus:
           resources:
             requests:
               storage: 10Gi
-        #  selector: {}
-
-    ## Using tmpfs volume
-    ##
-    #  emptyDir:
-    #    medium: Memory
 
 ## Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
 ##

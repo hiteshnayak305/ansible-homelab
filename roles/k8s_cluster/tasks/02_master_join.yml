@@ -1,3 +1,4 @@
+---
 - name: Check for existing cluster crt
   ansible.builtin.stat:
     path: /etc/kubernetes/pki/ca.crt
@@ -15,7 +16,7 @@
     src: "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
     dest: "{{ tmpdir }}/kubernetes_master_join_command"
     mode: 0777
-    remote_src: yes
+    remote_src: true
   when: not cluster_crt.stat.exists and join_command.stat.exists
 
 - name: Join the master nodes to the cluster
@@ -29,9 +30,8 @@
   ansible.builtin.copy:
     src: /etc/kubernetes/admin.conf
     dest: "/home/{{ kubernetes_user }}/.kube/config"
-    remote_src: yes
+    remote_src: true
     owner: "{{ kubernetes_user }}"
     group: "{{ kubernetes_user }}"
     mode: 0644
   when: not cluster_crt.stat.exists and join_command.stat.exists
-  

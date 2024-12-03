@@ -1,3 +1,4 @@
+---
 - name: Install Helm 3 Package
   become: true
   become_user: root
@@ -19,7 +20,7 @@
       ansible.builtin.apt:
         name: helm
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Install APT Packages
       ansible.builtin.include_role:

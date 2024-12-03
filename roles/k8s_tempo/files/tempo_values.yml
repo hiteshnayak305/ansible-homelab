@@ -1,3 +1,4 @@
+---
 # -- Define the amount of instances
 replicas: 1
 

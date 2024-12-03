@@ -18,6 +18,6 @@
 
     - name: Cleanup join commands
       include_tasks: 04_cleanup.yml
-
-    # - name: Reconfigure kubelets
-    #   include_tasks: 05_reconfigure_kubelet.yml
+#
+# - name: Reconfigure kubelets
+#   include_tasks: 05_reconfigure_kubelet.yml

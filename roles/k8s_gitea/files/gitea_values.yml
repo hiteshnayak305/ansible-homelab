@@ -1,3 +1,4 @@
+---
 # Default values for gitea.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -71,9 +72,9 @@ service:
 ingress:
   enabled: true
   className: nginx
-  #annotations: -> template
-  #hosts: -> template
-  #tls: -> template
+  # annotations: -> template
+  # hosts: -> template
+  # tls: -> template
   # Mostly for argocd or any other CI that uses `helm template | kubectl apply` or similar
   # If helm doesn't correctly detect your ingress API version you can set it here.
   # apiVersion: networking.k8s.io/v1
@@ -130,23 +131,23 @@ gitea:
   ## @param gitea.admin.passwordMode Mode for how to set/update the admin user password. Options are: initialOnlyNoReset, initialOnlyRequireReset, and keepUpdated
   admin:
     existingSecret: gitea-admin-secret
-    #email: -> template
+    # email: -> template
 
   ## @param gitea.config  Configuration for the Gitea server,ref: [config-cheat-sheet](https://docs.gitea.io/en-us/config-cheat-sheet/)
   config:
     server:
-      #DOMAIN: -> template
-      #ROOT_URL: -> template
-      #SSH_DOMAIN: -> template
+      # DOMAIN: -> template
+      # ROOT_URL: -> template
+      # SSH_DOMAIN: -> template
       START_SSH_SERVER: true
       ENABLE_PPROF: true
       LFS_JWT_SECRET: SV-R-AN52OEuL6zstu6YLa9aXVnfODGZiWEHPk8Ishw
     repository.signing:
       SIGNING_KEY: 7BC3C3533076A13F
       SIGNING_NAME: Gitea
-      #SIGNING_EMAIL: -> template
-    webhook:
-      #ALLOWED_HOST_LIST: -> template
+      # SIGNING_EMAIL: -> template
+    # webhook:
+    # ALLOWED_HOST_LIST: -> template
     security:
       INTERNAL_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2ODg3Mjk4NjB9.GyUJFZfuDFqDsklP2soIo5zbXI9Q_yAJcd4e4iDVK0A
       SECRET_KEY: qj8auJEw72KujPiveq6aHBLEp87qD4M9ILgbRmDZBDjeu69SdKsWGedaphlYok6V

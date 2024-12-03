@@ -1,13 +1,14 @@
+---
 galaxy_info:
   author: Hitesh Nayak
   description: Role to manage K8S cluster post installation
-  company: '-'
+  company: "-"
   issue_tracker_url: https://github.com/hiteshnayak305/ansible-homelab/issues
   license: license (MIT)
-  min_ansible_version: '2.1'
+  min_ansible_version: "2.1"
   platforms:
-  - name: Ubuntu
-    versions:
-    - all
+    - name: Ubuntu
+      versions:
+        - all
   galaxy_tags: []
 dependencies: []

@@ -1,3 +1,4 @@
+---
 - name: Apt remove, cleanup
   become: true
   become_user: root
@@ -7,11 +8,11 @@
         name: "{{ item }}"
         state: absent
       with_items: "{{ apt_remove }}"
-      
+
     - name: Remove useless packages from the cache
       ansible.builtin.apt:
-        autoclean: yes
+        autoclean: true
 
     - name: Remove useless packages from the system
       ansible.builtin.apt:
-        autoremove: yes
+        autoremove: true

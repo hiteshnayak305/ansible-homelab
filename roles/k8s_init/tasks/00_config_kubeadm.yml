@@ -1,3 +1,4 @@
+---
 - name: Create kubeadm config manifest
   ansible.builtin.template:
     src: config-map/kubeadm_config.j2
@@ -34,8 +35,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
-  with_items: 
+  with_items:
     - "{{ tmpdir }}/kubeadm_config.yml"
     - "{{ tmpdir }}/ClusterConfiguration.yml"
   changed_when: false
-

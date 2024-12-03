@@ -2,7 +2,8 @@
 # defaults file for nfs_server
 nfs_server_owner: nobody
 nfs_server_group: nogroup
-nfs_server_exports: []
+nfs_server_exports:
+  []
   # - export:
   #   access:
   #     # - hostname: '172.16.24.0/24'

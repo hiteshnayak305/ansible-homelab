@@ -1,3 +1,4 @@
+---
 - name: Install CA Certificates
   become: true
   become_user: root
@@ -6,7 +7,7 @@
       ansible.builtin.file:
         path: "{{ usr_ca_cert_path }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
         owner: root
         group: root
 

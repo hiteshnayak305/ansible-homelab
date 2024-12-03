@@ -1,3 +1,4 @@
+---
 - name: Install custom hosts file
   become: true
   become_user: root

@@ -1,3 +1,4 @@
+---
 - name: Install k8s j2 template manifests
   become: true
   become_user: "{{ kubernetes_user }}"
@@ -18,7 +19,7 @@
             wait: true
           with_items: "{{ k8s_install_j2s }}"
           when: not ansible_check_mode
-        
+
         - name: Remove temp files (delete file)
           ansible.builtin.file:
             path: "{{ tmpdir }}/{{ item | basename | split('.') | first }}.yml"

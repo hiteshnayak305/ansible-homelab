@@ -1,3 +1,4 @@
+---
 serviceAccount:
   create: true
   automountServiceAccountToken: true
@@ -48,7 +49,7 @@ ingress:
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   ingressClassName: nginx
   # Values can be templated
-  #annotations: -> template
+  # annotations: -> template
   path: /
 
   # pathType is only for k8s >= 1.1=
@@ -143,7 +144,7 @@ grafana.ini:
   server:
     domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
     root_url: "https://{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
-  # auth.generic_oauth: -> template
+# auth.generic_oauth: -> template
 
 ## Sidecars that collect the configmaps with specified label and stores the included files them into the respective folders
 ## Requires at least Grafana 5 to work and can't be used together with parameters dashboardProviders, datasources and dashboards

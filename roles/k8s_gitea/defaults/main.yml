@@ -8,7 +8,7 @@ nfs_server: nfs.domain.com
 
 kubernetes_ingress_root_domain: domain.com
 
-#admin user
+# admin user
 gitea_admin_username: admin
 gitea_admin_password: password
 

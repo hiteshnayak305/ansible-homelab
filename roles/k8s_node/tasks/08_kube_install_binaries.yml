@@ -1,3 +1,4 @@
+---
 - name: Add an apt signing key for Kubernetes
   ansible.builtin.shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
@@ -11,7 +12,7 @@
   ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   vars:
     packages:
       - kubelet=1.30.7-1.1
