@@ -1,10 +1,10 @@
 ---
-- name: Ensure group {{ kubernetes_user  }} exists
+- name: Ensure group exists {{ kubernetes_user }}
   ansible.builtin.group:
     name: "{{ kubernetes_user }}"
     state: present
 
-- name: create the {{ kubernetes_user }} user account
+- name: Create the user account {{ kubernetes_user }}
   ansible.builtin.user:
     name: "{{ kubernetes_user }}"
     append: true
@@ -14,15 +14,15 @@
     groups:
       - "{{ kubernetes_user }}"
 
-- name: allow {{ kubernetes_user }} to use sudo without needing a password
+- name: Allow to use sudo without needing a password user {{ kubernetes_user }}
   ansible.builtin.lineinfile:
     dest: /etc/sudoers
     line: "{{ kubernetes_user }} ALL=(ALL) NOPASSWD: ALL"
     validate: "visudo -cf %s"
 
-- name: set up authorized keys for the {{ kubernetes_user }} user
-  ansible.builtin.authorized_key:
+- name: Set up authorized keys for the user {{ kubernetes_user }}
+  ansible.posix.authorized_key:
     user: "{{ kubernetes_user }}"
     state: present
     key: "{{ item }}"
-  with_file: "{{ ssh_id_rsa_pubs }}"
+  with_file: "{{ k8s_node_ssh_id_rsa_pubs }}"

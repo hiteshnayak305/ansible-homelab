@@ -1,2 +1,4 @@
 ---
 # vars file for k8s_node
+# k8s_node_tmpdir
+k8s_node_tmpdir: /tmp

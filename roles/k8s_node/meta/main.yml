@@ -5,12 +5,11 @@ galaxy_info:
   company: "-"
   issue_tracker_url: https://github.com/hiteshnayak305/ansible-homelab/issues
   license: license (MIT)
-  min_ansible_version: "2.1"
+  min_ansible_version: "2.18.0"
   platforms:
     - name: Ubuntu
       versions:
         - all
   galaxy_tags:
-    - K8s
-    - Kubernetes Node
+    - kubernetes
 dependencies: []

@@ -1,6 +1,3 @@
 ---
 # defaults file for k8s_node
-ssh_id_rsa_pubs: []
-allow_kube_upgrade: false
-# tmpdir
-tmpdir: /tmp
+k8s_node_ssh_id_rsa_pubs: []

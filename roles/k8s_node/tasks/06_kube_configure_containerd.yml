@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: /etc/containerd
     state: directory
+    mode: "0764"
 
 - name: Get defaults from containerd.
   ansible.builtin.command: containerd config default
@@ -11,13 +12,14 @@
 
 - name: Prepare containerd/config.toml from default config
   ansible.builtin.copy:
-    dest: "{{ tmpdir }}/containerd_config.toml"
+    dest: "{{ k8s_node_tmpdir }}/containerd_config.toml"
     content: "{{ containerd_config_default.stdout }}"
+    mode: "0666"
   changed_when: false
 
 - name: Ensure Systemd Cgroup is used
   ansible.builtin.lineinfile:
-    path: "{{ tmpdir }}/containerd_config.toml"
+    path: "{{ k8s_node_tmpdir }}/containerd_config.toml"
     regexp: "^            SystemdCgroup ="
     line: "            SystemdCgroup = true"
     backrefs: true
@@ -26,7 +28,7 @@
 
 - name: Ensure sandbox image version
   ansible.builtin.lineinfile:
-    path: "{{ tmpdir }}/containerd_config.toml"
+    path: "{{ k8s_node_tmpdir }}/containerd_config.toml"
     regexp: "^    sandbox_image ="
     line: '    sandbox_image = "registry.k8s.io/pause:3.9"'
     backrefs: true
@@ -36,13 +38,14 @@
 - name: Copy config.toml to /etc/containerd
   ansible.builtin.copy:
     remote_src: true
-    src: "{{ tmpdir }}/containerd_config.toml"
+    src: "{{ k8s_node_tmpdir }}/containerd_config.toml"
     dest: /etc/containerd/config.toml
+    mode: "0644"
   notify:
-    - restart containerd
+    - Restart Containerd
 
 - name: Cleanup temporary file
   ansible.builtin.file:
-    path: "{{ tmpdir }}/containerd_config.toml"
+    path: "{{ k8s_node_tmpdir }}/containerd_config.toml"
     state: absent
   changed_when: false

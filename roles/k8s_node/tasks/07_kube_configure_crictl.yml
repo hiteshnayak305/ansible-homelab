@@ -3,5 +3,6 @@
   ansible.builtin.copy:
     src: "files/etc/crictl.yaml"
     dest: "/etc/crictl.yaml"
+    mode: "0644"
   notify:
-    - restart containerd
+    - Restart Containerd

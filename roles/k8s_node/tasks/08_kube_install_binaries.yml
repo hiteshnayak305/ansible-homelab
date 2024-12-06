@@ -1,6 +1,7 @@
 ---
 - name: Add an apt signing key for Kubernetes
-  ansible.builtin.shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  ansible.builtin.shell: set -o pipefail && curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  changed_when: true
 
 - name: Adding apt repository for Kubernetes
   ansible.builtin.apt_repository:
@@ -28,4 +29,4 @@
     - kubeadm
     - kubectl
   notify:
-    - restart kubelet
+    - Restart Kubelet

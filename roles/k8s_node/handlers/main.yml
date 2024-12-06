@@ -1,6 +1,6 @@
 ---
 # handlers file for k8s_node
-- name: restart containerd
+- name: Restart Containerd
   become: true
   become_user: root
   ansible.builtin.service:
@@ -8,7 +8,7 @@
     state: "restarted"
     enabled: true
 
-- name: restart kubelet
+- name: Restart Kubelet
   become: true
   ansible.builtin.service:
     name: kubelet
