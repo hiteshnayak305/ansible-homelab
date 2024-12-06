@@ -16,12 +16,14 @@
   ansible.builtin.copy:
     src: files/flannel_values.yml
     dest: "{{ tmpdir }}/flannel_values.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Copy values file
   ansible.builtin.template:
     src: values/flannel_values_var.j2
     dest: "{{ tmpdir }}/flannel_values_var.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Deploy latest version of flannel chart

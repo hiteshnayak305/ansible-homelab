@@ -4,10 +4,11 @@
     name: kubernetes-dashboard
     repo_url: https://kubernetes.github.io/dashboard/
 
-- name: copy dashboard values file
+- name: Copy dashboard values file
   ansible.builtin.copy:
     src: files/kubernetes_dashboard_values.yml
     dest: "{{ tmpdir }}/kubernetes_dashboard_values.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Deploy latest version of dashboard chart

@@ -16,6 +16,7 @@
   ansible.builtin.copy:
     src: files/metallb_values.yml
     dest: "{{ tmpdir }}/metallb_values.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Deploy latest version of MetalLB chart

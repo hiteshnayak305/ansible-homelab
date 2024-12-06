@@ -8,6 +8,7 @@
   ansible.builtin.copy:
     src: files/helm_dashboard_values.yml
     dest: "{{ tmpdir }}/helm_dashboard_values.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Deploy latest version of helm dashboard chart

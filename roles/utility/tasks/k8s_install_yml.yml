@@ -9,6 +9,7 @@
           ansible.builtin.copy:
             src: "{{ item }}"
             dest: "{{ tmpdir }}/{{ item | basename }}"
+            mode: "0777"
           with_items: "{{ k8s_install_ymls }}"
           changed_when: false
 

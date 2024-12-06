@@ -47,6 +47,7 @@
       ansible.builtin.copy:
         src: files/sonarqube_postgresql_values.yml
         dest: "{{ tmpdir }}/sonarqube_postgresql_values.yml"
+        mode: "0777"
       changed_when: false
 
     - name: Deploy version 12 of postgresql chart
@@ -81,12 +82,14 @@
       ansible.builtin.copy:
         src: files/sonarqube_values.yml
         dest: "{{ tmpdir }}/sonarqube_values.yml"
+        mode: "0777"
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/sonarqube_values_var.j2
         dest: "{{ tmpdir }}/sonarqube_values_var.yml"
+        mode: "0777"
       changed_when: false
 
     - name: Deploy latest version of sonarqube chart

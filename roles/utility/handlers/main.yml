@@ -1,2 +1,12 @@
 ---
 # handlers file for utility
+- name: Apply Netplan Config
+  ansible.builtin.command: netplan generate && netplan apply
+  changed_when: true
+
+- name: Update CA Certificates
+  ansible.builtin.command: update-ca-certificates
+  changed_when: true
+
+- name: Reboot Machine
+  ansible.builtin.include_tasks: reboot.yml

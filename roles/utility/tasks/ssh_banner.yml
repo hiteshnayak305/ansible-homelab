@@ -14,10 +14,11 @@
       ansible.builtin.template:
         src: etc/ssh_banner.j2
         dest: /etc/issue.net
+        mode: "0644"
       register: template
 
 - name: Restart SSH Service
-  include_tasks: systemctl_restart.yml
+  ansible.builtin.include_tasks: systemctl_restart.yml
   vars:
     systemctl_restart:
       - ssh

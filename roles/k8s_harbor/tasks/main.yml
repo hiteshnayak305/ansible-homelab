@@ -54,12 +54,14 @@
       ansible.builtin.copy:
         src: files/harbor_values.yml
         dest: "{{ tmpdir }}/harbor_values.yml"
+        mode: "0777"
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/harbor_values_var.j2
         dest: "{{ tmpdir }}/harbor_values_var.yml"
+        mode: "0777"
       changed_when: false
 
     - name: Deploy latest version of harbor chart

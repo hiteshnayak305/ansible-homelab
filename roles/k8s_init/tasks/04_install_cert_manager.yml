@@ -8,6 +8,7 @@
   ansible.builtin.copy:
     src: files/cert_manager_values.yml
     dest: "{{ tmpdir }}/cert_manager_values.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Deploy latest version of cert manager chart

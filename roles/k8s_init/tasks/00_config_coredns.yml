@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: config-map/coredns.j2
     dest: "{{ tmpdir }}/coredns.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Install coredns config map
@@ -10,12 +11,9 @@
     state: present
     src: "{{ tmpdir }}/coredns.yml"
     wait: true
-  register: config
   when: not ansible_check_mode
-
-- name: Restart coredns if configuration changed
-  ansible.builtin.shell: kubectl rollout restart deployment/coredns -n kube-system
-  when: config is changed
+  notify:
+    - Restart coredns
 
 - name: Remove temp files (delete file)
   ansible.builtin.file:

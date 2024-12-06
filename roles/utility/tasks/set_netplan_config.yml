@@ -11,15 +11,6 @@
         group: root
         mode: "0600"
       register: changed_netplan
-
-    - name: generate netplan config
-      ansible.builtin.command: netplan generate
-      when: changed_netplan is changed
-
-    - name: apply netplan config
-      ansible.builtin.command: netplan generate
-      when: changed_netplan is changed
-
-    - name: Reboot Machine
-      include_tasks: reboot.yml
-      when: changed_netplan is changed
+      notify:
+        - Apply Netplan Config
+        - Reboot Machine

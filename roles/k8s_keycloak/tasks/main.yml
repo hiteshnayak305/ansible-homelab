@@ -50,7 +50,7 @@
       ansible.builtin.copy:
         src: files/keycloak_values.yml
         dest: "{{ tmpdir }}/keycloak_values.yml"
-        mode: preserve
+        mode: "0777"
       changed_when: false
 
     - name: Copy values file

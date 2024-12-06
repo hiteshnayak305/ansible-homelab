@@ -20,10 +20,11 @@
     name: ingress-nginx
     repo_url: https://kubernetes.github.io/ingress-nginx
 
-- name: copy values files
+- name: Copy values files
   ansible.builtin.copy:
     src: "files/{{ item }}"
     dest: "{{ tmpdir }}/{{ item }}"
+    mode: "0777"
   changed_when: false
   with_items:
     - nginx_ingress_values.yml

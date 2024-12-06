@@ -18,7 +18,7 @@
       ansible.builtin.copy:
         src: "files/{{ item }}"
         dest: "{{ tmpdir }}/{{ item }}"
-        mode: preserve
+        mode: "0777"
       with_items:
         - loki_values.yml
         - loki_promtail_values.yml
@@ -29,7 +29,7 @@
       ansible.builtin.template:
         src: "{{ item }}"
         dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
-        mode: preserve
+        mode: "0777"
       changed_when: false
       with_items:
         - values/loki_values_var.j2

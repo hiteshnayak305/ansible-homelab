@@ -8,8 +8,5 @@
     owner: root
     group: root
     mode: "0644"
-  register: installed_hosts
-
-- name: Reboot Machine
-  include_tasks: reboot.yml
-  when: installed_hosts is changed
+  notify:
+    - Reboot Machine

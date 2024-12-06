@@ -1,6 +1,6 @@
 ---
 # tasks file for k8s_teardown
-- name: execute k8s cluster k8s_teardown
+- name: Execute k8s cluster k8s_teardown
   become: true
   become_user: root
   block:
@@ -20,6 +20,7 @@
     - name: Reset kubeadm node
       ansible.builtin.command: kubeadm reset -f
       when: result.stat.exists
+      changed_when: true
 
     - name: Clean IP tables
       ansible.builtin.shell: |
@@ -28,6 +29,7 @@
         iptables -t mangle -F
         iptables -X
       when: result.stat.exists
+      changed_when: true
 
     # - name: Reset IPVS tables
     #   command: ipvsadm -C
@@ -40,13 +42,13 @@
       when: result.stat.exists
 
     - name: Delete local kube config
-      local_action:
-        module: ansible.builtin.file
+      delegate_to: localhost
+      ansible.builtin.file:
         path: /home/hitesh/.kube/config
         state: absent
       when: result.stat.exists
 
-    - name: reboot
+    - name: Reboot
       ansible.builtin.reboot:
       when: result.stat.exists
       changed_when: false

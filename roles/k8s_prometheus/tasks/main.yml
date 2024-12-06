@@ -13,14 +13,14 @@
       ansible.builtin.copy:
         src: files/prometheus_values.yml
         dest: "{{ tmpdir }}/prometheus_values.yml"
-        mode: preserve
+        mode: "0777"
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/prometheus_values_var.j2
         dest: "{{ tmpdir }}/prometheus_values_var.yml"
-        mode: preserve
+        mode: "0777"
       changed_when: false
 
     - name: Deploy latest version of kube-prometheus-stack chart

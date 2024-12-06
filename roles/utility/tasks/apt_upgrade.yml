@@ -7,7 +7,8 @@
       ansible.builtin.apt:
         upgrade: "yes"
         update_cache: true
-      register: upgrade
+      notify:
+        - Reboot Machine
 
     - name: Remove useless packages from the cache
       ansible.builtin.apt:
@@ -16,7 +17,3 @@
     - name: Remove useless packages from the system
       ansible.builtin.apt:
         autoremove: true
-
-    - name: Reboot Machine
-      include_tasks: reboot.yml
-      when: upgrade is changed

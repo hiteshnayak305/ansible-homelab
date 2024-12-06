@@ -76,7 +76,7 @@
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ tmpdir }}/{{ item | basename }}"
-        mode: preserve
+        mode: "0777"
       changed_when: false
       with_items:
         - files/jenkins_values.yml

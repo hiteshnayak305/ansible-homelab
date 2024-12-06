@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: config-map/kube_proxy.j2
     dest: "{{ tmpdir }}/kube_proxy.yml"
+    mode: "0777"
   changed_when: false
 
 - name: Install kube proxy config map
@@ -10,12 +11,9 @@
     state: present
     src: "{{ tmpdir }}/kube_proxy.yml"
     wait: true
-  register: config
   when: not ansible_check_mode
-
-- name: Restart kube proxy if configuration changed
-  ansible.builtin.shell: kubectl rollout restart daemonset/kube-proxy -n kube-system
-  when: config is changed
+  notify:
+    - Restart kube-proxy
 
 - name: Remove temp files (delete file)
   ansible.builtin.file:

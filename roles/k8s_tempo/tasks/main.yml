@@ -13,7 +13,7 @@
       ansible.builtin.copy:
         src: files/tempo_values.yml
         dest: "{{ tmpdir }}/tempo_values.yml"
-        mode: preserve
+        mode: "0777"
       changed_when: false
 
     - name: Deploy latest version of tempo chart

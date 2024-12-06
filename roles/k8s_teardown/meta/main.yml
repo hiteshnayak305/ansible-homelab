@@ -11,5 +11,5 @@ galaxy_info:
       versions:
         - all
   galaxy_tags:
-    - K8s Cluster
+    - k8s
 dependencies: []

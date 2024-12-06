@@ -9,6 +9,7 @@
           ansible.builtin.template:
             src: "{{ item }}"
             dest: "{{ tmpdir }}/{{ item | basename | split('.') | first }}.yml"
+            mode: "0777"
           with_items: "{{ k8s_install_j2s }}"
           changed_when: false
 

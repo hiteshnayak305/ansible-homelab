@@ -4,8 +4,5 @@
   become_user: root
   ansible.builtin.hostname:
     name: "{{ hostname }}"
-  register: set_hostname
-
-- name: Reboot Machine
-  include_tasks: reboot.yml
-  when: set_hostname is changed
+  notify:
+    - Reboot Machine

@@ -15,9 +15,7 @@
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ usr_ca_cert_path }}/{{ item | basename }}"
+        mode: "0644"
       with_items: "{{ ca_certificates }}"
-      register: add_cert
-
-    - name: Update CA Certificates
-      ansible.builtin.command: update-ca-certificates
-      when: add_cert is changed
+      notify:
+        - Update CA Certificates

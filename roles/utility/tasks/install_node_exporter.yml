@@ -4,32 +4,39 @@
   become_user: root
   block:
     - name: Install wget
-      include_tasks: apt_install.yml
+      ansible.builtin.include_tasks: apt_install.yml
       vars:
         apt_install:
           - wget
 
     - name: Download latest node exporter
-      command: wget https://github.com/prometheus/node_exporter/releases/download/v{{node_exporter_version}}/node_exporter-{{node_exporter_version}}.linux-amd64.tar.gz
+      ansible.builtin.get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+        dest: "{{ tmpdir }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+        mode: "0777"
 
     - name: Extract node exporter archieve
-      command: tar xvfz node_exporter-{{node_exporter_version}}.linux-amd64.tar.gz
+      ansible.builtin.unarchive:
+        src: "{{ tmpdir }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+        dest: "{{ tmpdir }}"
+        remote_src: true
 
     - name: Move node-exporter to /usr/sbin
-      command: mv node_exporter-{{node_exporter_version}}.linux-amd64/node_exporter /usr/sbin
+      ansible.builtin.command: "mv {{ tmpdir }}/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter /usr/sbin"
+      changed_when: true
 
     - name: Cleanup extracted files
       ansible.builtin.file:
         state: absent
-        path: node_exporter-{{node_exporter_version}}.linux-amd64
+        path: "{{ tmpdir }}/node_exporter-{{ node_exporter_version }}.linux-amd64"
 
     - name: Cleanup extracted files
       ansible.builtin.file:
         state: absent
-        path: node_exporter-{{node_exporter_version}}.linux-amd64.tar.gz
+        path: "{{ tmpdir }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
 
     - name: Create user node_exporter
-      user:
+      ansible.builtin.user:
         name: node_exporter
         system: true
         create_home: false
@@ -41,26 +48,28 @@
         path: /var/lib/node_exporter/textfile_collector
         owner: node_exporter
         group: node_exporter
+        mode: "0761"
 
     - name: Create sysconfig directory
       ansible.builtin.file:
         state: directory
         path: /etc/sysconfig
+        mode: "0761"
 
     - name: Create node_exporter sysconfig
-      copy:
+      ansible.builtin.copy:
         src: files/etc/sysconfig/node_exporter
         dest: /etc/sysconfig/node_exporter
         mode: "0644"
 
     - name: Create node_exporter.socket
-      copy:
+      ansible.builtin.copy:
         src: files/etc/systemd/system/node_exporter.socket
         dest: /etc/systemd/system/node_exporter.socket
         mode: "0644"
 
     - name: Create node_exporter.service
-      copy:
+      ansible.builtin.copy:
         src: files/etc/systemd/system/node_exporter.service
         dest: /etc/systemd/system/node_exporter.service
         mode: "0644"
