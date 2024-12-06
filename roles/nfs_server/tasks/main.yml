@@ -8,7 +8,7 @@
         dest: "{{ item['path'] }}"
         owner: "{{ nfs_server_owner }}"
         group: "{{ nfs_server_group }}"
-        mode: "{{ item['mode']|default(omit) }}"
+        mode: "{{ item['mode'] | default(omit) }}"
         state: "directory"
       with_items: "{{ nfs_server_exports }}"
       when: nfs_server_exports is defined
@@ -21,11 +21,11 @@
         group: "root"
         mode: "u=rw,g=r,o=r"
       notify:
-        - exportfs a
-        - restart nfs-kernel-server
+        - Exportfs a
+        - Restart nfs-kernel-server
 
     - name: Remove swapfile from /etc/fstab
-      ansible.builtin.mount:
+      ansible.posix.mount:
         name: "{{ item }}"
         fstype: swap
         state: absent
@@ -36,6 +36,7 @@
     - name: Disable swap
       ansible.builtin.command: swapoff -a
       when: ansible_swaptotal_mb > 0
+      changed_when: true
 
     - name: Install Node Exporter
       ansible.builtin.include_role:

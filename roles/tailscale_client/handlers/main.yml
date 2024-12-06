@@ -1,5 +1,5 @@
 ---
-# handlers file for nfs_server
+# handlers file for tailscale_client
 - name: Restart Tailscale
   become: true
   become_user: root

@@ -1,12 +1,12 @@
 ---
 # handlers file for nfs_server
-- name: exportfs a
+- name: Exportfs a
   become: true
   become_user: root
-  ansible.builtin.shell:
-    cmd: exportfs -a
+  ansible.builtin.command: exportfs -a
+  changed_when: true
 
-- name: restart nfs-kernel-server
+- name: Restart nfs-kernel-server
   become: true
   become_user: root
   ansible.builtin.service:
