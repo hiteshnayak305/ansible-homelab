@@ -7,7 +7,7 @@
     dest: "{{ hosts_file_path }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   register: installed_hosts
 
 - name: Reboot Machine

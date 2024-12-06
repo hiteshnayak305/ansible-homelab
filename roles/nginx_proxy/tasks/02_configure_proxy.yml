@@ -4,7 +4,7 @@
     dest: "{{ nginx_proxy_available_modules_config_file_path }}"
     owner: "root"
     group: "root"
-    mode: 0755
+    mode: "0755"
     state: "directory"
 
 - name: Install custom config file
@@ -13,7 +13,7 @@
     dest: "{{ nginx_proxy_available_modules_config_file_path }}/{{ nginx_proxy_nginx_domain }}"
     owner: "root"
     group: "root"
-    mode: 0755
+    mode: "0755"
   register: config0
 
 - name: Disable default http config file
@@ -28,7 +28,7 @@
     dest: "{{ nginx_proxy_enabled_modules_config_file_path }}/{{ nginx_proxy_nginx_domain }}.conf"
     owner: "root"
     group: "root"
-    mode: 0755
+    mode: "0755"
     state: link
   register: config2
 

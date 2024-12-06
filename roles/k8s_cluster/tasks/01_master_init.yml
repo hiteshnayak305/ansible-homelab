@@ -4,7 +4,7 @@
   ansible.builtin.file:
     path: "/home/{{ kubernetes_user }}/.kube"
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ kubernetes_user }}"
     group: "{{ kubernetes_user }}"
 
@@ -32,7 +32,7 @@
     remote_src: true
     owner: "{{ kubernetes_user }}"
     group: "{{ kubernetes_user }}"
-    mode: 0600
+    mode: "0600"
   when: not result.stat.exists
 
 - name: Copies config to user's local
@@ -50,7 +50,7 @@
     path: /home/hitesh/.kube/config
     owner: hitesh
     group: hitesh
-    mode: 0600
+    mode: "0600"
   when: not result.stat.exists
 
 - name: Get the cert for joining the master nodes

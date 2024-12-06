@@ -6,7 +6,7 @@
     dest: "{{ htop_config_file_path }}"
     owner: "{{ item }}"
     group: "{{ item }}"
-    mode: 0700
+    mode: "0700"
     state: "directory"
   with_items: "{{ htop_users }}"
 
@@ -18,6 +18,6 @@
     dest: "{{ htop_config_file_path }}/htoprc"
     owner: "{{ item }}"
     group: "{{ item }}"
-    mode: 0664
+    mode: "0664"
   register: installed_hosts
   with_items: "{{ htop_users }}"
