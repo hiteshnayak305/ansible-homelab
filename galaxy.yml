@@ -28,6 +28,13 @@ license_file: "LICENSE"
 # requirements as 'namespace' and 'name'
 tags:
   - homelab
+  - application
+  - database
+  - infrastructure
+  - linux
+  - monitoring
+  - storage
+  - tools
 # Collections that this collection requires to be installed for it to be usable. The key of the dict is the
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
