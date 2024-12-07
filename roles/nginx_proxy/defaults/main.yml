@@ -2,4 +2,3 @@
 # default site values
 nginx_proxy_nginx_domain: domain.com
 nginx_proxy_nginx_domain_ip: 127.0.0.1
-node_exporter_version: ""

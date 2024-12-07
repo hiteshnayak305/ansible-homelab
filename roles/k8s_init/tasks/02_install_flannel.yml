@@ -9,20 +9,20 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/flannel_namespace.yml
 
 - name: Copy values file
   ansible.builtin.copy:
     src: files/flannel_values.yml
-    dest: "{{ tmpdir }}/flannel_values.yml"
+    dest: "{{ k8s_init_tmpdir }}/flannel_values.yml"
     mode: "0777"
   changed_when: false
 
 - name: Copy values file
   ansible.builtin.template:
     src: values/flannel_values_var.j2
-    dest: "{{ tmpdir }}/flannel_values_var.yml"
+    dest: "{{ k8s_init_tmpdir }}/flannel_values_var.yml"
     mode: "0777"
   changed_when: false
 
@@ -35,8 +35,8 @@
     release_namespace: kube-flannel
     create_namespace: false
     values_files:
-      - "{{ tmpdir }}/flannel_values.yml"
-      - "{{ tmpdir }}/flannel_values_var.yml"
+      - "{{ k8s_init_tmpdir }}/flannel_values.yml"
+      - "{{ k8s_init_tmpdir }}/flannel_values_var.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -46,6 +46,6 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/flannel_values.yml"
-    - "{{ tmpdir }}/flannel_values_var.yml"
+    - "{{ k8s_init_tmpdir }}/flannel_values.yml"
+    - "{{ k8s_init_tmpdir }}/flannel_values_var.yml"
   changed_when: false

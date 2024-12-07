@@ -6,4 +6,4 @@
     name: "{{ item }}"
     state: restarted
     enabled: true
-  with_items: "{{ systemctl_restart }}"
+  with_items: "{{ utility_systemctl_restart }}"

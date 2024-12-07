@@ -1,7 +1,7 @@
 ingress:
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "gitea.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "gitea.{{ k8s_gitea_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -14,17 +14,17 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: 200m
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   hosts:
-    - host: gitea.{{ kubernetes_ingress_root_domain }}
+    - host: gitea.{{ k8s_gitea_ingress_root_domain }}
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: gitea-tls
       hosts:
-        - "gitea.{{ kubernetes_ingress_root_domain }}"
+        - "gitea.{{ k8s_gitea_ingress_root_domain }}"
 gitea:
   admin:
-    email: gitea@gitea.{{ kubernetes_ingress_root_domain }}
+    email: gitea@gitea.{{ k8s_gitea_ingress_root_domain }}
   # Either specify inline `key` and `secret` or refer to them via `existingSecret`
   ## @param gitea.oauth OAuth configuration
   oauth:
@@ -32,13 +32,13 @@ gitea:
       provider: "openidConnect"
       existingSecret: gitea-oauth-secret
       iconUrl: "https://www.keycloak.org/resources/images/icon.svg"
-      autoDiscoverUrl: "https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/.well-known/openid-configuration"
+      autoDiscoverUrl: "https://keycloak.{{ k8s_gitea_ingress_root_domain }}/realms/main/.well-known/openid-configuration"
   config:
     server:
-      DOMAIN: gitea.{{ kubernetes_ingress_root_domain }}
-      ROOT_URL: https://gitea.{{ kubernetes_ingress_root_domain }}/
-      SSH_DOMAIN: gitea.{{ kubernetes_ingress_root_domain }}
+      DOMAIN: gitea.{{ k8s_gitea_ingress_root_domain }}
+      ROOT_URL: https://gitea.{{ k8s_gitea_ingress_root_domain }}/
+      SSH_DOMAIN: gitea.{{ k8s_gitea_ingress_root_domain }}
     repository.signing:
-      SIGNING_EMAIL: gitea@gitea.{{ kubernetes_ingress_root_domain }}
+      SIGNING_EMAIL: gitea@gitea.{{ k8s_gitea_ingress_root_domain }}
     webhook:
-      ALLOWED_HOST_LIST: "*.{{ kubernetes_ingress_root_domain }}"
+      ALLOWED_HOST_LIST: "*.{{ k8s_gitea_ingress_root_domain }}"

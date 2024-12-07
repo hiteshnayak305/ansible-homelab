@@ -3,4 +3,4 @@
   become: true
   become_user: root
   community.general.timezone:
-    name: "{{ timezone }}"
+    name: "{{ utility_timezone }}"

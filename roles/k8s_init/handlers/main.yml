@@ -11,11 +11,11 @@
 - name: Recreate control-plane manifests
   become: true
   become_user: root
-  ansible.builtin.command: "kubeadm init phase control-plane all --config {{ tmpdir }}/ClusterConfiguration.yml"
+  ansible.builtin.command: "kubeadm init phase control-plane all --config {{ k8s_init_tmpdir }}/ClusterConfiguration.yml"
   changed_when: true
 
 - name: Recreate etcd manifests
   become: true
   become_user: root
-  ansible.builtin.command: "kubeadm init phase etcd local --config {{ tmpdir }}/ClusterConfiguration.yml"
+  ansible.builtin.command: "kubeadm init phase etcd local --config {{ k8s_init_tmpdir }}/ClusterConfiguration.yml"
   changed_when: true

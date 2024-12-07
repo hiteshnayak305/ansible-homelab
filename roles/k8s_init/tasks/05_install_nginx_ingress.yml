@@ -4,7 +4,7 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/nginx_ingress_namespace.yml
 
 - name: Create certificates for nginx default tls
@@ -12,7 +12,7 @@
     name: utility
     tasks_from: k8s_install_j2
   vars:
-    k8s_install_j2s:
+    utility_k8s_install_j2s:
       - crd/cert_manager_certificate_ingress_nginx_default_tls.j2
 
 - name: Add nginx-ingress helm repository
@@ -23,7 +23,7 @@
 - name: Copy values files
   ansible.builtin.copy:
     src: "files/{{ item }}"
-    dest: "{{ tmpdir }}/{{ item }}"
+    dest: "{{ k8s_init_tmpdir }}/{{ item }}"
     mode: "0777"
   changed_when: false
   with_items:
@@ -39,7 +39,7 @@
     release_namespace: nginx-system
     create_namespace: false
     values_files:
-      - "{{ tmpdir }}/nginx_ingress_values.yml"
+      - "{{ k8s_init_tmpdir }}/nginx_ingress_values.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -53,8 +53,8 @@
     release_namespace: nginx-system
     create_namespace: false
     values_files:
-      - "{{ tmpdir }}/nginx_ingress_values.yml"
-      - "{{ tmpdir }}/nginx_ingress_internal_values.yml"
+      - "{{ k8s_init_tmpdir }}/nginx_ingress_values.yml"
+      - "{{ k8s_init_tmpdir }}/nginx_ingress_internal_values.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -64,8 +64,8 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/nginx_ingress_values.yml"
-    - "{{ tmpdir }}/nginx_ingress_internal_values.yml"
+    - "{{ k8s_init_tmpdir }}/nginx_ingress_values.yml"
+    - "{{ k8s_init_tmpdir }}/nginx_ingress_internal_values.yml"
   changed_when: false
 
 - name: Install grafana dashboard
@@ -73,5 +73,5 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/nginx_ingress_controller_dashboard.yml

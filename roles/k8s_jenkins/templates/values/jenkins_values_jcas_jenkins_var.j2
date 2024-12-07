@@ -20,7 +20,7 @@ controller:
                 password: "${chart-admin-password}"
                 properties:
                   - mailer:
-                      emailAddress: "jenkins@jenkins.{{ kubernetes_ingress_root_domain }}"
+                      emailAddress: "jenkins@jenkins.{{ k8s_jenkins_ingress_root_domain }}"
               - id: hiteshnayak305
                 name: "Hitesh Nayak"
                 password: "${chart-admin-password}"

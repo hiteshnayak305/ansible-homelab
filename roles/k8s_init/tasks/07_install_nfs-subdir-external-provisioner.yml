@@ -4,7 +4,7 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/nfs-subdir-external-provisioner_namespace.yml
 
 - name: Add NFS Subdirectory External Provisioner helm repository
@@ -15,7 +15,7 @@
 - name: Copy values files
   ansible.builtin.copy:
     src: "files/{{ item }}"
-    dest: "{{ tmpdir }}/{{ item }}"
+    dest: "{{ k8s_init_tmpdir }}/{{ item }}"
     mode: "0777"
   changed_when: false
   with_items:
@@ -25,7 +25,7 @@
 - name: Copy values file
   ansible.builtin.template:
     src: values/nfs-subdir-external-provisioner_values_var.j2
-    dest: "{{ tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
+    dest: "{{ k8s_init_tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
     mode: "0777"
   changed_when: false
 
@@ -38,8 +38,8 @@
     release_namespace: nfs-subdir-external-provisioner
     create_namespace: false
     values_files:
-      - "{{ tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
-      - "{{ tmpdir }}/{{ item }}"
+      - "{{ k8s_init_tmpdir }}/nfs-subdir-external-provisioner_values_var.yml"
+      - "{{ k8s_init_tmpdir }}/{{ item }}"
     wait: true
     timeout: "10m0s"
   with_items:
@@ -49,7 +49,7 @@
 
 - name: Remove temp files (delete file)
   ansible.builtin.file:
-    path: "{{ tmpdir }}/{{ item }}"
+    path: "{{ k8s_init_tmpdir }}/{{ item }}"
     state: absent
   with_items:
     - nfs-subdir-external-provisioner_values_var.yml

@@ -5,7 +5,7 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "kube.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "kube.{{ k8s_init_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -21,7 +21,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: kube.{{ kubernetes_ingress_root_domain }}
+    - host: kube.{{ k8s_init_ingress_root_domain }}
       http:
         paths:
           - backend:
@@ -33,5 +33,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-      - kube.{{ kubernetes_ingress_root_domain }}
+      - kube.{{ k8s_init_ingress_root_domain }}
       secretName: kubernetes-dashboard-tls

@@ -16,7 +16,7 @@ spec:
       - PUNE
     streetAddresses:
       - MH
-  commonName: "{{ kubernetes_ingress_root_domain }}"
+  commonName: "{{ k8s_init_ingress_root_domain }}"
   isCA: false
   privateKey:
     algorithm: RSA
@@ -25,7 +25,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "{{ kubernetes_ingress_root_domain }}"
+    - "{{ k8s_init_ingress_root_domain }}"
   ipAddresses:
     - 192.168.1.50
     - 100.100.1.199

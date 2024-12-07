@@ -1,7 +1,7 @@
 ingress:
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "sonarqube.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "sonarqube.{{ k8s_sonarqube_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -14,7 +14,7 @@ ingress:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "64m"
   hosts:
-    - name: sonarqube.{{ kubernetes_ingress_root_domain }}
+    - name: sonarqube.{{ k8s_sonarqube_ingress_root_domain }}
       # Different clouds or configurations might need /* as the default path
       path: /
       # For additional control over serviceName and servicePort
@@ -25,4 +25,4 @@ ingress:
   tls:
     - secretName: sonarqube-sonarqube-tls
       hosts:
-        - "sonarqube.{{ kubernetes_ingress_root_domain }}"
+        - "sonarqube.{{ k8s_sonarqube_ingress_root_domain }}"

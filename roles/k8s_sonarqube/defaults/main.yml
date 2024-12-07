@@ -1,8 +1,8 @@
 ---
 # defaults file for k8s_sonarqube
 
-# tmpdir
-tmpdir: /tmp
+# k8s_sonarqube_tmpdir
+k8s_sonarqube_tmpdir: /tmp
 
-nfs_server: nfs.domain.com
-kubernetes_ingress_root_domain: domain.com
+k8s_sonarqube_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
+k8s_sonarqube_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"

@@ -5,7 +5,7 @@ alertmanager:
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: ca-cluster-issuer
-      cert-manager.io/common-name: "alertmanager.{{ kubernetes_ingress_root_domain }}"
+      cert-manager.io/common-name: "alertmanager.{{ k8s_prometheus_ingress_root_domain }}"
       cert-manager.io/email-sans: hiteshnayak305@gmail.com
       cert-manager.io/subject-organizations: DEV
       cert-manager.io/subject-organizationalunits: DEV
@@ -17,11 +17,11 @@ alertmanager:
       cert-manager.io/private-key-size: "4096"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
-      - "alertmanager.{{ kubernetes_ingress_root_domain }}"
+      - "alertmanager.{{ k8s_prometheus_ingress_root_domain }}"
     tls:
       - secretName: alertmanager-server-tls
         hosts:
-          - "alertmanager.{{ kubernetes_ingress_root_domain }}"
+          - "alertmanager.{{ k8s_prometheus_ingress_root_domain }}"
 
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ##
@@ -30,7 +30,7 @@ grafana:
     datasources:
       ## URL of prometheus datasource
       ##
-      url: https://prometheus.{{ kubernetes_ingress_root_domain }}/
+      url: https://prometheus.{{ k8s_prometheus_ingress_root_domain }}/
       ## Field with internal link pointing to existing data source in Grafana.
       ## Can be provisioned via additionalDataSources
       exemplarTraceIdDestinations:
@@ -39,7 +39,7 @@ grafana:
       alertmanager:
         ## URL of alertmanager datasource
         ##
-        url: https://alertmanager.{{ kubernetes_ingress_root_domain }}/
+        url: https://alertmanager.{{ k8s_prometheus_ingress_root_domain }}/
 
 ## Deploy a Prometheus instance
 ##
@@ -47,7 +47,7 @@ prometheus:
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: ca-cluster-issuer
-      cert-manager.io/common-name: "prometheus.{{ kubernetes_ingress_root_domain }}"
+      cert-manager.io/common-name: "prometheus.{{ k8s_prometheus_ingress_root_domain }}"
       cert-manager.io/email-sans: hiteshnayak305@gmail.com
       cert-manager.io/subject-organizations: DEV
       cert-manager.io/subject-organizationalunits: DEV
@@ -59,8 +59,8 @@ prometheus:
       cert-manager.io/private-key-size: "4096"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
-      - "prometheus.{{ kubernetes_ingress_root_domain }}"
+      - "prometheus.{{ k8s_prometheus_ingress_root_domain }}"
     tls:
       - secretName: prometheus-server-tls
         hosts:
-          - "prometheus.{{ kubernetes_ingress_root_domain }}"
+          - "prometheus.{{ k8s_prometheus_ingress_root_domain }}"

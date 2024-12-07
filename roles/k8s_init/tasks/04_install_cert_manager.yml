@@ -7,7 +7,7 @@
 - name: Copy values file
   ansible.builtin.copy:
     src: files/cert_manager_values.yml
-    dest: "{{ tmpdir }}/cert_manager_values.yml"
+    dest: "{{ k8s_init_tmpdir }}/cert_manager_values.yml"
     mode: "0777"
   changed_when: false
 
@@ -20,7 +20,7 @@
     release_namespace: cert-manager
     create_namespace: true
     values_files:
-      - "{{ tmpdir }}/cert_manager_values.yml"
+      - "{{ k8s_init_tmpdir }}/cert_manager_values.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -30,7 +30,7 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/cert_manager_values.yml"
+    - "{{ k8s_init_tmpdir }}/cert_manager_values.yml"
   changed_when: false
 
 - name: Install cluster issuer from ca certificate
@@ -38,7 +38,7 @@
     name: utility
     tasks_from: k8s_install_j2
   vars:
-    k8s_install_j2s:
+    utility_k8s_install_j2s:
       - secret/cert_manager_ca_key_pair.j2
       - crd/cert_manager_cluster_issuer_ca.j2
 
@@ -47,5 +47,5 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/cert_manager_dashboard.yml

@@ -1,2 +1,4 @@
 ---
 # vars file for k8s_gitea
+# k8s_gitea_tmpdir
+k8s_gitea_tmpdir: /tmp

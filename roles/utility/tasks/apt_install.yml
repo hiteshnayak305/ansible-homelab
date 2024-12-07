@@ -11,7 +11,7 @@
       ansible.builtin.apt:
         name: "{{ item }}"
         state: present
-      with_items: "{{ apt_install }}"
+      with_items: "{{ utility_apt_install }}"
 
     - name: Remove useless packages from the cache
       ansible.builtin.apt:

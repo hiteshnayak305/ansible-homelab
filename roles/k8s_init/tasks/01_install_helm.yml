@@ -27,7 +27,7 @@
         name: utility
         tasks_from: apt_install
       vars:
-        apt_install:
+        utility_apt_install:
           - git
 
 - name: Remove Old Helm diff 3.x.x

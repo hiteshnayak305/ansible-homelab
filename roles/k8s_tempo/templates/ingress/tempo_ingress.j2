@@ -5,7 +5,7 @@ metadata:
   namespace: tempo-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "tempo.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "tempo.{{ k8s_tempo_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -21,10 +21,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "tempo.{{ kubernetes_ingress_root_domain }}"
+        - "tempo.{{ k8s_tempo_ingress_root_domain }}"
       secretName: tempo-server-tls
   rules:
-    - host: "tempo.{{ kubernetes_ingress_root_domain }}"
+    - host: "tempo.{{ k8s_tempo_ingress_root_domain }}"
       http:
         paths:
           - path: /otlp(/|$)(.*)

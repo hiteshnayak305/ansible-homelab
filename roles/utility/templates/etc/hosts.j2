@@ -3,7 +3,7 @@
 # {{ ansible_managed }}
 
 127.0.0.1  localhost
-127.0.0.1  {{ ansible_hostname }}   {{ hostname }}
+127.0.0.1  {{ ansible_hostname }}   {{ utility_hostname }}
 
 # Basic IPv6 entries
 ::1      ip6-localhost  ip6-loopback
@@ -12,18 +12,18 @@ ff00::0  ip6-mcastprefix
 ff02::1  ip6-allnodes
 ff02::2  ip6-allrouters
 
-{% if hosts_entries|length != 0 %}
+{% if utility_hosts_entries|length != 0 %}
 # Custom entries
-{% for host in hosts_entries %}
+{% for host in utility_hosts_entries %}
 {{ host.ip }}  {{ host.name }} {{ host.aliases | default('') | join(' ') }}
 {% endfor %}
 {% endif %}
-{% if hosts_file_snippets|length != 0 %}
+{% if utility_hosts_file_snippets|length != 0 %}
 
 #
 # Hosts file snippets
 #
-{% for snippet in hosts_file_snippets %}
+{% for snippet in utility_hosts_file_snippets %}
 {% include snippet %}
 
 {% endfor %}

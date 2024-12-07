@@ -5,7 +5,7 @@ metadata:
   namespace: helm-dashboard
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "helm.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "helm.{{ k8s_init_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -19,7 +19,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: helm.{{ kubernetes_ingress_root_domain }}
+    - host: helm.{{ k8s_init_ingress_root_domain }}
       http:
         paths:
           - backend:
@@ -31,5 +31,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-      - helm.{{ kubernetes_ingress_root_domain }}
+      - helm.{{ k8s_init_ingress_root_domain }}
       secretName: helm-dashboard-tls

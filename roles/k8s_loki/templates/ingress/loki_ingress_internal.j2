@@ -5,7 +5,7 @@ metadata:
   namespace: loki-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "loki.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "loki.{{ k8s_loki_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -21,7 +21,7 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-    - host: "loki.{{ kubernetes_ingress_root_domain }}"
+    - host: "loki.{{ k8s_loki_ingress_root_domain }}"
       http:
         paths:
           - backend:
@@ -215,5 +215,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - "loki.{{ kubernetes_ingress_root_domain }}"
+        - "loki.{{ k8s_loki_ingress_root_domain }}"
       secretName: loki-tls-internal

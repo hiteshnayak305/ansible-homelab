@@ -3,21 +3,21 @@
   become: true
   become_user: "{{ item }}"
   ansible.builtin.file:
-    dest: "{{ htop_config_file_path }}"
+    dest: "{{ utility_htop_config_file_path }}"
     owner: "{{ item }}"
     group: "{{ item }}"
     mode: "0700"
     state: "directory"
-  with_items: "{{ htop_users }}"
+  with_items: "{{ utility_htop_users }}"
 
 - name: Install custom htoprc file
   become: true
   become_user: "{{ item }}"
   ansible.builtin.template:
     src: config/htop/htoprc.j2
-    dest: "{{ htop_config_file_path }}/htoprc"
+    dest: "{{ utility_htop_config_file_path }}/htoprc"
     owner: "{{ item }}"
     group: "{{ item }}"
     mode: "0664"
   register: installed_hosts
-  with_items: "{{ htop_users }}"
+  with_items: "{{ utility_htop_users }}"

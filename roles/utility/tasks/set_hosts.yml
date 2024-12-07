@@ -4,7 +4,7 @@
   become_user: root
   ansible.builtin.template:
     src: etc/hosts.j2
-    dest: "{{ hosts_file_path }}"
+    dest: "{{ utility_hosts_file_path }}"
     owner: root
     group: root
     mode: "0644"

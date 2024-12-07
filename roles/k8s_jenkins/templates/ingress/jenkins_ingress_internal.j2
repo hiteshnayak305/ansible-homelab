@@ -5,7 +5,7 @@ metadata:
   namespace: jenkins
   annotations: 
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "jenkins.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "jenkins.{{ k8s_jenkins_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -18,7 +18,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-    - host: jenkins.{{ kubernetes_ingress_root_domain }}
+    - host: jenkins.{{ k8s_jenkins_ingress_root_domain }}
       http:
         paths:
           - pathType: ImplementationSpecific
@@ -30,5 +30,5 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-      - jenkins.{{ kubernetes_ingress_root_domain }}
+      - jenkins.{{ k8s_jenkins_ingress_root_domain }}
       secretName: ingress-jenkins-tls-internal

@@ -8,22 +8,22 @@
         - name: Create yml from template in temp location
           ansible.builtin.template:
             src: "{{ item }}"
-            dest: "{{ tmpdir }}/{{ item | basename | split('.') | first }}.yml"
+            dest: "{{ utility_tmpdir }}/{{ item | basename | split('.') | first }}.yml"
             mode: "0777"
-          with_items: "{{ k8s_install_j2s }}"
+          with_items: "{{ utility_k8s_install_j2s }}"
           changed_when: false
 
         - name: Apply YML files to k8s
           kubernetes.core.k8s:
             state: present
-            src: "{{ tmpdir }}/{{ item | basename | split('.') | first }}.yml"
+            src: "{{ utility_tmpdir }}/{{ item | basename | split('.') | first }}.yml"
             wait: true
-          with_items: "{{ k8s_install_j2s }}"
+          with_items: "{{ utility_k8s_install_j2s }}"
           when: not ansible_check_mode
 
         - name: Remove temp files (delete file)
           ansible.builtin.file:
-            path: "{{ tmpdir }}/{{ item | basename | split('.') | first }}.yml"
+            path: "{{ utility_tmpdir }}/{{ item | basename | split('.') | first }}.yml"
             state: absent
-          with_items: "{{ k8s_install_j2s }}"
+          with_items: "{{ utility_k8s_install_j2s }}"
           changed_when: false

@@ -5,7 +5,7 @@ metadata:
   namespace: keycloak-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "keycloak.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "keycloak.{{ k8s_keycloak_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -22,10 +22,10 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-        - "keycloak.{{ kubernetes_ingress_root_domain }}"
+        - "keycloak.{{ k8s_keycloak_ingress_root_domain }}"
       secretName: keycloak-tls-internal
   rules:
-    - host: "keycloak.{{ kubernetes_ingress_root_domain }}"
+    - host: "keycloak.{{ k8s_keycloak_ingress_root_domain }}"
       http:
         paths:
           - path: /

@@ -3,4 +3,4 @@
 # @default -- See `values.yaml`
 config:
   clients:
-    - url: https://loki.{{ kubernetes_ingress_root_domain }}/loki/api/v1/push
+    - url: https://loki.{{ k8s_loki_ingress_root_domain }}/loki/api/v1/push

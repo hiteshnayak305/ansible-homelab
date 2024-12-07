@@ -1,13 +1,13 @@
 ---
 # defaults file for k8s_authentik
 
-# tmpdir
-tmpdir: /tmp
+# k8s_grafana_tmpdir
+k8s_grafana_tmpdir: /tmp
 
-nfs_server: nfs.domain.com
-kubernetes_ingress_root_domain: domain.com
+k8s_grafana_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
+k8s_grafana_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
-grafana_admin_user: user
-grafana_admin_password: password
+k8s_grafana_admin_user: user
+k8s_grafana_admin_password: password
 
-grafana_oauth_client_secret: secret
+k8s_grafana_oauth_client_secret: secret

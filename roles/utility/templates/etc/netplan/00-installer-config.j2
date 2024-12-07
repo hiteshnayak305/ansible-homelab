@@ -2,8 +2,8 @@
 network:
   version: 2
   ethernets:
-{% if netplan_ethernets | length != 0 %}
-{% for ethernet in netplan_ethernets %}
+{% if utility_netplan_ethernets | length != 0 %}
+{% for ethernet in utility_netplan_ethernets %}
     {{ ethernet.interface }}:
       addresses:
         {{ ethernet.body.addresses | to_nice_yaml(indent=2) | trim | indent(8) }}

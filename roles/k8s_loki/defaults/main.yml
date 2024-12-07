@@ -1,7 +1,7 @@
 ---
 # defaults file for k8s_loki
 
-# tmpdir
-tmpdir: /tmp
+# k8s_loki_tmpdir
+k8s_loki_tmpdir: /tmp
 
-kubernetes_ingress_root_domain: domain.com
+k8s_loki_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"

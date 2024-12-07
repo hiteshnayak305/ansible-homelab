@@ -7,7 +7,7 @@
 - name: Copy values file
   ansible.builtin.copy:
     src: files/node_problem_detector_values.yml
-    dest: "{{ tmpdir }}/node_problem_detector_values.yml"
+    dest: "{{ k8s_init_tmpdir }}/node_problem_detector_values.yml"
     mode: "0777"
   changed_when: false
 
@@ -20,7 +20,7 @@
     release_namespace: node-problem-detector
     create_namespace: true
     values_files:
-      - "{{ tmpdir }}/node_problem_detector_values.yml"
+      - "{{ k8s_init_tmpdir }}/node_problem_detector_values.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -30,7 +30,7 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/node_problem_detector_values.yml"
+    - "{{ k8s_init_tmpdir }}/node_problem_detector_values.yml"
   changed_when: false
 
 - name: Install grafana dashboard
@@ -38,5 +38,5 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/node_problem_detector_dashboard.yml

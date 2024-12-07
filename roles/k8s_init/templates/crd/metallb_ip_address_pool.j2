@@ -1,9 +1,9 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: {{ metallb_ip_address_pool }}
+  name: {{ k8s_init_metallb_ip_address_pool }}
   namespace: metallb-system
 spec:
   addresses:
-    - {{ metallb_ip_address_range }}
+    - {{ k8s_init_metallb_ip_address_range }}
   autoAssign: false

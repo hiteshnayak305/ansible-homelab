@@ -3,7 +3,7 @@
   become: true
   become_user: root
   ansible.builtin.lineinfile:
-    dest: "{{ sudoers_file_path }}"
+    dest: "{{ utility_sudoers_file_path }}"
     line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
     validate: "visudo -cf %s"
-  with_items: "{{ sudoers }}"
+  with_items: "{{ utility_sudoers }}"

@@ -30,4 +30,3 @@ nfs_server_exports:
   #         - 'no_root_squash'
   #   mode: "u=rwx,g=rwx,o=rwx"
   #   path: '/opt/nfs/test2'
-node_exporter_version: ""

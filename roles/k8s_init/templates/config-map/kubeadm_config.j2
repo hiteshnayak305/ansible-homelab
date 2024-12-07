@@ -12,7 +12,7 @@ data:
     apiVersion: kubeadm.k8s.io/v1beta3
     certificatesDir: /etc/kubernetes/pki
     clusterName: kubernetes
-    controlPlaneEndpoint: k8s-master.{{ kubernetes_ingress_root_domain }}:6443
+    controlPlaneEndpoint: k8s-master.{{ k8s_init_ingress_root_domain }}:6443
     controllerManager:
       extraArgs:
         bind-address: 0.0.0.0

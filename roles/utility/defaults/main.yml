@@ -1,9 +1,6 @@
 ---
-# tmpdir
-tmpdir: /tmp
-
 # ip addresses
-netplan_ethernets:
+utility_netplan_ethernets:
   []
   # - interface: enp0s3
   #   body:
@@ -17,55 +14,55 @@ netplan_ethernets:
   #         via: x.x.x.x
 
 # interface for ufw rules
-ufw_interface: ""
+utility_ufw_interface: ""
 
 # firewall rules
-ufw_rules: []
+utility_ufw_rules: []
 
 # Make users sudoer
-sudoers: []
+utility_sudoers: []
 
 # Install apt packages
-apt_install: []
+utility_apt_install: []
 
 # Remove apt packages
-apt_remove: []
+utility_apt_remove: []
 
 # Install pip packages
-pip_install: []
+utility_pip_install: []
 
 # Remove pip packages
-pip_remove: []
+utility_pip_remove: []
 
 # Systemctl restart service
-systemctl_restart: []
+utility_systemctl_restart: []
 
 # Install CA Certificates
-ca_certificates: []
+utility_ca_certificates: []
 
 # Set hostname
-hostname: "default-hostname"
+utility_hostname: "default-hostname"
 
 # Custom hosts entries to be added
-hosts_entries: []
+utility_hosts_entries: []
 
 # Custom host file snippets to be added
-hosts_file_snippets: []
+utility_hosts_file_snippets: []
 
 # YMLs to install
-k8s_install_ymls: []
+utility_k8s_install_ymls: []
 
 # YMLs remote to install
-k8s_install_urls: []
+utility_k8s_install_urls: []
 
 # j2 template k8s manifests
-k8s_install_j2s: []
+utility_k8s_install_j2s: []
 
 # htop users
-htop_users: []
+utility_htop_users: []
 
-# timezone
-timezone: "Etc/UTC"
+# utility_timezone
+utility_timezone: "Etc/UTC"
 
 # node exporter version
-node_exporter_version: ""
+utility_node_exporter_version: ""

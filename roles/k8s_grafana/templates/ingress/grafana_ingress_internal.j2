@@ -5,7 +5,7 @@ metadata:
   namespace: grafana-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "grafana.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "grafana.{{ k8s_grafana_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -20,10 +20,10 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-        - "grafana.{{ kubernetes_ingress_root_domain }}"
+        - "grafana.{{ k8s_grafana_ingress_root_domain }}"
       secretName: grafana-tls-internal
   rules:
-    - host: "grafana.{{ kubernetes_ingress_root_domain }}"
+    - host: "grafana.{{ k8s_grafana_ingress_root_domain }}"
       http:
         paths:
           - path: /

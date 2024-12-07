@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   nfs:
-    server: {{ nfs_server }}
+    server: {{ k8s_keycloak_nfs_server }}
     path: "/mnt/nfs/ssd_0/pv-keycloak-postgresql-ha-primary"
   mountOptions:
     - nfsvers=4.2

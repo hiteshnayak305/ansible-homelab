@@ -3,6 +3,6 @@
   become: true
   become_user: root
   ansible.builtin.hostname:
-    name: "{{ hostname }}"
+    name: "{{ utility_hostname }}"
   notify:
     - Reboot Machine

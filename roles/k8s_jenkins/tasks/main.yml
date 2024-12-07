@@ -28,7 +28,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_jenkins.j2
           - pv/pv_jenkins_maven.j2
           - pv/pv_jenkins_gradle.j2
@@ -42,7 +42,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/jenkins_namespace.yml
           - files/pvc_jenkins.yml
           - files/pvc_jenkins_maven.yml
@@ -57,7 +57,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/jenkins_admin_secret.j2
           - secret/git_gitea_secret.j2
           - secret/docker_harbor_secret.j2
@@ -75,7 +75,7 @@
     - name: Copy values files
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "{{ tmpdir }}/{{ item | basename }}"
+        dest: "{{ k8s_jenkins_tmpdir }}/{{ item | basename }}"
         mode: "0777"
       changed_when: false
       with_items:
@@ -90,7 +90,7 @@
     - name: Copy values file
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
+        dest: "{{ k8s_jenkins_tmpdir }}/{{ item | basename | splitext | first }}.yml"
         mode: preserve
       changed_when: false
       with_items:
@@ -108,17 +108,17 @@
         release_namespace: jenkins
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/jenkins_values.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_jenkins.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_unclassified.yml"
-          - "{{ tmpdir }}/jenkins_values_agent.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_security.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_appearance.yml"
-          - "{{ tmpdir }}/jenkins_values_var.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_jobs_var.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
-          - "{{ tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_jenkins.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_credentials.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_unclassified.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_agent.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_security.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_appearance.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_var.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_jobs_var.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
+          - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
         wait: true
         timeout: "25m0s"
       when: not ansible_check_mode
@@ -128,17 +128,17 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ tmpdir }}/jenkins_values.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_jenkins.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_credentials.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_unclassified.yml"
-        - "{{ tmpdir }}/jenkins_values_agent.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_security.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_appearance.yml"
-        - "{{ tmpdir }}/jenkins_values_var.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_jobs_var.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
-        - "{{ tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_jenkins.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_credentials.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_unclassified.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_agent.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_security.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_appearance.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_var.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_jobs_var.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_unclassified_var.yml"
+        - "{{ k8s_jenkins_tmpdir }}/jenkins_values_jcas_jenkins_var.yml"
       changed_when: false
 
     - name: Install ingress internal
@@ -146,7 +146,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/jenkins_ingress_internal.j2
 
     - name: Install grafana dashboard
@@ -154,5 +154,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/jenkins_performance_and_health_overview_dashboard.yml

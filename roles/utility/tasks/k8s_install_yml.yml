@@ -8,24 +8,24 @@
         - name: Copy YML files to remote
           ansible.builtin.copy:
             src: "{{ item }}"
-            dest: "{{ tmpdir }}/{{ item | basename }}"
+            dest: "{{ utility_tmpdir }}/{{ item | basename }}"
             mode: "0777"
-          with_items: "{{ k8s_install_ymls }}"
+          with_items: "{{ utility_k8s_install_ymls }}"
           changed_when: false
 
         - name: Apply YML files to k8s
           kubernetes.core.k8s:
             state: present
-            src: "{{ tmpdir }}/{{ item | basename }}"
+            src: "{{ utility_tmpdir }}/{{ item | basename }}"
             wait: true
-          with_items: "{{ k8s_install_ymls }}"
+          with_items: "{{ utility_k8s_install_ymls }}"
           when: not ansible_check_mode
 
         - name: Remove temp files (delete file)
           ansible.builtin.file:
-            path: "{{ tmpdir }}/{{ item | basename }}"
+            path: "{{ utility_tmpdir }}/{{ item | basename }}"
             state: absent
-          with_items: "{{ k8s_install_ymls }}"
+          with_items: "{{ utility_k8s_install_ymls }}"
           changed_when: false
 
     - name: Install remote yml files
@@ -33,22 +33,22 @@
         - name: Download remote yml files
           ansible.builtin.get_url:
             url: "{{ item }}"
-            dest: "{{ tmpdir }}/{{ item | basename }}"
+            dest: "{{ utility_tmpdir }}/{{ item | basename }}"
             mode: "0664"
-          with_items: "{{ k8s_install_urls }}"
+          with_items: "{{ utility_k8s_install_urls }}"
           changed_when: false
 
         - name: Apply remote yml files
           kubernetes.core.k8s:
             state: present
-            src: "{{ tmpdir }}/{{ item | basename }}"
+            src: "{{ utility_tmpdir }}/{{ item | basename }}"
             wait: true
-          with_items: "{{ k8s_install_urls }}"
+          with_items: "{{ utility_k8s_install_urls }}"
           when: not ansible_check_mode
 
         - name: Remove temp files (delete file)
           ansible.builtin.file:
-            path: "{{ tmpdir }}/{{ item | basename }}"
+            path: "{{ utility_tmpdir }}/{{ item | basename }}"
             state: absent
-          with_items: "{{ k8s_install_urls }}"
+          with_items: "{{ utility_k8s_install_urls }}"
           changed_when: false

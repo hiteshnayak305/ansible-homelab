@@ -7,7 +7,7 @@
 - name: Copy dashboard values file
   ansible.builtin.copy:
     src: files/kubernetes_dashboard_values.yml
-    dest: "{{ tmpdir }}/kubernetes_dashboard_values.yml"
+    dest: "{{ k8s_init_tmpdir }}/kubernetes_dashboard_values.yml"
     mode: "0777"
   changed_when: false
 
@@ -20,7 +20,7 @@
     release_namespace: kubernetes-dashboard
     create_namespace: true
     values_files:
-      - "{{ tmpdir }}/kubernetes_dashboard_values.yml"
+      - "{{ k8s_init_tmpdir }}/kubernetes_dashboard_values.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -30,7 +30,7 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/kubernetes_dashboard_values.yml"
+    - "{{ k8s_init_tmpdir }}/kubernetes_dashboard_values.yml"
   changed_when: false
 
 - name: Install ingress for kubernetes dashboard
@@ -38,7 +38,7 @@
     name: utility
     tasks_from: k8s_install_j2
   vars:
-    k8s_install_j2s:
+    utility_k8s_install_j2s:
       - ingress/kubernetes_dashboard_ingress.j2
 
 - name: Install user for kubernetes dashboard
@@ -46,5 +46,5 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/kubernetes_dashboard_user.yml

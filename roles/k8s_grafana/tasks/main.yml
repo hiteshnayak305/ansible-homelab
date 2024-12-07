@@ -22,7 +22,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_grafana.j2
 
     - name: Install prereq for grafana
@@ -30,7 +30,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/grafana_namespace.yml
           - files/pvc_grafana.yml
 
@@ -39,7 +39,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/grafana_admin_secret.j2
 
     - name: Add Grafana helm repository
@@ -50,7 +50,7 @@
     - name: Copy values file
       ansible.builtin.copy:
         src: "files/{{ item }}"
-        dest: "{{ tmpdir }}/{{ item }}"
+        dest: "{{ k8s_grafana_tmpdir }}/{{ item }}"
         mode: preserve
       changed_when: false
       with_items:
@@ -59,7 +59,7 @@
     - name: Copy values file
       ansible.builtin.template:
         src: values/grafana_values_var.j2
-        dest: "{{ tmpdir }}/grafana_values_var.yml"
+        dest: "{{ k8s_grafana_tmpdir }}/grafana_values_var.yml"
         mode: preserve
       changed_when: false
 
@@ -72,8 +72,8 @@
         release_namespace: grafana-system
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/grafana_values.yml"
-          - "{{ tmpdir }}/grafana_values_var.yml"
+          - "{{ k8s_grafana_tmpdir }}/grafana_values.yml"
+          - "{{ k8s_grafana_tmpdir }}/grafana_values_var.yml"
         wait: true
         timeout: "10m0s"
       when: not ansible_check_mode
@@ -83,8 +83,8 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ tmpdir }}/grafana_values.yml"
-        - "{{ tmpdir }}/grafana_values_var.yml"
+        - "{{ k8s_grafana_tmpdir }}/grafana_values.yml"
+        - "{{ k8s_grafana_tmpdir }}/grafana_values_var.yml"
       changed_when: false
 
     - name: Install ingress internal
@@ -92,7 +92,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/grafana_ingress_internal.j2
 
     - name: Install common dashboards grafana
@@ -100,7 +100,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - dashboards/kubernetes_views_global_dashboard.yml
           - dashboards/kubernetes_views_namespace_dashboard.yml
           - dashboards/kubernetes_views_nodes_dashboard.yml

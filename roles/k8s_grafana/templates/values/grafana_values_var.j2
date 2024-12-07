@@ -1,7 +1,7 @@
 ingress:
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "grafana.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "grafana.{{ k8s_grafana_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -13,11 +13,11 @@ ingress:
     cert-manager.io/private-key-size: "4096"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   hosts:
-    - grafana.{{ kubernetes_ingress_root_domain }}
+    - grafana.{{ k8s_grafana_ingress_root_domain }}
   tls:
     - secretName: grafana-tls
       hosts:
-        - "grafana.{{ kubernetes_ingress_root_domain }}"
+        - "grafana.{{ k8s_grafana_ingress_root_domain }}"
 
 ## Grafana's primary configuration
 ## NOTE: values in map will be converted to ini format
@@ -31,7 +31,7 @@ grafana.ini:
     skip_org_role_sync: false
     allow_assign_grafana_admin: true
     client_id: grafana
-    client_secret: {{ grafana_oauth_client_secret }}
+    client_secret: {{ k8s_grafana_oauth_client_secret }}
     use_refresh_token: true
     scopes: openid email profile offline_access roles groups
     email_attribute_path: email
@@ -39,6 +39,6 @@ grafana.ini:
     name_attribute_path: name
     role_attribute_path: contains(resource_access.grafana.roles[*], 'grafanaadmin') && 'GrafanaAdmin' || contains(resource_access.grafana.roles[*], 'admin') && 'Admin' || contains(resource_access.grafana.roles[*], 'editor') && 'Editor' || 'Viewer'
     groups_attribute_path: groups
-    auth_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/auth
-    token_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/token
-    api_url: https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main/protocol/openid-connect/userinfo
+    auth_url: https://keycloak.{{ k8s_grafana_ingress_root_domain }}/realms/main/protocol/openid-connect/auth
+    token_url: https://keycloak.{{ k8s_grafana_ingress_root_domain }}/realms/main/protocol/openid-connect/token
+    api_url: https://keycloak.{{ k8s_grafana_ingress_root_domain }}/realms/main/protocol/openid-connect/userinfo

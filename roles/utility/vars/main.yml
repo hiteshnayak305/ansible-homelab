@@ -1,17 +1,20 @@
 ---
 # vars file for utility
 
+# utility_tmpdir
+utility_tmpdir: /tmp
+
 # hosts file path
-hosts_file_path: /etc/hosts
+utility_hosts_file_path: /etc/hosts
 
 # sshd config path
-sshd_config_path: /etc/ssh/sshd_config
+utility_sshd_config_path: /etc/ssh/sshd_config
 
 # sudoers file path
-sudoers_file_path: /etc/sudoers
+utility_sudoers_file_path: /etc/sudoers
 
 # user CA certificates path
-usr_ca_cert_path: /usr/local/share/ca-certificates
+utility_usr_ca_cert_path: /usr/local/share/ca-certificates
 
 # htop config file path
-htop_config_file_path: ~/.config/htop
+utility_htop_config_file_path: ~/.config/htop

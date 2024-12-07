@@ -5,7 +5,7 @@ metadata:
   namespace: prometheus-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "prometheus.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "prometheus.{{ k8s_prometheus_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -20,10 +20,10 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-        - "prometheus.{{ kubernetes_ingress_root_domain }}"
+        - "prometheus.{{ k8s_prometheus_ingress_root_domain }}"
       secretName: prometheus-server-tls-internal
   rules:
-    - host: "prometheus.{{ kubernetes_ingress_root_domain }}"
+    - host: "prometheus.{{ k8s_prometheus_ingress_root_domain }}"
       http:
         paths:
           - path: /

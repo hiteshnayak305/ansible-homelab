@@ -1,19 +1,19 @@
 ---
 # defaults file for k8s_harbor
 
-# tmpdir
-tmpdir: /tmp
+# k8s_harbor_tmpdir
+k8s_harbor_tmpdir: /tmp
 
-nfs_server: nfs.domain.com
+k8s_harbor_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
 
-kubernetes_ingress_root_domain: domain.com
+k8s_harbor_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
 # admin user
-harbor_admin_password: password
+k8s_harbor_admin_password: password
 
 # harbor oidc
-harbor_oidc_client_secret: examplesecret
+k8s_harbor_oidc_client_secret: examplesecret
 
 # harbor registry
-harbor_registry_password: password
-harbor_registry_htpasswd: $apr1$XLefHzeG$Xl4.s00sMSCCcMyJljSZb0
+k8s_harbor_registry_password: password
+k8s_harbor_registry_htpasswd: $apr1$XLefHzeG$Xl4.s00sMSCCcMyJljSZb0

@@ -17,7 +17,7 @@
     - name: Copy values file
       ansible.builtin.copy:
         src: "files/{{ item }}"
-        dest: "{{ tmpdir }}/{{ item }}"
+        dest: "{{ k8s_loki_tmpdir }}/{{ item }}"
         mode: "0777"
       with_items:
         - loki_values.yml
@@ -28,7 +28,7 @@
     - name: Copy values file
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "{{ tmpdir }}/{{ item | basename | splitext | first }}.yml"
+        dest: "{{ k8s_loki_tmpdir }}/{{ item | basename | splitext | first }}.yml"
         mode: "0777"
       changed_when: false
       with_items:
@@ -45,8 +45,8 @@
         release_namespace: loki-system
         create_namespace: true
         values_files:
-          - "{{ tmpdir }}/loki_values.yml"
-          - "{{ tmpdir }}/loki_values_var.yml"
+          - "{{ k8s_loki_tmpdir }}/loki_values.yml"
+          - "{{ k8s_loki_tmpdir }}/loki_values_var.yml"
         wait: true
         timeout: "10m0s"
       when: not ansible_check_mode
@@ -60,8 +60,8 @@
         release_namespace: loki-system
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/loki_promtail_values.yml"
-          - "{{ tmpdir }}/loki_promtail_values_var.yml"
+          - "{{ k8s_loki_tmpdir }}/loki_promtail_values.yml"
+          - "{{ k8s_loki_tmpdir }}/loki_promtail_values_var.yml"
         wait: true
         timeout: "10m0s"
       when: not ansible_check_mode
@@ -75,8 +75,8 @@
         release_namespace: loki-system
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
-          - "{{ tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
+          - "{{ k8s_loki_tmpdir }}/loki_kubernetes_event_exporter_values.yml"
+          - "{{ k8s_loki_tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
         wait: true
         timeout: "10m0s"
       when: not ansible_check_mode
@@ -86,12 +86,12 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ tmpdir }}/loki_values.yml"
-        - "{{ tmpdir }}/loki_values_var.yml"
-        - "{{ tmpdir }}/loki_promtail_values.yml"
-        - "{{ tmpdir }}/loki_promtail_values_var.yml"
-        - "{{ tmpdir }}/loki_kubernetes_event_exporter_values.yml"
-        - "{{ tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
+        - "{{ k8s_loki_tmpdir }}/loki_values.yml"
+        - "{{ k8s_loki_tmpdir }}/loki_values_var.yml"
+        - "{{ k8s_loki_tmpdir }}/loki_promtail_values.yml"
+        - "{{ k8s_loki_tmpdir }}/loki_promtail_values_var.yml"
+        - "{{ k8s_loki_tmpdir }}/loki_kubernetes_event_exporter_values.yml"
+        - "{{ k8s_loki_tmpdir }}/loki_kubernetes_event_exporter_values_var.yml"
       changed_when: false
 
     - name: Install ingress internal
@@ -99,7 +99,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/loki_ingress_internal.j2
 
     - name: Install datasource for loki
@@ -107,7 +107,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - cm/loki_datasource_configmap.j2
 
     - name: Install grafana dashboards
@@ -115,5 +115,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - dashboards/logs_app_dashboard.yml

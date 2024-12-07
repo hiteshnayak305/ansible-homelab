@@ -5,4 +5,4 @@
   ansible.builtin.pip:
     name: "{{ item }}"
     state: absent
-  with_items: "{{ pip_remove }}"
+  with_items: "{{ utility_pip_remove }}"

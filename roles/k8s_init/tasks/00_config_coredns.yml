@@ -2,14 +2,14 @@
 - name: Create coredns config manifest
   ansible.builtin.template:
     src: config-map/coredns.j2
-    dest: "{{ tmpdir }}/coredns.yml"
+    dest: "{{ k8s_init_tmpdir }}/coredns.yml"
     mode: "0777"
   changed_when: false
 
 - name: Install coredns config map
   kubernetes.core.k8s:
     state: present
-    src: "{{ tmpdir }}/coredns.yml"
+    src: "{{ k8s_init_tmpdir }}/coredns.yml"
     wait: true
   when: not ansible_check_mode
   notify:
@@ -20,5 +20,5 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/coredns.yml"
+    - "{{ k8s_init_tmpdir }}/coredns.yml"
   changed_when: false

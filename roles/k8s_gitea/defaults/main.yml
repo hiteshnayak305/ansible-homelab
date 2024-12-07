@@ -1,20 +1,17 @@
 ---
 # defaults file for k8s_gitea
 
-# tmpdir
-tmpdir: /tmp
+k8s_gitea_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
 
-nfs_server: nfs.domain.com
-
-kubernetes_ingress_root_domain: domain.com
+k8s_gitea_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
 # admin user
-gitea_admin_username: admin
-gitea_admin_password: password
+k8s_gitea_admin_username: admin
+k8s_gitea_admin_password: password
 
 # system gpg key
-gitea_gpg_key: ""
+k8s_gitea_gpg_key: ""
 
 # oauth secret
-gitea_oauth_key: key
-gitea_oauth_secret: secret
+k8s_gitea_oauth_key: key
+k8s_gitea_oauth_secret: secret

@@ -22,7 +22,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - pv/pv_harbor_database.j2
           - pv/pv_harbor_registry.j2
 
@@ -31,7 +31,7 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/harbor_namespace.yml
           - files/pvc_harbor_database.yml
           - files/pvc_harbor_registry.yml
@@ -41,7 +41,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - secret/harbor_admin_secret.j2
           - secret/harbor_registry_secret.j2
 
@@ -53,14 +53,14 @@
     - name: Copy values file
       ansible.builtin.copy:
         src: files/harbor_values.yml
-        dest: "{{ tmpdir }}/harbor_values.yml"
+        dest: "{{ k8s_harbor_tmpdir }}/harbor_values.yml"
         mode: "0777"
       changed_when: false
 
     - name: Copy values file
       ansible.builtin.template:
         src: values/harbor_values_var.j2
-        dest: "{{ tmpdir }}/harbor_values_var.yml"
+        dest: "{{ k8s_harbor_tmpdir }}/harbor_values_var.yml"
         mode: "0777"
       changed_when: false
 
@@ -73,8 +73,8 @@
         release_namespace: harbor-system
         create_namespace: false
         values_files:
-          - "{{ tmpdir }}/harbor_values.yml"
-          - "{{ tmpdir }}/harbor_values_var.yml"
+          - "{{ k8s_harbor_tmpdir }}/harbor_values.yml"
+          - "{{ k8s_harbor_tmpdir }}/harbor_values_var.yml"
         wait: true
         timeout: "15m0s"
       when: not ansible_check_mode
@@ -84,8 +84,8 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ tmpdir }}/harbor_values.yml"
-        - "{{ tmpdir }}/harbor_values_var.yml"
+        - "{{ k8s_harbor_tmpdir }}/harbor_values.yml"
+        - "{{ k8s_harbor_tmpdir }}/harbor_values_var.yml"
       changed_when: false
 
     - name: Install ingress internal
@@ -93,7 +93,7 @@
         name: utility
         tasks_from: k8s_install_j2
       vars:
-        k8s_install_j2s:
+        utility_k8s_install_j2s:
           - ingress/harbor_ingress_internal.j2
 
     - name: Install grafana dashboard for harbor
@@ -101,5 +101,5 @@
         name: utility
         tasks_from: k8s_install_yml
       vars:
-        k8s_install_ymls:
+        utility_k8s_install_ymls:
           - files/harbor_grafana_dashboard.yml

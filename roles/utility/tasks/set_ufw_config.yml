@@ -26,12 +26,12 @@
       community.general.ufw:
         rule: allow
         direction: in
-        interface: "{{ ufw_interface | default('') }}"
+        interface: "{{ utility_ufw_interface | default('') }}"
         route: "{{ item.route | default(false) }}"
         proto: "{{ item.proto | default('any') }}"
         src: "{{ item.src | default('any') }}"
         port: "{{ item.port }}"
-      loop: "{{ ufw_rules }}"
+      loop: "{{ utility_ufw_rules }}"
 
     # - name: Allow incomming on cni0
     #   community.general.ufw:
@@ -49,7 +49,7 @@
       community.general.ufw:
         name: OpenSSH
         rule: allow
-        interface: "{{ ufw_interface | default('') }}"
+        interface: "{{ utility_ufw_interface | default('') }}"
         direction: in
 
     # - name: Reject all incomming and enable UFW

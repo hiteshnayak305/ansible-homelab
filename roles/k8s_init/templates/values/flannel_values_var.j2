@@ -3,4 +3,4 @@ flannel:
   args:
   - "--ip-masq"
   - "--kube-subnet-mgr"
-  - "--iface={{ kubernetes_connection_interface }}"
+  - "--iface={{ k8s_init_kubernetes_connection_interface }}"

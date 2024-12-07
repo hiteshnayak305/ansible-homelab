@@ -5,7 +5,7 @@ metadata:
   namespace: immich-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "immich.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "immich.{{ k8s_immich_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -19,7 +19,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-  - host: immich.{{ kubernetes_ingress_root_domain }}
+  - host: immich.{{ k8s_immich_ingress_root_domain }}
     http:
       paths:
       - path: /
@@ -32,5 +32,5 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-      - immich.{{ kubernetes_ingress_root_domain }}
+      - immich.{{ k8s_immich_ingress_root_domain }}
       secretName: immich-proxy-tls-internal

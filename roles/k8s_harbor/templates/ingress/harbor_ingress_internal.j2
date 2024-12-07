@@ -5,7 +5,7 @@ metadata:
   namespace: harbor-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "harbor.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "harbor.{{ k8s_harbor_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -23,10 +23,10 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-        - "harbor.{{ kubernetes_ingress_root_domain }}"
+        - "harbor.{{ k8s_harbor_ingress_root_domain }}"
       secretName: harbor-ingress-tls-internal
   rules:
-    - host: "harbor.{{ kubernetes_ingress_root_domain }}"
+    - host: "harbor.{{ k8s_harbor_ingress_root_domain }}"
       http:
         paths:
           - path: /api/

@@ -2,7 +2,7 @@
 ingress:
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "loki.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "loki.{{ k8s_loki_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -14,8 +14,8 @@ ingress:
     cert-manager.io/private-key-size: "4096"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   hosts:
-    - loki.{{ kubernetes_ingress_root_domain }}
+    - loki.{{ k8s_loki_ingress_root_domain }}
   tls:
     - secretName: loki-tls
       hosts:
-        - "loki.{{ kubernetes_ingress_root_domain }}"
+        - "loki.{{ k8s_loki_ingress_root_domain }}"

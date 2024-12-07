@@ -5,7 +5,7 @@ metadata:
   namespace: gitea-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "gitea.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "gitea.{{ k8s_gitea_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -21,10 +21,10 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-        - "gitea.{{ kubernetes_ingress_root_domain }}"
+        - "gitea.{{ k8s_gitea_ingress_root_domain }}"
       secretName: gitea-tls-internal
   rules:
-    - host: "gitea.{{ kubernetes_ingress_root_domain }}"
+    - host: "gitea.{{ k8s_gitea_ingress_root_domain }}"
       http:
         paths:
           - path: /

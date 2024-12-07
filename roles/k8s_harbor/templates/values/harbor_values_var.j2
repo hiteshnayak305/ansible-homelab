@@ -21,13 +21,13 @@ expose:
       secretName: "harbor-ingress-tls"
   ingress:
     hosts:
-      core: "harbor.{{ kubernetes_ingress_root_domain }}"
+      core: "harbor.{{ k8s_harbor_ingress_root_domain }}"
     className: "nginx"
     harbor:
       # harbor ingress-specific annotations
       annotations:
         cert-manager.io/cluster-issuer: ca-cluster-issuer
-        cert-manager.io/common-name: "harbor.{{ kubernetes_ingress_root_domain }}"
+        cert-manager.io/common-name: "harbor.{{ k8s_harbor_ingress_root_domain }}"
         cert-manager.io/email-sans: hiteshnayak305@gmail.com
         cert-manager.io/subject-organizations: DEV
         cert-manager.io/subject-organizationalunits: DEV
@@ -51,7 +51,7 @@ expose:
 # the IP address of k8s node
 #
 # If Harbor is deployed behind the proxy, set it as the URL of proxy
-externalURL: "https://harbor.{{ kubernetes_ingress_root_domain }}"
+externalURL: "https://harbor.{{ k8s_harbor_ingress_root_domain }}"
 
 core:
   ## User settings configuration json string
@@ -59,9 +59,9 @@ core:
     {
       "auth_mode": "oidc_auth",
       "oidc_name": "keycloak",
-      "oidc_endpoint": "https://keycloak.{{ kubernetes_ingress_root_domain }}/realms/main",
+      "oidc_endpoint": "https://keycloak.{{ k8s_harbor_ingress_root_domain }}/realms/main",
       "oidc_client_id": "harbor",
-      "oidc_client_secret": "{{ harbor_oidc_client_secret }}",
+      "oidc_client_secret": "{{ k8s_harbor_oidc_client_secret }}",
       "oidc_groups_claim": "groups",
       "oidc_admin_group":"harboradmin",
       "oidc_scope": "openid,profile,roles,email,offline_access,groups",

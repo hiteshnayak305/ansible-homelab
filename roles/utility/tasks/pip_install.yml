@@ -6,7 +6,7 @@
     - name: Install Python pip3
       ansible.builtin.include_tasks: apt_install.yml
       vars:
-        apt_install:
+        utility_apt_install:
           - python3-pip
 
     - name: Install pip modules
@@ -14,4 +14,4 @@
         name: "{{ item }}"
         state: present
         umask: "0022"
-      with_items: "{{ pip_install }}"
+      with_items: "{{ utility_pip_install }}"

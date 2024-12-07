@@ -12,18 +12,18 @@
 
 - name: Mount NFS volume ssd_0
   ansible.posix.mount:
-    src: "{{ nfs_server }}:/mnt/nfs/ssd_0"
+    src: "{{ k8s_node_nfs_server }}:/mnt/nfs/ssd_0"
     path: "/home/{{ kubernetes_user }}/nfs/ssd_0"
     opts: rw,sync,hard
     state: mounted
     fstype: nfs
-  when: nfs_server is defined
+  when: k8s_node_nfs_server is defined
 
 - name: Mount NFS volume hdd_0
   ansible.posix.mount:
-    src: "{{ nfs_server }}:/mnt/nfs/hdd_0"
+    src: "{{ k8s_node_nfs_server }}:/mnt/nfs/hdd_0"
     path: "/home/{{ kubernetes_user }}/nfs/hdd_0"
     opts: rw,sync,hard
     state: mounted
     fstype: nfs
-  when: nfs_server is defined
+  when: k8s_node_nfs_server is defined

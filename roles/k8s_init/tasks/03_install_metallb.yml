@@ -9,13 +9,13 @@
     name: utility
     tasks_from: k8s_install_yml
   vars:
-    k8s_install_ymls:
+    utility_k8s_install_ymls:
       - files/metallb_namespace.yml
 
 - name: Copy values file
   ansible.builtin.copy:
     src: files/metallb_values.yml
-    dest: "{{ tmpdir }}/metallb_values.yml"
+    dest: "{{ k8s_init_tmpdir }}/metallb_values.yml"
     mode: "0777"
   changed_when: false
 
@@ -28,7 +28,7 @@
     release_namespace: metallb-system
     create_namespace: false
     values_files:
-      - "{{ tmpdir }}/metallb_values.yml"
+      - "{{ k8s_init_tmpdir }}/metallb_values.yml"
     wait: true
     timeout: "10m0s"
   when: not ansible_check_mode
@@ -38,7 +38,7 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/metallb_values.yml"
+    - "{{ k8s_init_tmpdir }}/metallb_values.yml"
   changed_when: false
 
 - name: Install ip address pool and l2 advertisement file
@@ -46,6 +46,6 @@
     name: utility
     tasks_from: k8s_install_j2
   vars:
-    k8s_install_j2s:
-      - crd/metallb_ip_address_pool.j2
+    utility_k8s_install_j2s:
+      - crd/k8s_init_metallb_ip_address_pool.j2
       - crd/metallb_l2_advertisement.j2

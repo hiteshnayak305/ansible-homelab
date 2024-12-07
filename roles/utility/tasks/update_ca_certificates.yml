@@ -5,7 +5,7 @@
   block:
     - name: Create directory if it does not exist
       ansible.builtin.file:
-        path: "{{ usr_ca_cert_path }}"
+        path: "{{ utility_usr_ca_cert_path }}"
         state: directory
         mode: "0755"
         owner: root
@@ -14,8 +14,8 @@
     - name: Copy CA Certificates
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "{{ usr_ca_cert_path }}/{{ item | basename }}"
+        dest: "{{ utility_usr_ca_cert_path }}/{{ item | basename }}"
         mode: "0644"
-      with_items: "{{ ca_certificates }}"
+      with_items: "{{ utility_ca_certificates }}"
       notify:
         - Update CA Certificates

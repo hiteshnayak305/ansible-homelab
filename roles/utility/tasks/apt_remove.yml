@@ -7,7 +7,7 @@
       ansible.builtin.apt:
         name: "{{ item }}"
         state: absent
-      with_items: "{{ apt_remove }}"
+      with_items: "{{ utility_apt_remove }}"
 
     - name: Remove useless packages from the cache
       ansible.builtin.apt:

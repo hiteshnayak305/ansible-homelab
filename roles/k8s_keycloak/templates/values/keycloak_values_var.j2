@@ -1,8 +1,8 @@
 ingress:
-  hostname: "keycloak.{{ kubernetes_ingress_root_domain }}"
+  hostname: "keycloak.{{ k8s_keycloak_ingress_root_domain }}"
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "keycloak.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "keycloak.{{ k8s_keycloak_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV
@@ -18,10 +18,10 @@ ingress:
   tls: true
 
 adminIngress:
-  hostname: "admin.keycloak.{{ kubernetes_ingress_root_domain }}"
+  hostname: "admin.keycloak.{{ k8s_keycloak_ingress_root_domain }}"
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "admin.keycloak.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "admin.keycloak.{{ k8s_keycloak_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/subject-organizations: DEV
     cert-manager.io/subject-organizationalunits: DEV

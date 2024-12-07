@@ -5,7 +5,7 @@ metadata:
   namespace: sonarqube-system
   annotations:
     cert-manager.io/cluster-issuer: ca-cluster-issuer
-    cert-manager.io/common-name: "sonarqube.{{ kubernetes_ingress_root_domain }}"
+    cert-manager.io/common-name: "sonarqube.{{ k8s_sonarqube_ingress_root_domain }}"
     cert-manager.io/email-sans: hiteshnayak305@gmail.com
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: '4096'
@@ -21,10 +21,10 @@ spec:
   ingressClassName: nginx-internal
   tls:
     - hosts:
-        - "sonarqube.{{ kubernetes_ingress_root_domain }}"
+        - "sonarqube.{{ k8s_sonarqube_ingress_root_domain }}"
       secretName: sonarqube-sonarqube-tls-internal
   rules:
-    - host: "sonarqube.{{ kubernetes_ingress_root_domain }}"
+    - host: "sonarqube.{{ k8s_sonarqube_ingress_root_domain }}"
       http:
         paths:
           - path: /

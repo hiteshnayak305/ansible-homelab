@@ -1,12 +1,12 @@
 ---
 # defaults file for k8s_keycloak
 
-# tmpdir
-tmpdir: /tmp
+# k8s_keycloak_tmpdir
+k8s_keycloak_tmpdir: /tmp
 
-nfs_server: nfs.domain.com
+k8s_keycloak_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
 
-kubernetes_ingress_root_domain: domain.com
+k8s_keycloak_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
 # admin user
-keycloak_admin_password: password
+k8s_keycloak_admin_password: password

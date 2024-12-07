@@ -80,7 +80,7 @@ data:
     clusters:
     - cluster:
         certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        server: https://k8s-master.{{ kubernetes_ingress_root_domain }}:6443
+        server: https://k8s-master.{{ k8s_init_ingress_root_domain }}:6443
       name: default
     contexts:
     - context:

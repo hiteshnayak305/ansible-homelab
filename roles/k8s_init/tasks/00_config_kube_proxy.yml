@@ -2,14 +2,14 @@
 - name: Create kube proxy config manifest
   ansible.builtin.template:
     src: config-map/kube_proxy.j2
-    dest: "{{ tmpdir }}/kube_proxy.yml"
+    dest: "{{ k8s_init_tmpdir }}/kube_proxy.yml"
     mode: "0777"
   changed_when: false
 
 - name: Install kube proxy config map
   kubernetes.core.k8s:
     state: present
-    src: "{{ tmpdir }}/kube_proxy.yml"
+    src: "{{ k8s_init_tmpdir }}/kube_proxy.yml"
     wait: true
   when: not ansible_check_mode
   notify:
@@ -20,5 +20,5 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/kube_proxy.yml"
+    - "{{ k8s_init_tmpdir }}/kube_proxy.yml"
   changed_when: false

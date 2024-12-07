@@ -2,21 +2,21 @@
 - name: Create kubeadm config manifest
   ansible.builtin.template:
     src: config-map/kubeadm_config.j2
-    dest: "{{ tmpdir }}/kubeadm_config.yml"
+    dest: "{{ k8s_init_tmpdir }}/kubeadm_config.yml"
     mode: "0777"
   changed_when: false
 
 - name: Create cluster config manifest
   ansible.builtin.template:
     src: config-map/ClusterConfiguration.j2
-    dest: "{{ tmpdir }}/ClusterConfiguration.yml"
+    dest: "{{ k8s_init_tmpdir }}/ClusterConfiguration.yml"
     mode: "0777"
   changed_when: false
 
 - name: Install kubeadm config map
   kubernetes.core.k8s:
     state: present
-    src: "{{ tmpdir }}/kubeadm_config.yml"
+    src: "{{ k8s_init_tmpdir }}/kubeadm_config.yml"
     wait: true
   register: config
   when: not ansible_check_mode
@@ -29,6 +29,6 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - "{{ tmpdir }}/kubeadm_config.yml"
-    - "{{ tmpdir }}/ClusterConfiguration.yml"
+    - "{{ k8s_init_tmpdir }}/kubeadm_config.yml"
+    - "{{ k8s_init_tmpdir }}/ClusterConfiguration.yml"
   changed_when: false

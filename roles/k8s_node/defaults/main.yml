@@ -1,3 +1,5 @@
 ---
 # defaults file for k8s_node
 k8s_node_ssh_id_rsa_pubs: []
+# nfs server
+k8s_node_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"

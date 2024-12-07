@@ -12,10 +12,10 @@ controller:
         unclassified:
           giteaServers:
             servers:
-            - aliasUrl: "https://gitea.{{ kubernetes_ingress_root_domain }}/"
+            - aliasUrl: "https://gitea.{{ k8s_jenkins_ingress_root_domain }}/"
               displayName: "Gitea"
               manageHooks: true
-              serverUrl: "https://gitea.{{ kubernetes_ingress_root_domain }}"
+              serverUrl: "https://gitea.{{ k8s_jenkins_ingress_root_domain }}"
               credentialsId: gitea-admin
       sonarqube-configuration: |
         unclassified:
@@ -24,7 +24,7 @@ controller:
             installations:
             - credentialsId: "sonarqube-sonarqube"
               name: "sonarqube"
-              serverUrl: "https://sonarqube.{{ kubernetes_ingress_root_domain }}"
+              serverUrl: "https://sonarqube.{{ k8s_jenkins_ingress_root_domain }}"
               triggers:
                 skipScmCause: false
                 skipUpstreamCause: false
@@ -32,10 +32,10 @@ controller:
         unclassified:
           mailer:
             authentication:
-              password: "{{ mail_selfhost_password_encrypted }}"
-              username: "{{ mail_selfhost_username }}"
+              password: "{{ k8s_jenkins_mail_selfhost_password_encrypted }}"
+              username: "{{ k8s_jenkins_mail_selfhost_username }}"
             charset: "UTF-8"
-            replyToAddress: "{{ mail_selfhost_username }}"
+            replyToAddress: "{{ k8s_jenkins_mail_selfhost_username }}"
             smtpHost: "smtp.gmail.com"
             smtpPort: "465"
             useSsl: true

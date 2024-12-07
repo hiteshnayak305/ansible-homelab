@@ -13,7 +13,7 @@ data:
     - name: "Tempo"
       type: tempo
       uid: tempo
-      url: "https://tempo.{{ kubernetes_ingress_root_domain }}/"
+      url: "https://tempo.{{ k8s_tempo_ingress_root_domain }}/"
       access: proxy
       jsonData:
         tracesToLogsV2:

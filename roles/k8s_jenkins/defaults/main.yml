@@ -1,35 +1,35 @@
 ---
 # defaults file for k8s_jenkins
-# tmpdir
-tmpdir: /tmp
+# k8s_jenkins_tmpdir
+k8s_jenkins_tmpdir: /tmp
 
-nfs_server: nfs.domain.com
-kubernetes_ingress_root_domain: domain.com
+k8s_jenkins_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
+k8s_jenkins_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
 # admin cred
-jenkins_admin_username: admin
-jenkins_admin_password: password
+k8s_jenkins_admin_username: admin
+k8s_jenkins_admin_password: password
 
 # admin user
-git_gitea_username: admin
-git_gitea_password: password
+k8s_jenkins_git_gitea_username: admin
+k8s_jenkins_git_gitea_password: password
 
 # docker registry
-docker_config_json: ""
+k8s_jenkins_docker_config_json: ""
 
 # helm registry
-helm_config_json: ""
+k8s_jenkins_helm_config_json: ""
 
 # kubectl
-kubectl_config: ""
+k8s_jenkins_kubectl_config: ""
 
 # sonarqube token
-sonarqube_token: ""
+k8s_jenkins_sonarqube_token: ""
 
 # mail cerdential
-mail_selfhost_username: admin
-mail_selfhost_password: password
-mail_selfhost_password_encrypted: AQA....lfn83GBt
+k8s_jenkins_mail_selfhost_username: admin
+k8s_jenkins_mail_selfhost_password: password
+k8s_jenkins_mail_selfhost_password_encrypted: AQA....lfn83GBt
 
 # nvd api key
-nvd_api_key: ""
+k8s_jenkins_nvd_api_key: ""

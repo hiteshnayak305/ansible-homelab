@@ -1,6 +1,6 @@
 ---
 # defaults file for k8s_init
-coredns_entries:
+k8s_init_coredns_entries:
   []
   # - name: gitea
   #   type: exact
@@ -16,16 +16,16 @@ coredns_entries:
   #   to: ingress-nginx-controller.nginx-system.svc.cluster.local
 
 # temp directory
-tmpdir: /tmp
+k8s_init_tmpdir: /tmp
 
-nfs_server: nfs.domain.com
+k8s_init_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
 
-kubernetes_connection_interface: enp0s3
-kubernetes_ingress_root_domain: domain.com
+k8s_init_kubernetes_connection_interface: enp0s3
+k8s_init_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
-metallb_ip_address_pool: intnet-pool
-metallb_ip_address_range: 172.16.0.50/32
+k8s_init_metallb_ip_address_pool: intnet-pool
+k8s_init_metallb_ip_address_range: 172.16.0.50/32
 
 # cert manager ca
-cert_manager_ca_crt: ""
-cert_manager_ca_key: ""
+k8s_init_cert_manager_ca_crt: ""
+k8s_init_cert_manager_ca_key: ""
