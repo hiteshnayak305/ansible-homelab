@@ -12,45 +12,33 @@
       community.general.ufw:
         state: disabled
 
-    - name: Reset All Rules
-      community.general.ufw:
-        state: reset
+    # - name: Reset All Rules
+    #   community.general.ufw:
+    #     state: reset
 
-    - name: Set UFW default forward policy to ACCEPT
-      ansible.builtin.lineinfile:
-        dest: /etc/default/ufw
-        line: DEFAULT_FORWARD_POLICY="ACCEPT"
-        regexp: "^DEFAULT_FORWARD_POLICY\\="
+    # - name: Set UFW default forward policy to ACCEPT
+    #   ansible.builtin.lineinfile:
+    #     dest: /etc/default/ufw
+    #     line: DEFAULT_FORWARD_POLICY="ACCEPT"
+    #     regexp: "^DEFAULT_FORWARD_POLICY\\="
 
-    - name: Allow incoming accesses
-      community.general.ufw:
-        rule: allow
-        direction: in
-        interface: "{{ utility_ufw_interface | default('') }}"
-        route: "{{ item.route | default(false) }}"
-        proto: "{{ item.proto | default('any') }}"
-        src: "{{ item.src | default('any') }}"
-        port: "{{ item.port }}"
-      loop: "{{ utility_ufw_rules }}"
-
-    # - name: Allow incomming on cni0
+    # - name: Allow incoming accesses
     #   community.general.ufw:
     #     rule: allow
     #     direction: in
-    #     interface: cni0
+    #     interface: "{{ utility_ufw_interface | default('') }}"
+    #     route: "{{ item.route | default(false) }}"
+    #     proto: "{{ item.proto | default('any') }}"
+    #     src: "{{ item.src | default('any') }}"
+    #     port: "{{ item.port }}"
+    #   loop: "{{ utility_ufw_rules }}"
 
-    # - name: Allow incomming on flannel.1
+    # - name: Allow SSH access from local
     #   community.general.ufw:
+    #     name: OpenSSH
     #     rule: allow
+    #     interface: "{{ utility_ufw_interface | default('') }}"
     #     direction: in
-    #     interface: "flannel.1"
-
-    - name: Allow SSH access from local
-      community.general.ufw:
-        name: OpenSSH
-        rule: allow
-        interface: "{{ utility_ufw_interface | default('') }}"
-        direction: in
 
     # - name: Reject all incomming and enable UFW
     #   community.general.ufw:
@@ -64,6 +52,6 @@
     #     default: allow
     #     direction: outgoing
 
-    - name: Set logging
-      community.general.ufw:
-        logging: "on"
+    # - name: Set logging
+    #   community.general.ufw:
+    #     logging: "on"

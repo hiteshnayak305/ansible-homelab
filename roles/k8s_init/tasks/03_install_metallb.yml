@@ -47,5 +47,5 @@
     tasks_from: k8s_install_j2
   vars:
     utility_k8s_install_j2s:
-      - crd/k8s_init_metallb_ip_address_pool.j2
+      - crd/metallb_ip_address_pool.j2
       - crd/metallb_l2_advertisement.j2

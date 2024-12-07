@@ -56,7 +56,11 @@
 - name: Get the cert for joining the master nodes
   become: true
   become_user: root
-  ansible.builtin.shell: set -o pipefail && kubeadm init phase upload-certs --upload-certs | grep -vw -e certificate -e Namespace
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      kubeadm init phase upload-certs --upload-certs | grep -vw -e certificate -e Namespace
+    executable: /bin/bash
   register: kubernetes_join_cert_key
   when: true
   changed_when: false

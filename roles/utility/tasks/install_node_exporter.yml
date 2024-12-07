@@ -3,37 +3,40 @@
   become: true
   become_user: root
   block:
-    - name: Install wget
-      ansible.builtin.include_tasks: apt_install.yml
-      vars:
-        utility_apt_install:
-          - wget
-
     - name: Download latest node exporter
       ansible.builtin.get_url:
         url: "https://github.com/prometheus/node_exporter/releases/download/v{{ utility_node_exporter_version }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64.tar.gz"
         dest: "{{ utility_tmpdir }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64.tar.gz"
         mode: "0777"
+      changed_when: false
 
     - name: Extract node exporter archieve
       ansible.builtin.unarchive:
         src: "{{ utility_tmpdir }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64.tar.gz"
         dest: "{{ utility_tmpdir }}"
         remote_src: true
+      changed_when: false
 
-    - name: Move node-exporter to /usr/sbin
-      ansible.builtin.command: "mv {{ utility_tmpdir }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64/node_exporter /usr/sbin"
-      changed_when: true
+    - name: Copy node-exporter to /usr/sbin
+      ansible.builtin.copy:
+        src: "{{ utility_tmpdir }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64/node_exporter"
+        dest: "/usr/sbin/node_exporter"
+        mode: "0751"
+        remote_src: true
+      notify:
+        - Restart and enable node exporter service
 
     - name: Cleanup extracted files
       ansible.builtin.file:
         state: absent
         path: "{{ utility_tmpdir }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64"
+      changed_when: false
 
     - name: Cleanup extracted files
       ansible.builtin.file:
         state: absent
         path: "{{ utility_tmpdir }}/node_exporter-{{ utility_node_exporter_version }}.linux-amd64.tar.gz"
+      changed_when: false
 
     - name: Create user node_exporter
       ansible.builtin.user:
@@ -73,9 +76,3 @@
         src: files/etc/systemd/system/node_exporter.service
         dest: /etc/systemd/system/node_exporter.service
         mode: "0644"
-
-    - name: Restart and enable node exporter service
-      ansible.builtin.service:
-        name: node_exporter
-        state: restarted
-        enabled: true
