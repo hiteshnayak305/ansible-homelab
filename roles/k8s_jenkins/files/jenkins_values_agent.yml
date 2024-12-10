@@ -112,12 +112,12 @@ agent:
   # -- Allocate pseudo tty to the side container
   TTYEnabled: true
   # -- Max number of agents to launch
-  containerCap: 2
+  containerCap: 1
   # -- Agent Pod base name
   podName: "default"
 
   # -- Allows the Pod to remain active for reuse until the configured number of minutes has passed since the last step was executed on it
-  idleMinutes: 0
+  idleMinutes: 1
   # -- Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates. Possible values: "merge" or "override"
   yamlMergeStrategy: "merge"
   # -- Controls whether the defined yaml merge strategy will be inherited if another defined pod template is configured to inherit from the current one
@@ -147,12 +147,12 @@ agent:
             image: hiteshnayak305/kaniko:debug
             command: "/busybox/sh -c"
             args: "cat"
-            alwaysPullImage: false
+            alwaysPullImage: true
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "500Mi"
             resourceLimitCpu: "2"
-            resourceLimitMemory: "1Gi"
+            resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
     k8s: |
       - name: k8s
@@ -183,12 +183,12 @@ agent:
             image: hiteshnayak305/eclipse-temurin:21-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: false
+            alwaysPullImage: true
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
-            resourceLimitMemory: "1Gi"
+            resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
     jdk22: |
       - name: jdk22
@@ -201,12 +201,12 @@ agent:
             image: hiteshnayak305/eclipse-temurin:22-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: false
+            alwaysPullImage: true
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
-            resourceLimitMemory: "1Gi"
+            resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
     node20: |
       - name: node20
@@ -219,12 +219,12 @@ agent:
             image: hiteshnayak305/node:20-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: false
+            alwaysPullImage: true
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
-            resourceLimitMemory: "1Gi"
+            resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
     node22: |
       - name: node22
@@ -237,12 +237,12 @@ agent:
             image: hiteshnayak305/node:22-alpine
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: false
+            alwaysPullImage: true
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
-            resourceLimitMemory: "1Gi"
+            resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
     ssc5: |
       - name: ssc5
@@ -255,10 +255,10 @@ agent:
             image: hiteshnayak305/sonar-scanner-cli:5
             command: "/bin/sh -c"
             args: "cat"
-            alwaysPullImage: false
+            alwaysPullImage: true
             ttyEnabled: true
             resourceRequestCpu: "1"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
-            resourceLimitMemory: "1Gi"
+            resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
