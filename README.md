@@ -1,6 +1,19 @@
-# Ansible Collection - hiteshnayak305.homelab
+# Ansible Collection - [`hiteshnayak305.homelab`](https://galaxy.ansible.com/ui/repo/published/hiteshnayak305/homelab)
 
 This collection provides management of homelab infrastructure and k8s cluster.
+
+## Tasks
+
+### TODO
+
+- [ ] Migrate nfs volume provisioner to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs).
+- [ ] Install [`kubernetes-sigs/descheduler`](https://github.com/kubernetes-sigs/descheduler) for optimized pods distribution.
+- [ ] Enable dependabot autometic dependency updates.
+- [ ] Cleanup fixed parameters for public release.
+
+### Completed
+
+- [x] Configure validation and release procedure to publish changelog and ansible galaxy collection.
 
 ## Installing this collection
 
