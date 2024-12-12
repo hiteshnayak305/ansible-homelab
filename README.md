@@ -4,9 +4,13 @@ This collection provides management of homelab infrastructure and k8s cluster.
 
 ## Tasks
 
-### TODO
+### In Work
 
 - [ ] Migrate nfs volume provisioner to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs).
+
+### TODO
+
+- [ ] Migrate manually created application `PVC`s to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs) proviosioner.
 - [ ] Install [`kubernetes-sigs/descheduler`](https://github.com/kubernetes-sigs/descheduler) for optimized pods distribution.
 - [ ] Enable dependabot autometic dependency updates.
 - [ ] Cleanup fixed parameters for public release.

@@ -1,0 +1,62 @@
+---
+- name: Add csi-driver-nfs helm repository
+  kubernetes.core.helm_repository:
+    name: csi-driver-nfs
+    repo_url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+
+- name: Copy values file
+  ansible.builtin.copy:
+    src: files/csi_driver_nfs_values.yml
+    dest: "{{ k8s_init_tmpdir }}/csi_driver_nfs_values.yml"
+    mode: "0777"
+  changed_when: false
+
+- name: Deploy latest version of NFS CSI driver chart
+  kubernetes.core.helm:
+    name: csi-driver-nfs
+    chart_ref: csi-driver-nfs/csi-driver-nfs
+    chart_version: 4.9.0
+    update_repo_cache: true
+    release_namespace: kube-csi-driver-nfs
+    create_namespace: true
+    values_files:
+      - "{{ k8s_init_tmpdir }}/csi_driver_nfs_values.yml"
+    wait: true
+    timeout: "10m0s"
+  when: not ansible_check_mode
+
+- name: Remove temp files (delete file)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ k8s_init_tmpdir }}/csi_driver_nfs_values.yml"
+  changed_when: false
+
+- name: Install mount option secret
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_j2
+  vars:
+    utility_k8s_install_j2s:
+      - secret/nfs_mount_options.j2
+
+- name: Install storage classes
+  ansible.builtin.include_role:
+    name: utility
+    tasks_from: k8s_install_j2
+  vars:
+    utility_k8s_install_j2s:
+      - storage-class/storage_class_ssd_0.j2
+      - storage-class/storage_class_hdd_0.j2
+    utility_reclaim_policy: "{{ sub_item.reclaim_policy }}"
+    utility_on_delete: "{{ sub_item.on_delete }}"
+  loop_control:
+    loop_var: sub_item
+  loop:
+    - { reclaim_policy: "Delete", on_delete: "delete" }
+    - { reclaim_policy: "Delete", on_delete: "retain" }
+    - { reclaim_policy: "Delete", on_delete: "archive" }
+    - { reclaim_policy: "Retain", on_delete: "delete" }
+    - { reclaim_policy: "Retain", on_delete: "retain" }
+    - { reclaim_policy: "Retain", on_delete: "archive" }
