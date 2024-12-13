@@ -335,6 +335,9 @@ postgresql-ha:
                   operator: In
                   values:
                     - k8s-worker-01.hitesh.com
+  witness:
+    pdb:
+      create: false
   pgpool:
     adminPassword: gitea
     ## Pgpool containers' resource requests and limits
