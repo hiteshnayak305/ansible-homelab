@@ -30,7 +30,7 @@
   ansible.builtin.lineinfile:
     path: "{{ k8s_node_tmpdir }}/containerd_config.toml"
     regexp: "^    sandbox_image ="
-    line: '    sandbox_image = "registry.k8s.io/pause:3.9"'
+    line: '    sandbox_image = "registry.k8s.io/pause:3.10"'
     backrefs: true
     state: present
   changed_when: false

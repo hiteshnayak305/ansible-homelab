@@ -9,9 +9,6 @@
     # - name: Configure kube proxy
     #   include_tasks: 00_config_kube_proxy.yml
 
-    # - name: Configure kubeadm cluster
-    #   include_tasks: 00_config_kubeadm.yml
-
     - name: Installing Helm
       ansible.builtin.include_tasks: 01_install_helm.yml
 
