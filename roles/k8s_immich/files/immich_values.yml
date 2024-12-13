@@ -62,6 +62,10 @@ immich:
       enabled: false
     passwordLogin:
       enabled: true
+    storageTemplate:
+      enabled: true
+      hashVerificationEnabled: true
+      template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
     library:
       scan:
         enabled: false
