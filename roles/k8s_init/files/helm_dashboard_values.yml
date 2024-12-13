@@ -1,10 +1,6 @@
 ---
 replicaCount: 1
 
-image:
-  repository: komodorio/helm-dashboard
-  tag: "latest"
-
 resources:
   requests:
     cpu: 200m
