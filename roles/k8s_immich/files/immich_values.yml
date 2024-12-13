@@ -10,7 +10,7 @@ env:
   CPU_CORES: "2"
 
 image:
-  tag: v1.121.0
+  tag: v1.122.3
 
 immich:
   metrics:
@@ -26,13 +26,11 @@ immich:
   # ref: https://immich.app/docs/install/config-file/
   #
   configuration:
+    ffmpeg:
+      threads: 1
     backup:
       database:
         enabled: false
-        cronExpression: 0 02 * * *
-        keepLastAmount: 14
-    ffmpeg:
-      threads: 1
     job:
       backgroundTask:
         concurrency: 2
@@ -54,43 +52,18 @@ immich:
         concurrency: 1
       videoConversion:
         concurrency: 1
+      notifications:
+        concurrency: 1
     machineLearning:
       enabled: true
-      url: "http://immich-machine-learning:3003"
-      clip:
-        enabled: true
-        modelName: ViT-B-32__openai
-      duplicateDetection:
-        enabled: true
-        maxDistance: 0.01
-      facialRecognition:
-        enabled: true
-        modelName: buffalo_l
-        minScore: 0.7
-        maxDistance: 0.5
-        minFaces: 3
-    map:
-      enabled: false
+      urls:
+        - "http://immich-machine-learning:3003"
     oauth:
       enabled: false
-      issuerUrl: "https://keycloak.hitesh.com/realms/main"
-      clientId: immich
-      clientSecret: zS7GITFC9hn1IouagJEhniNEQZN75WvG
-      scope: "openid email profile immich"
-      storageLabelClaim: preferred_username
-      storageQuotaClaim: immich_quota
-      defaultStorageQuota: 3
-      buttonText: "Login with Keycloak"
     passwordLogin:
       enabled: true
-    storageTemplate:
-      enabled: true
-      hashVerificationEnabled: true
-      template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
     library:
       scan:
-        enabled: false
-      watch:
         enabled: false
     server:
       externalDomain: "https://immich.hitesh.com"
