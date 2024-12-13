@@ -117,7 +117,7 @@ agent:
   podName: "default"
 
   # -- Allows the Pod to remain active for reuse until the configured number of minutes has passed since the last step was executed on it
-  idleMinutes: 1
+  idleMinutes: 0
   # -- Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates. Possible values: "merge" or "override"
   yamlMergeStrategy: "merge"
   # -- Controls whether the defined yaml merge strategy will be inherited if another defined pod template is configured to inherit from the current one
@@ -162,7 +162,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: hiteshnayak305/k8s:1.30.7
+            image: hiteshnayak305/k8s:1.31.4
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false
