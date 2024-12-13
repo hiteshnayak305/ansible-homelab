@@ -56,7 +56,7 @@
   loop:
     - { reclaim_policy: "Delete", on_delete: "delete" }
     - { reclaim_policy: "Delete", on_delete: "retain" }
-    - { reclaim_policy: "Delete", on_delete: "archive" }
-    - { reclaim_policy: "Retain", on_delete: "delete" }
+    # - { reclaim_policy: "Delete", on_delete: "archive" }
+    # - { reclaim_policy: "Retain", on_delete: "delete" }
     - { reclaim_policy: "Retain", on_delete: "retain" }
-    - { reclaim_policy: "Retain", on_delete: "archive" }
+    # - { reclaim_policy: "Retain", on_delete: "archive" }

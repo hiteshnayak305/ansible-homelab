@@ -15,5 +15,6 @@ parameters:
   csi.storage.k8s.io/provisioner-secret-namespace: "kube-csi-driver-nfs"
 reclaimPolicy: "{{ utility_reclaim_policy }}"
 volumeBindingMode: Immediate
+allowVolumeExpansion: false
 mountOptions:
   - nfsvers=4.1

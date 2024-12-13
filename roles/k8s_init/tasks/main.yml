@@ -30,6 +30,9 @@
     - name: Installing Kubernetes Dashboard
       ansible.builtin.include_tasks: 06_install_kubernetes_dashboard.yml
 
+    - name: Installing CSI NFS Driver & Provisioner
+      ansible.builtin.include_tasks: 07_install_csi_nfs_driver.yml
+
     - name: Installing NFS Subdirectory External Provisioner
       ansible.builtin.include_tasks: 07_install_nfs-subdir-external-provisioner.yml
 
