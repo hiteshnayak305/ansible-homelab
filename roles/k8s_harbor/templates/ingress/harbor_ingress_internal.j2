@@ -19,6 +19,11 @@ metadata:
     ingress.kubernetes.io/ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/proxy-body-size: '0'
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+  labels:
+    app: harbor
+    app.kubernetes.io/instance: harbor
+    app.kubernetes.io/name: harbor
+    app.kubernetes.io/part-of: harbor
 spec:
   ingressClassName: nginx-internal
   tls:
@@ -44,13 +49,6 @@ spec:
                 port:
                   number: 80
           - path: /v2/
-            pathType: Prefix
-            backend:
-              service:
-                name: harbor-core
-                port:
-                  number: 80
-          - path: /chartrepo/
             pathType: Prefix
             backend:
               service:

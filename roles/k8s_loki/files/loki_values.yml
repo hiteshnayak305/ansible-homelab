@@ -142,7 +142,7 @@ singleBinary:
     # If set to "-", storageClassName: "", which disables dynamic provisioning.
     # If empty or set to null, no storageClassName spec is
     # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
-    storageClass: nfs-client-hdd-0
+    storageClass: nfs-ssd-0-delete-retain
 
 ######################################################################################################################
 #

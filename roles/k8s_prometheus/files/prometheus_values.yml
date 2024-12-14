@@ -50,7 +50,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs-client-hdd-0
+          storageClassName: nfs-ssd-0-delete-retain
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -277,7 +277,7 @@ prometheus:
       ##
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs-client-hdd-0
+          storageClassName: nfs-ssd-0-delete-retain
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:

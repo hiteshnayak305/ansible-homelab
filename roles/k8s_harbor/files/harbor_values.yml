@@ -24,7 +24,7 @@ persistence:
       storageClass: "-"
     jobservice:
       jobLog:
-        storageClass: "nfs-client-ssd-0"
+        storageClass: "nfs-ssd-0-delete-retain"
     # If external database is used, the following settings for database will
     # be ignored
     database:
@@ -33,9 +33,9 @@ persistence:
     # If external Redis is used, the following settings for Redis will
     # be ignored
     redis:
-      storageClass: "nfs-client-ssd-0"
+      storageClass: "nfs-ssd-0-delete-delete"
     trivy:
-      storageClass: "nfs-client-ssd-0"
+      storageClass: "nfs-ssd-0-delete-delete"
 
 # The initial password of Harbor admin. Change it from portal after launching Harbor
 # or give an existing secret for it

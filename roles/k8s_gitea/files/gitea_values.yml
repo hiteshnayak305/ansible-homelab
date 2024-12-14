@@ -248,7 +248,7 @@ redis:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      storageClass: "nfs-client-ssd-0"
+      storageClass: "nfs-ssd-0-delete-delete"
       ## @param persistence.size Size of data volume
       ##
       size: 250Mi

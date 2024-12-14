@@ -15,7 +15,7 @@ dashboard:
   namespace: "default"
   persistence:
     enabled: true
-    storageClass: nfs-client-hdd-0
+    storageClass: nfs-ssd-0-delete-retain
 
 tolerations:
   - key: node-role.kubernetes.io/control-plane

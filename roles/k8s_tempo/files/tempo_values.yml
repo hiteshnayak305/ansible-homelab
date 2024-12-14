@@ -29,7 +29,7 @@ serviceMonitor:
 
 persistence:
   enabled: true
-  storageClassName: nfs-client-hdd-0
+  storageClassName: nfs-ssd-0-delete-retain
   accessModes:
     - ReadWriteOnce
   size: 10Gi

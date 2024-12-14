@@ -159,7 +159,7 @@ redis:
   auth:
     enabled: false
   global:
-    storageClass: "nfs-client-ssd-0"
+    storageClass: "nfs-ssd-0-delete-delete"
   master:
     ## @param master.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
     resources:

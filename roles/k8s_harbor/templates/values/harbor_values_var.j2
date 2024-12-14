@@ -23,20 +23,19 @@ expose:
     hosts:
       core: "harbor.{{ k8s_harbor_ingress_root_domain }}"
     className: "nginx"
-    harbor:
-      # harbor ingress-specific annotations
-      annotations:
-        cert-manager.io/cluster-issuer: ca-cluster-issuer
-        cert-manager.io/common-name: "harbor.{{ k8s_harbor_ingress_root_domain }}"
-        cert-manager.io/email-sans: hiteshnayak305@gmail.com
-        cert-manager.io/subject-organizations: DEV
-        cert-manager.io/subject-organizationalunits: DEV
-        cert-manager.io/subject-countries: IN
-        cert-manager.io/subject-localities: PUNE
-        cert-manager.io/subject-streetaddresses: MH
-        cert-manager.io/usages: server auth,client auth
-        cert-manager.io/private-key-algorithm: RSA
-        cert-manager.io/private-key-size: "4096"
+    # harbor ingress-specific annotations
+    annotations:
+      cert-manager.io/cluster-issuer: ca-cluster-issuer
+      cert-manager.io/common-name: "harbor.{{ k8s_harbor_ingress_root_domain }}"
+      cert-manager.io/email-sans: hiteshnayak305@gmail.com
+      cert-manager.io/subject-organizations: DEV
+      cert-manager.io/subject-organizationalunits: DEV
+      cert-manager.io/subject-countries: IN
+      cert-manager.io/subject-localities: PUNE
+      cert-manager.io/subject-streetaddresses: MH
+      cert-manager.io/usages: server auth,client auth
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
 
 # The external URL for Harbor core service. It is used to
 # 1) populate the docker/helm commands showed on portal
