@@ -48,7 +48,7 @@
   vars:
     utility_k8s_install_j2s:
       - storage-class/storage_class_ssd_0.j2
-      - storage-class/storage_class_hdd_0.j2
+      # - storage-class/storage_class_hdd_0.j2
     utility_reclaim_policy: "{{ sub_item.reclaim_policy }}"
     utility_on_delete: "{{ sub_item.on_delete }}"
   loop_control:
