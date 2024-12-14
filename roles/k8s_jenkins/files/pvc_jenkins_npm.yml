@@ -10,5 +10,4 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: ""
-  volumeName: pv-jenkins-npm
+  storageClassName: nfs-ssd-0-delete-retain

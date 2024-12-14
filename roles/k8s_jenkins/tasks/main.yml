@@ -4,39 +4,6 @@
   become: true
   become_user: "{{ kubernetes_user }}"
   block:
-    - name: Create volume directory on nfs if it does not exist
-      become: true
-      become_user: "root"
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        mode: "0777"
-        owner: 1000
-        group: 1000
-      with_items:
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-controller"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-maven"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-gradle"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-npm"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-workspace"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-sonar-cache"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-jenkins-sonar-cache-maven"
-
-    # install prereqs
-    - name: Install prereq for jenkins
-      ansible.builtin.include_role:
-        name: utility
-        tasks_from: k8s_install_j2
-      vars:
-        utility_k8s_install_j2s:
-          - pv/pv_jenkins.j2
-          - pv/pv_jenkins_maven.j2
-          - pv/pv_jenkins_gradle.j2
-          - pv/pv_jenkins_npm.j2
-          - pv/pv_jenkins_workspace.j2
-          - pv/pv_jenkins_sonar_cache.j2
-          - pv/pv_jenkins_sonar_cache_maven.j2
-
     - name: Install prereq for jenkins
       ansible.builtin.include_role:
         name: utility
@@ -44,7 +11,7 @@
       vars:
         utility_k8s_install_ymls:
           - files/jenkins_namespace.yml
-          - files/pvc_jenkins.yml
+          - files/pvc_jenkins_controller.yml
           - files/pvc_jenkins_maven.yml
           - files/pvc_jenkins_gradle.yml
           - files/pvc_jenkins_npm.yml

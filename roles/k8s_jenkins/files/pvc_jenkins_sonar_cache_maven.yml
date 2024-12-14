@@ -10,5 +10,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ""
-  volumeName: pv-jenkins-sonar-cache-maven
+  storageClassName: nfs-ssd-0-delete-delete
