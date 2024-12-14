@@ -6,9 +6,8 @@ metadata:
   namespace: gitea-system
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: ""
-  volumeName: pv-gitea
+      storage: 30Gi
+  storageClassName: nfs-ssd-0-retain-retain

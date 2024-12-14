@@ -1,8 +1,6 @@
 ---
 # defaults file for k8s_gitea
 
-k8s_gitea_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
-
 k8s_gitea_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
 # admin user
