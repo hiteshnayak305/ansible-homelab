@@ -10,5 +10,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ""
-  volumeName: pv-sonarqube
+  storageClassName: nfs-ssd-0-retain-retain

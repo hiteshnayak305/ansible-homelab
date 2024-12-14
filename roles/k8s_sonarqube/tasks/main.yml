@@ -4,29 +4,6 @@
   become: true
   become_user: "{{ kubernetes_user }}"
   block:
-    - name: Create volume directory on nfs if it does not exist
-      become: true
-      become_user: root
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        mode: "0777"
-        owner: 1000
-        group: 1000
-      with_items:
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-sonarqube"
-        - "/home/{{ kubernetes_user }}/nfs/ssd_0/pv-sonarqube-postgresql-primary"
-
-    # install prereqs
-    - name: Install prereq for sonarqube
-      ansible.builtin.include_role:
-        name: utility
-        tasks_from: k8s_install_j2
-      vars:
-        utility_k8s_install_j2s:
-          - pv/pv_sonarqube.j2
-          - pv/pv_sonarqube_postgresql_primary.j2
-
     - name: Install prereq for sonarqube
       ansible.builtin.include_role:
         name: utility
