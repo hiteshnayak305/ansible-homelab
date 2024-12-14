@@ -6,9 +6,8 @@ metadata:
   namespace: immich-system
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
-  storageClassName: ""
-  volumeName: pv-immich
+      storage: 80Gi
+  storageClassName: nfs-ssd-0-retain-retain
