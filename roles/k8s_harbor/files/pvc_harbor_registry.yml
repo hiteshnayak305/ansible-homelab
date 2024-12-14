@@ -10,5 +10,4 @@ spec:
   resources:
     requests:
       storage: 20Gi
-  storageClassName: ""
-  volumeName: pv-harbor-registry
+  storageClassName: nfs-ssd-0-retain-retain
