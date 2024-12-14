@@ -6,9 +6,8 @@ metadata:
   namespace: grafana-system
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
-  storageClassName: ""
-  volumeName: pv-grafana
+  storageClassName: nfs-ssd-0-retain-retain

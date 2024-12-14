@@ -4,7 +4,6 @@
 # k8s_grafana_tmpdir
 k8s_grafana_tmpdir: /tmp
 
-k8s_grafana_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"
 k8s_grafana_ingress_root_domain: "{{ kubernetes_ingress_root_domain | default('domain.com') }}"
 
 k8s_grafana_admin_user: user
