@@ -6,17 +6,17 @@ This collection provides management of homelab infrastructure and k8s cluster.
 
 ### In Work
 
-- [ ] Migrate nfs volume provisioner to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs).
-
 ### TODO
 
-- [ ] Migrate manually created application `PVC`s to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs) proviosioner.
 - [ ] Install [`kubernetes-sigs/descheduler`](https://github.com/kubernetes-sigs/descheduler) for optimized pods distribution.
 - [ ] Enable dependabot autometic dependency updates.
 - [ ] Cleanup fixed parameters for public release.
 
 ### Completed
 
+- [x] Remove and Clean [`kubernetes-sigs/nfs-subdir-external-provisioner`](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) installation.
+- [x] Migrate manually created application `PVC`s to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs).
+- [x] Migrate nfs volume provisioner to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs).
 - [x] Configure validation and release procedure to publish changelog and ansible galaxy collection.
 
 ## Installing this collection
