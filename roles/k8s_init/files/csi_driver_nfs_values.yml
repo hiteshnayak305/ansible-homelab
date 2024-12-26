@@ -16,54 +16,54 @@ controller:
   resources:
     csiProvisioner:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 100m
+        memory: 100Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 50m
+        memory: 50Mi
     csiSnapshotter:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 100m
+        memory: 100Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 50m
+        memory: 50Mi
     livenessProbe:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 100m
+        memory: 100Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 50m
+        memory: 50Mi
     nfs:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 100m
+        memory: 200Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 50m
+        memory: 100Mi
 
 node:
   name: csi-nfs-node
   resources:
     livenessProbe:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 100m
+        memory: 100Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 50m
+        memory: 50Mi
     nodeDriverRegistrar:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 200m
+        memory: 200Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 100m
+        memory: 100Mi
     nfs:
       limits:
-        cpu: 20m
-        memory: 40Mi
+        cpu: 100m
+        memory: 200Mi
       requests:
-        cpu: 10m
-        memory: 20Mi
+        cpu: 50m
+        memory: 100Mi
