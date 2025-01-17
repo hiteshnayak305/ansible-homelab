@@ -46,7 +46,7 @@
       kubernetes.core.helm:
         name: harbor
         chart_ref: harbor/harbor
-        chart_version: 1.16.0
+        chart_version: 1.16.1
         update_repo_cache: true
         release_namespace: harbor-system
         create_namespace: false

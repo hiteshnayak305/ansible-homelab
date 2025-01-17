@@ -53,11 +53,11 @@ speaker:
   logLevel: info
   resources:
     requests:
-      cpu: 100m
-      memory: 32Mi
+      cpu: 200m
+      memory: 128Mi
     limits:
-      cpu: 150m
-      memory: 64Mi
+      cpu: 350m
+      memory: 256Mi
   # frr contains configuration specific to the MetalLB FRR container,
   # for speaker running alongside FRR.
   frr:
@@ -83,7 +83,7 @@ speaker:
     resources:
       requests:
         cpu: 50m
-        memory: 32Mi
+        memory: 64Mi
       limits:
         cpu: 100m
-        memory: 64Mi
+        memory: 128Mi

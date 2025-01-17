@@ -2,7 +2,7 @@
 - name: Add deliveryhero helm repository
   kubernetes.core.helm_repository:
     name: deliveryhero
-    repo_url: https://charts.deliveryhero.io/
+    repo_url: https://raw.githubusercontent.com/deliveryhero/helm-charts/refs/heads/master/
 
 - name: Copy values file
   ansible.builtin.copy:
@@ -15,7 +15,7 @@
   kubernetes.core.helm:
     name: node-problem-detector
     chart_ref: deliveryhero/node-problem-detector
-    chart_version: 2.3.14
+    chart_version: 2.3.16
     update_repo_cache: true
     release_namespace: node-problem-detector
     create_namespace: true
