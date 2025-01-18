@@ -172,6 +172,24 @@ agent:
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
         yamlMergeStrategy: merge
+    jdk17: |
+      - name: jdk17
+        label: jenkins-jdk17
+        serviceAccount: jenkins
+        showRawYaml: false
+        inheritFrom: default
+        containers:
+          - name: jdk17
+            image: hiteshnayak305/eclipse-temurin:17-jdk-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            alwaysPullImage: true
+            ttyEnabled: true
+            resourceRequestCpu: "1"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "2"
+            resourceLimitMemory: "2Gi"
+        yamlMergeStrategy: merge
     jdk21: |
       - name: jdk21
         label: jenkins-jdk21
@@ -190,33 +208,15 @@ agent:
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
         yamlMergeStrategy: merge
-    jdk22: |
-      - name: jdk22
-        label: jenkins-jdk22
+    jdk23: |
+      - name: jdk23
+        label: jenkins-jdk23
         serviceAccount: jenkins
         showRawYaml: false
         inheritFrom: default
         containers:
-          - name: jdk22
-            image: hiteshnayak305/eclipse-temurin:22-jdk-alpine
-            command: "/bin/sh -c"
-            args: "cat"
-            alwaysPullImage: true
-            ttyEnabled: true
-            resourceRequestCpu: "1"
-            resourceRequestMemory: "512Mi"
-            resourceLimitCpu: "2"
-            resourceLimitMemory: "2Gi"
-        yamlMergeStrategy: merge
-    node20: |
-      - name: node20
-        label: jenkins-node20
-        serviceAccount: jenkins
-        showRawYaml: false
-        inheritFrom: default
-        containers:
-          - name: node20
-            image: hiteshnayak305/node:20-alpine
+          - name: jdk23
+            image: hiteshnayak305/eclipse-temurin:23-jdk-alpine
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: true
@@ -235,6 +235,24 @@ agent:
         containers:
           - name: node22
             image: hiteshnayak305/node:22-alpine
+            command: "/bin/sh -c"
+            args: "cat"
+            alwaysPullImage: true
+            ttyEnabled: true
+            resourceRequestCpu: "1"
+            resourceRequestMemory: "512Mi"
+            resourceLimitCpu: "2"
+            resourceLimitMemory: "2Gi"
+        yamlMergeStrategy: merge
+    node23: |
+      - name: node23
+        label: jenkins-node23
+        serviceAccount: jenkins
+        showRawYaml: false
+        inheritFrom: default
+        containers:
+          - name: node23
+            image: hiteshnayak305/node:23-alpine
             command: "/bin/sh -c"
             args: "cat"
             alwaysPullImage: true
