@@ -153,7 +153,7 @@ database:
         cpu: 200m
         memory: 384Mi
       limits:
-        cpu: 300m
+        cpu: 500m
         memory: 512Mi
     affinity:
       nodeAffinity:
