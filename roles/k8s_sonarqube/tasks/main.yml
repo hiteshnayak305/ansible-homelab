@@ -27,11 +27,11 @@
         mode: "0777"
       changed_when: false
 
-    - name: Deploy version 12 of postgresql chart
+    - name: Deploy version 16 of postgresql chart
       kubernetes.core.helm:
         name: sonarqube-postgresql
         chart_ref: bitnami/postgresql
-        chart_version: 12.12.10
+        chart_version: 16.4.5
         update_repo_cache: true
         release_namespace: sonarqube-system
         create_namespace: false
@@ -73,7 +73,7 @@
       kubernetes.core.helm:
         name: sonarqube
         chart_ref: sonarqube/sonarqube
-        chart_version: 10.8.1
+        chart_version: 2025.1.0
         update_repo_cache: true
         release_namespace: sonarqube-system
         create_namespace: false

@@ -15,8 +15,6 @@ community:
 
 image:
   repository: docker.io/hiteshnayak305/sonarqube
-  # (DEPRECATED) The "image.tag" parameter will be set to be empty as default.
-  tag: ""
 
 # will be used as default for ingress path and probes path, will be injected in .Values.env as SONAR_WEB_CONTEXT
 # if .Values.env.SONAR_WEB_CONTEXT is set, this value will be ignored
@@ -109,6 +107,10 @@ plugins:
 env:
   - name: SONAR_SEARCH_JAVAADDITIONALOPTS
     value: "-Dnode.store.allow_mmap=false"
+
+## a monitoring passcode needs to be defined in order to get reasonable probe results
+# not setting the monitoring passcode will result in a deployment that will never be ready
+monitoringPasscode: "sonarPass"
 
 ## We usually don't make specific resource recommendations, as they are heavily dependant on
 ## the usage of SonarQube and the surrounding infrastructure.
