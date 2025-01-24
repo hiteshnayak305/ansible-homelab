@@ -72,10 +72,10 @@ core:
   resources:
     requests:
       cpu: 100m
-      memory: 96Mi
+      memory: 256Mi
     limits:
       cpu: 200m
-      memory: 128Mi
+      memory: 512Mi
   # Secret is used when core server communicates with other components.
   # If a secret key is not specified, Helm will generate one. Alternatively set existingSecret to use an existing secret
   # Must be a string of 16 chars.
@@ -135,10 +135,10 @@ trivy:
   timeout: 10m0s
   resources:
     requests:
-      cpu: 400m
-      memory: 368Mi
+      cpu: 200m
+      memory: 256Mi
     limits:
-      cpu: 600m
+      cpu: 1
       memory: 512Mi
 
 database:
@@ -151,7 +151,7 @@ database:
     resources:
       requests:
         cpu: 200m
-        memory: 384Mi
+        memory: 256Mi
       limits:
         cpu: 500m
         memory: 512Mi

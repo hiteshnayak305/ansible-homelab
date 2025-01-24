@@ -88,7 +88,7 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 1Gi
   requests:
     cpu: 250m
@@ -235,7 +235,7 @@ redis:
         cpu: 200m
         memory: 128Mi
       requests:
-        cpu: 150m
+        cpu: 100m
         memory: 64Mi
     ## Enable persistence using Persistent Volume Claims
     ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -314,10 +314,23 @@ postgresql-ha:
     resources:
       limits:
         memory: 512Mi
-        cpu: 150m
+        cpu: 250m
       requests:
-        memory: 320Mi
+        memory: 256Mi
         cpu: 100m
+    ## PostgreSQL container's startup probe
+    ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+    ## @param postgresql.startupProbe.enabled Enable startupProbe
+    ## @param postgresql.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
+    ## @param postgresql.startupProbe.periodSeconds Period seconds for startupProbe
+    ## @param postgresql.startupProbe.timeoutSeconds Timeout seconds for startupProbe
+    ## @param postgresql.startupProbe.failureThreshold Failure threshold for startupProbe
+    ## @param postgresql.startupProbe.successThreshold Success threshold for startupProbe
+    ##
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      failureThreshold: 120
     ## @param postgresql.upgradeRepmgrExtension Upgrade repmgr extension in the database
     ##
     upgradeRepmgrExtension: true
@@ -352,10 +365,23 @@ postgresql-ha:
     resources:
       limits:
         memory: 1Gi
-        cpu: 200m
+        cpu: 250m
       requests:
         memory: 512Mi
-        cpu: 150m
+        cpu: 100m
+    ## Pgpool container's startup probe
+    ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+    ## @param pgpool.startupProbe.enabled Enable startupProbe
+    ## @param pgpool.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
+    ## @param pgpool.startupProbe.periodSeconds Period seconds for startupProbe
+    ## @param pgpool.startupProbe.timeoutSeconds Timeout seconds for startupProbe
+    ## @param pgpool.startupProbe.failureThreshold Failure threshold for startupProbe
+    ## @param pgpool.startupProbe.successThreshold Success threshold for startupProbe
+    ##
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      failureThreshold: 120
     ## @param pgpool.affinity Affinity for Pgpool pods assignment
     ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
     ## Note: pgpool.podAffinityPreset, pgpool.podAntiAffinityPreset, and pgpool.nodeAffinityPreset will be ignored when it's set

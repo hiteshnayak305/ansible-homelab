@@ -1,4 +1,11 @@
 ---
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
 metrics:
   # metrics.enabled -- Expose metrics in Prometheus format with default configuration.
   enabled: true

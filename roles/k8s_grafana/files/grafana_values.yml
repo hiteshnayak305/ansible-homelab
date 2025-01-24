@@ -59,11 +59,11 @@ ingress:
 
 resources:
   limits:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 500m
+    memory: 512Mi
   requests:
     cpu: 100m
-    memory: 192Mi
+    memory: 256Mi
 
 ## Affinity for pod assignment (evaluated as template)
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
