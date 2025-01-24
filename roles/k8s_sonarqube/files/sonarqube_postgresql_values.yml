@@ -1,5 +1,5 @@
 ---
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 
 ## @section Global parameters
@@ -37,18 +37,17 @@ primary:
   name: primary
 
   ## PostgreSQL Primary resource requests and limits
-  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param primary.resources.limits The resources limits for the PostgreSQL Primary containers
-  ## @param primary.resources.requests.memory The requested memory for the PostgreSQL Primary containers
-  ## @param primary.resources.requests.cpu The requested cpu for the PostgreSQL Primary containers
+  ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+  ## @param primary.resourcesPreset Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if primary.resources is set (primary.resources is recommended for production).
+  ## More information: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15
   ##
   resources:
     limits:
-      cpu: 150m
-      memory: 250Mi
+      cpu: 500m
+      memory: 512Mi
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 200m
+      memory: 256Mi
 
   ## @param primary.affinity Affinity for PostgreSQL primary pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
@@ -105,7 +104,6 @@ volumePermissions:
 
 ## @section Metrics Parameters
 ##
-
 metrics:
   ## @param metrics.enabled Start a prometheus exporter
   ##
