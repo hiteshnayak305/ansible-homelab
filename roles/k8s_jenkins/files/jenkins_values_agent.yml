@@ -29,7 +29,7 @@ agent:
   # -- Resources allocation (Requests and Limits)
   resources:
     requests:
-      cpu: "500m"
+      cpu: "250m"
       memory: "256Mi"
     limits:
       cpu: "1"
@@ -149,7 +149,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "500Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
@@ -167,7 +167,7 @@ agent:
             args: "cat"
             alwaysPullImage: false
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "1Gi"
@@ -185,7 +185,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
@@ -203,7 +203,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
@@ -221,7 +221,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
@@ -239,7 +239,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
@@ -257,7 +257,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
@@ -275,7 +275,7 @@ agent:
             args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
-            resourceRequestCpu: "1"
+            resourceRequestCpu: "250m"
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"

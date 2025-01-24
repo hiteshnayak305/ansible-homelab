@@ -63,10 +63,10 @@ extraContainerPorts:
 ## @param resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
 resources:
   requests:
-    cpu: 300m
+    cpu: 250m
     memory: 512Mi
   limits:
-    cpu: 500m
+    cpu: 1
     memory: 1Gi
 
 ## @param customLivenessProbe Custom Liveness probes for Keycloak
@@ -95,8 +95,9 @@ customStartupProbe:
   httpGet:
     path: "{{ .Values.httpRelativePath }}health/started"
     port: metrics
-  failureThreshold: 60
-  periodSeconds: 30
+  initialDelaySeconds: 120
+  failureThreshold: 120
+  periodSeconds: 10
 
 startupProbe:
   enabled: false
@@ -239,7 +240,7 @@ postgresql:
         cpu: 500m
       requests:
         memory: 256Mi
-        cpu: 300m
+        cpu: 200m
     persistence:
       enabled: true
       storageClass: "-"
@@ -260,12 +261,31 @@ postgresql:
                   operator: In
                   values:
                     - k8s-worker-01.hitesh.com
+    ## @param primary.startupProbe.enabled Enable startupProbe on PostgreSQL Primary containers
+    ## @param primary.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
+    ## @param primary.startupProbe.periodSeconds Period seconds for startupProbe
+    ## @param primary.startupProbe.timeoutSeconds Timeout seconds for startupProbe
+    ## @param primary.startupProbe.failureThreshold Failure threshold for startupProbe
+    ## @param primary.startupProbe.successThreshold Success threshold for startupProbe
+    ##
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 120
+      failureThreshold: 120
   ## @param primary.pgHbaConfiguration PostgreSQL Primary client authentication configuration
   ## ref: https://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
   ## e.g:#
   ## pgHbaConfiguration: |-
   ##   local all all trust
   ##
+
+  ## Init containers parameters:
+  ## volumePermissions: Change the owner and group of the persistent volume(s) mountpoint(s) to 'runAsUser:fsGroup' on each node
+  ##
+  volumePermissions:
+    ## @param volumePermissions.enabled Enable init container that changes the owner and group of the persistent volume
+    ##
+    enabled: true
 
   ## @section Metrics Parameters
   ##

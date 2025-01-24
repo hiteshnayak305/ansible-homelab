@@ -93,6 +93,7 @@ primary:
   startupProbe:
     enabled: true
     initialDelaySeconds: 120
+    failureThreshold: 120
 
 ## Init containers parameters:
 ## volumePermissions: Change the owner and group of the persistent volume(s) mountpoint(s) to 'runAsUser:fsGroup' on each node
