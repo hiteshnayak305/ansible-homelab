@@ -6,12 +6,13 @@ metadata:
 data:
   Corefile: |
     .:53 {
+        log
         errors
         health {
            lameduck 5s
         }
         ready
-        rewrite name regex .*\.{{ k8s_init_ingress_root_domain | replace('.','\.') }} ingress-nginx-internal-controller.nginx-system.svc.cluster.local
+        rewrite name regex .*{{ k8s_init_ingress_root_domain | replace('.','\.') }} ingress-nginx-internal-controller.nginx-system.svc.cluster.local answer auto
 {% if k8s_init_coredns_entries|length != 0 %}
 {% for entry in k8s_init_coredns_entries %}
         rewrite name {{ entry.type }} {{ entry.from }} {{ entry.to }}
