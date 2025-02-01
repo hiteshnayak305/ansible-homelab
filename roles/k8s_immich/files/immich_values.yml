@@ -59,7 +59,17 @@ immich:
       urls:
         - "http://immich-machine-learning:3003"
     oauth:
-      enabled: false
+      enabled: true
+      autoLaunch: false
+      autoRegister: true
+      buttonText: Login with Keycloak
+      clientId: "immich"
+      clientSecret: "zS7GITFC9hn1IouagJEhniNEQZN75WvG"
+      defaultStorageQuota: 5
+      issuerUrl: "https://keycloak.hitesh.com/realms/main"
+      scope: openid email profile
+      storageLabelClaim: preferred_username
+      storageQuotaClaim: immich_quota
     passwordLogin:
       enabled: true
     storageTemplate:
@@ -123,6 +133,9 @@ redis:
 
 server:
   enabled: true
+  image:
+    repository: hiteshnayak305/immich-server
+    pullPolicy: IfNotPresent
   # -- Set the resource requests / limits for the container.
   resources:
     limits:
