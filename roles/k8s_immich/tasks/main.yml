@@ -28,11 +28,11 @@
         mode: "0777"
       changed_when: false
 
-    - name: Deploy version 12 of postgresql chart
+    - name: Deploy version 15 of postgresql chart
       kubernetes.core.helm:
         name: immich-postgresql
         chart_ref: bitnami/postgresql
-        chart_version: 12.12.10
+        chart_version: 15.5.38
         update_repo_cache: true
         release_namespace: immich-system
         create_namespace: false

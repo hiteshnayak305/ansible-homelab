@@ -1,5 +1,5 @@
 ---
-# Copyright VMware, Inc.
+# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 
 ## @section Global parameters
@@ -42,8 +42,12 @@ global:
 ##
 image:
   registry: docker.io
-  repository: tensorchord/pgvecto-rs
-  tag: pg14-v0.2.0
+  repository: hiteshnayak305/bitnami-postgresql-pgvecto-rs
+  debug: false
+
+## @param postgresqlSharedPreloadLibraries Shared preload libraries (comma-separated list)
+##
+postgresqlSharedPreloadLibraries: "pgaudit,vectors.so"
 
 ## @param architecture PostgreSQL architecture (`standalone` or `replication`)
 ##
@@ -57,10 +61,8 @@ primary:
   name: primary
 
   ## PostgreSQL Primary resource requests and limits
-  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param primary.resources.limits The resources limits for the PostgreSQL Primary containers
-  ## @param primary.resources.requests.memory The requested memory for the PostgreSQL Primary containers
-  ## @param primary.resources.requests.cpu The requested cpu for the PostgreSQL Primary containers
+  ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+  ## @param primary.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
   ##
   resources:
     requests:
@@ -104,6 +106,45 @@ primary:
     ##
     size: 1Gi
 
+  ## Container Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  ## @param primary.containerSecurityContext.enabled Enabled containers' Security Context
+  ## @param primary.containerSecurityContext.seLinuxOptions [object,nullable] Set SELinux options in container
+  ## @param primary.containerSecurityContext.runAsUser Set containers' Security Context runAsUser
+  ## @param primary.containerSecurityContext.runAsGroup Set containers' Security Context runAsGroup
+  ## @param primary.containerSecurityContext.runAsNonRoot Set container's Security Context runAsNonRoot
+  ## @param primary.containerSecurityContext.privileged Set container's Security Context privileged
+  ## @param primary.containerSecurityContext.readOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
+  ## @param primary.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
+  ## @param primary.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+  ## @param primary.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
+  ##
+  containerSecurityContext:
+    readOnlyRootFilesystem: false
+
+  # ## Initdb configuration
+  # ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#specifying-initdb-arguments
+  # ##
+  initdb:
+    scripts:
+      initialize-immich-database.sql: |
+        BEGIN;
+        ALTER DATABASE immich OWNER TO immich;
+        CREATE EXTENSION IF NOT EXISTS cube;
+        CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;
+        CREATE EXTENSION IF NOT EXISTS vectors;
+        ALTER DATABASE immich SET search_path TO "$user", public, vectors;
+        ALTER SCHEMA vectors OWNER TO immich;
+        GRANT USAGE,CREATE ON SCHEMA public TO postgres;
+        GRANT USAGE,CREATE ON SCHEMA vectors TO postgres;
+        COMMIT;
+    ## @param primary.initdb.user Specify the PostgreSQL username to execute the initdb scripts
+    ##
+    user: "postgres"
+    ## @param primary.initdb.password Specify the PostgreSQL password to execute the initdb scripts
+    ##
+    password: "immich"
+
   ## @param primary.startupProbe.enabled Enable startupProbe on PostgreSQL Primary containers
   ## @param primary.startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
   ## @param primary.startupProbe.periodSeconds Period seconds for startupProbe
@@ -114,6 +155,7 @@ primary:
   startupProbe:
     enabled: true
     initialDelaySeconds: 120
+    failureThreshold: 120
 
 ## @section Metrics Parameters
 ##
@@ -123,9 +165,8 @@ metrics:
   ##
   enabled: true
   ## PostgreSQL Prometheus exporter resource requests and limits
-  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param metrics.resources.limits The resources limits for the PostgreSQL Prometheus exporter container
-  ## @param metrics.resources.requests The requested resources for the PostgreSQL Prometheus exporter container
+  ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+  ## @param metrics.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
   ##
   resources:
     requests:
