@@ -21,6 +21,13 @@ controller:
       requests:
         cpu: 50m
         memory: 50Mi
+    csiResizer:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 50m
+        memory: 100Mi
     csiSnapshotter:
       limits:
         cpu: 100m

@@ -15,7 +15,7 @@
   kubernetes.core.helm:
     name: node-problem-detector
     chart_ref: deliveryhero/node-problem-detector
-    chart_version: 2.3.16
+    chart_version: 2.3.17
     update_repo_cache: true
     release_namespace: node-problem-detector
     create_namespace: true
