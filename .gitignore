@@ -13,3 +13,4 @@
 
 #ansible
 *.retry
+.ansible
