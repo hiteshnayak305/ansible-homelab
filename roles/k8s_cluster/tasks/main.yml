@@ -1,5 +1,11 @@
 ---
-# tasks file for k8s_cluster
+- name: Mount shared directory
+  become: true
+  become_user: root
+  block:
+    - name: Mount NFS share
+      ansible.builtin.include_tasks: 00_nfs_mount.yml
+
 - name: Execute role k8s_cluster
   become: true
   become_user: "{{ kubernetes_user }}"
@@ -16,8 +22,12 @@
       ansible.builtin.include_tasks: 03_worker_join.yml
       when: inventory_hostname in groups['k8s_worker']
 
-    - name: Cleanup join commands
-      ansible.builtin.include_tasks: 04_cleanup.yml
-#
 # - name: Reconfigure kubelets
 #   include_tasks: 05_reconfigure_kubelet.yml
+
+- name: Cleanup
+  become: true
+  become_user: root
+  block:
+    - name: Cleanup
+      ansible.builtin.include_tasks: 09_cleanup.yml

@@ -1,3 +1,5 @@
 ---
 k8s_cluster_control_plane_endpoint: k8s-master.domain.com:6443
 k8s_cluster_api_server_advertise_address: "127.0.0.1"
+# nfs server
+k8s_cluster_nfs_server: "{{ nfs_server | default('nfs.domain.com') }}"

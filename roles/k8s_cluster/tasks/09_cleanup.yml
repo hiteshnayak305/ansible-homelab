@@ -1,0 +1,29 @@
+---
+- name: Remove join command files (delete file)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_join_command"
+    - "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
+    - "{{ k8s_cluster_tmpdir }}/kubernetes_join_command"
+    - "{{ k8s_cluster_tmpdir }}/kubernetes_master_join_command"
+  changed_when: false
+
+- name: Unmount NFS volume ssd_0
+  ansible.posix.mount:
+    src: "{{ k8s_cluster_nfs_server }}:/mnt/nfs/ssd_0"
+    path: "/home/{{ kubernetes_user }}/nfs/ssd_0"
+    opts: rw,sync,hard
+    state: absent
+    fstype: nfs
+  when: k8s_cluster_nfs_server is defined
+  changed_when: false
+
+- name: Remove unused directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/home/{{ kubernetes_user }}/nfs"
+  changed_when: false
