@@ -4,7 +4,7 @@ driver:
   mountPermissions: "0777"
 
 feature:
-  enableFSGroupPolicy: true
+  enableFSGroupPolicy: false
   enableInlineVolume: false
   propagateHostMountOptions: false
 
