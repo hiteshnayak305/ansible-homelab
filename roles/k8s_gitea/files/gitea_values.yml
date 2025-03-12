@@ -184,9 +184,11 @@ gitea:
       CONN_STR: redis://:gitea@gitea-redis-headless.gitea-system.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
 
   ## @param gitea.metrics.enabled Enable Gitea metrics
+  ## @param gitea.metrics.token used for `bearer` token authentication on metrics endpoint. If not specified or empty metrics endpoint is public.
   ## @param gitea.metrics.serviceMonitor.enabled Enable Gitea metrics service monitor
   metrics:
     enabled: true
+    token: changeit
     serviceMonitor:
       enabled: true
 
