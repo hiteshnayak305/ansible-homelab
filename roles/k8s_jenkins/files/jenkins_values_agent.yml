@@ -79,10 +79,7 @@ agent:
     type: PVC
     claimName: pvc-jenkins-workspace
     readOnly: false
-  #   type: DynamicPVC
-  #   storageClassName: nfs-client-hdd-0
-  #   requestsSize: 1Gi
-  #
+
   # Pod-wide environment, these vars are visible to any container in the agent pod
   # -- Environment variables for the agent Pod
   envVars: []
@@ -153,6 +150,40 @@ agent:
             resourceRequestMemory: "500Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        yamlMergeStrategy: merge
+    docker-buildkit: |
+      - name: docker-buildkit
+        label: jenkins-docker-buildkit
+        serviceAccount: jenkins
+        showRawYaml: false
+        inheritFrom: default
+        containers:
+          - name: docker
+            image: hiteshnayak305/docker:cli
+            args: "cat"
+            alwaysPullImage: true
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "250m"
+            resourceRequestMemory: "128Mi"
+            resourceLimitCpu: "500m"
+            resourceLimitMemory: "256Mi"
+          - name: buildkit
+            image: moby/buildkit:v0.20.1
+            args: |
+              --addr "unix:///run/buildkit/buildkitd.sock"
+              --addr "tcp://127.0.0.1:1234"
+              --oci-worker-platform "linux/amd64"
+              --oci-worker-platform "linux/arm64"
+            alwaysPullImage: false
+            ttyEnabled: true
+            privileged: true
+            resourceRequestCpu: "250m"
+            resourceRequestMemory: "512Mi"
+            resourceRequestEphemeralStorage: "2Gi"
+            resourceLimitCpu: "2"
+            resourceLimitMemory: "2Gi"
+            resourceLimitEphemeralStorage: "10Gi"
         yamlMergeStrategy: merge
     ssc: |
       - name: ssc
