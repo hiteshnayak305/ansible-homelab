@@ -171,9 +171,9 @@ agent:
           - name: buildkit
             image: moby/buildkit:v0.20.1
             args: |
-              --addr "unix:///run/buildkit/buildkitd.sock" 
-              --addr "tcp://127.0.0.1:1234" 
-              --oci-worker-platform "linux/amd64" 
+              --addr "unix:///run/buildkit/buildkitd.sock"
+              --addr "tcp://127.0.0.1:1234"
+              --oci-worker-platform "linux/amd64"
               --oci-worker-platform "linux/arm64"
             alwaysPullImage: false
             ttyEnabled: true
