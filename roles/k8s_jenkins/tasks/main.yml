@@ -11,6 +11,7 @@
       vars:
         utility_k8s_install_ymls:
           - files/jenkins_namespace.yml
+          - files/sa_jenkins_agent_k8s.yml
           - files/pvc_jenkins_controller.yml
           - files/pvc_jenkins_maven.yml
           - files/pvc_jenkins_gradle.yml

@@ -147,6 +147,7 @@ agent:
         serviceAccount: jenkins
         showRawYaml: false
         inheritFrom: default
+        serviceAccount: jenkins-agent-k8s
         containers:
           - name: k8s
             image: hiteshnayak305/k8s:1.31.4
