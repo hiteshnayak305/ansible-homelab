@@ -159,8 +159,8 @@ agent:
         inheritFrom: default
         containers:
           - name: docker
-            image: docker:cli
-            command: "/bin/sh -c"
+            image: hiteshnayak305/docker:cli
+            args: "cat"
             alwaysPullImage: true
             ttyEnabled: true
             privileged: true
@@ -172,7 +172,7 @@ agent:
             image: moby/buildkit:v0.20.1
             args: |
               --addr "unix:///run/buildkit/buildkitd.sock" 
-              --addr "tcp://localhost:1234" 
+              --addr "tcp://127.0.0.1:1234" 
               --oci-worker-platform "linux/amd64" 
               --oci-worker-platform "linux/arm64"
             alwaysPullImage: false
@@ -184,15 +184,6 @@ agent:
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
             resourceLimitEphemeralStorage: "10Gi"
-        yaml: |
-          spec:
-            containers:
-              - name: docker
-                args:
-                  - "sleep 15 && \
-                     docker buildx create --name remote --driver remote --node remote-0 --use tcp://localhost:1234 && \
-                     docker buildx inspect remote && \
-                     sleep 9999999999"
         yamlMergeStrategy: merge
     ssc: |
       - name: ssc
