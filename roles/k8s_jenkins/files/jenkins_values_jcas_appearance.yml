@@ -11,6 +11,8 @@ controller:
     configScripts:
       appearance-configuration: |
         appearance:
+          pipelineGraphView:
+            showGraphOnBuildPage: true
           themeManager:
             disableUserThemes: true
-            theme: 'material-red'
+            theme: "dark"
