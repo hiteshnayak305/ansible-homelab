@@ -15,17 +15,7 @@ agent:
     repository: "hiteshnayak305/inbound-agent"
     # -- Tag of the image to pull
     tag: "3283.v92c105e0f819-9-alpine"
-  # -- Configure working directory for default agent
-  workingDir: "/home/jenkins/agent"
-  nodeUsageMode: "NORMAL"
-  # -- Append Jenkins labels to the agent
-  customJenkinsLabels: []
-  componentName: "jenkins-agent"
-  # -- Enables agent communication via websockets
-  websocket: false
-  directConnection: false
-  # -- Enables the agent to use the host network
-  hostNetworking: false
+
   # -- Resources allocation (Requests and Limits)
   resources:
     requests:
@@ -45,32 +35,6 @@ agent:
   # or simply to clean up the output to make it easier to read.
   showRawYaml: false
 
-  # You can define the volumes that you want to mount for this container
-  # Allowed types are: ConfigMap, EmptyDir, EphemeralVolume, HostPath, Nfs, PVC, Secret
-  # Configure the attributes as they appear in the corresponding Java class for that type
-  # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
-  volumes:
-    - type: PVC
-      claimName: pvc-jenkins-maven
-      mountPath: /root/.m2
-      readOnly: false
-    - type: PVC
-      claimName: pvc-jenkins-sonar-cache-maven
-      mountPath: /root/.sonar/cache
-      readOnly: false
-    - type: PVC
-      claimName: pvc-jenkins-gradle
-      mountPath: /root/.gradle
-      readOnly: false
-    - type: PVC
-      claimName: pvc-jenkins-npm
-      mountPath: /root/.npm
-      readOnly: false
-    - type: PVC
-      claimName: pvc-jenkins-sonar-cache
-      mountPath: /opt/sonar-scanner/.sonar/cache
-      readOnly: false
-
   # You can define the workspaceVolume that you want to mount for this container
   # Allowed types are: DynamicPVC, EmptyDir, EphemeralVolume, HostPath, Nfs, PVC
   # Configure the attributes as they appear in the corresponding Java class for that type
@@ -80,49 +44,18 @@ agent:
     claimName: pvc-jenkins-workspace
     readOnly: false
 
-  # Pod-wide environment, these vars are visible to any container in the agent pod
-  # -- Environment variables for the agent Pod
-  envVars: []
-  # - name: PATH
-  #   value: /usr/local/bin
-  # -- Mount a secret as environment variable
-  secretEnvVars: []
-  # - key: PATH
-  #   optional: false # default: false
-  #   secretKey: MY-K8S-PATH
-  #   secretName: my-k8s-secret
-
-  # -- Node labels for pod assignment
-  nodeSelector: {}
-  # Key Value selectors. Ex:
-  # nodeSelector
-  #   jenkins-agent: v1
-
-  # -- Command to execute when side container starts
-  command:
-  # -- Arguments passed to command to execute
-  args: "${computer.jnlpmac} ${computer.name}"
-  # -- Side container name
-  sideContainerName: "jnlp"
-
   # Doesn't allocate pseudo TTY by default
   # -- Allocate pseudo tty to the side container
   TTYEnabled: true
   # -- Max number of agents to launch
   containerCap: 1
-  # -- Agent Pod base name
-  podName: "default"
 
-  # -- Allows the Pod to remain active for reuse until the configured number of minutes has passed since the last step was executed on it
-  idleMinutes: 0
   # -- Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates. Possible values: "merge" or "override"
   yamlMergeStrategy: "merge"
   # -- Controls whether the defined yaml merge strategy will be inherited if another defined pod template is configured to inherit from the current one
-  inheritYamlMergeStrategy: false
+  inheritYamlMergeStrategy: true
   # -- Timeout in seconds for an agent to be online
   connectTimeout: 300
-  # -- Annotations to apply to the pod
-  annotations: {}
 
   # Below is the implementation of custom pod templates for the default configured kubernetes cloud.
   # Add a key under podTemplates for each pod template. Each key (prior to | character) is just a label, and can be any value.
@@ -202,6 +135,11 @@ agent:
             resourceRequestMemory: "256Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        volumes:
+          - type: PVC
+            claimName: pvc-jenkins-sonar-cache
+            mountPath: /opt/sonar-scanner/.sonar/cache
+            readOnly: false
         yamlMergeStrategy: merge
     k8s: |
       - name: k8s
@@ -238,6 +176,19 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        volumes:
+          - type: PVC
+            claimName: pvc-jenkins-maven
+            mountPath: /root/.m2
+            readOnly: false
+          - type: PVC
+            claimName: pvc-jenkins-sonar-cache-maven
+            mountPath: /root/.sonar/cache
+            readOnly: false
+          - type: PVC
+            claimName: pvc-jenkins-gradle
+            mountPath: /root/.gradle
+            readOnly: false
         yamlMergeStrategy: merge
     jdk21: |
       - name: jdk21
@@ -256,6 +207,19 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        volumes:
+          - type: PVC
+            claimName: pvc-jenkins-maven
+            mountPath: /root/.m2
+            readOnly: false
+          - type: PVC
+            claimName: pvc-jenkins-sonar-cache-maven
+            mountPath: /root/.sonar/cache
+            readOnly: false
+          - type: PVC
+            claimName: pvc-jenkins-gradle
+            mountPath: /root/.gradle
+            readOnly: false
         yamlMergeStrategy: merge
     jdk23: |
       - name: jdk23
@@ -274,6 +238,19 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        volumes:
+          - type: PVC
+            claimName: pvc-jenkins-maven
+            mountPath: /root/.m2
+            readOnly: false
+          - type: PVC
+            claimName: pvc-jenkins-sonar-cache-maven
+            mountPath: /root/.sonar/cache
+            readOnly: false
+          - type: PVC
+            claimName: pvc-jenkins-gradle
+            mountPath: /root/.gradle
+            readOnly: false
         yamlMergeStrategy: merge
     node22: |
       - name: node22
@@ -292,6 +269,11 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        volumes:
+          - type: PVC
+            claimName: pvc-jenkins-npm
+            mountPath: /root/.npm
+            readOnly: false
         yamlMergeStrategy: merge
     node23: |
       - name: node23
@@ -310,4 +292,9 @@ agent:
             resourceRequestMemory: "512Mi"
             resourceLimitCpu: "2"
             resourceLimitMemory: "2Gi"
+        volumes:
+          - type: PVC
+            claimName: pvc-jenkins-npm
+            mountPath: /root/.npm
+            readOnly: false
         yamlMergeStrategy: merge
