@@ -30,7 +30,6 @@
           - secret/git_gitea_secret.j2
           - secret/docker_harbor_secret.j2
           - secret/helm_harbor_secret.j2
-          - secret/kubectl_default_secret.j2
           - secret/sonarqube_sonarqube_secret.j2
           - secret/mail_gmail_selfhost_secret.j2
           - secret/nvd_api_secret.j2
