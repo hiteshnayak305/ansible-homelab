@@ -104,7 +104,7 @@ data:
               },
               "disableTextWrap": false,
               "editorMode": "builder",
-              "expr": "label_replace(harbor_system_info{instance=~\"$instance\", job=\"harbor-exporter\"}, \"instance\", \"$1\", \"instance\", \"(.*):9090\")",
+              "expr": "label_replace(harbor_system_info{instance=~\"$instance\", job=\"harbor\"}, \"instance\", \"$1\", \"instance\", \"(.*):9090\")",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
               "instant": false,
@@ -185,7 +185,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "harbor_system_info{instance=~\"$instance\",job=\"harbor-exporter\"}",
+              "expr": "harbor_system_info{instance=~\"$instance\",job=\"harbor\"}",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -265,7 +265,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "harbor_system_info{instance=~\"$instance\",job=\"harbor-exporter\"}",
+              "expr": "harbor_system_info{instance=~\"$instance\",job=\"harbor\"}",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -343,7 +343,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "harbor_system_info{instance=~\"$instance\",job=\"harbor-exporter\"}",
+              "expr": "harbor_system_info{instance=~\"$instance\",job=\"harbor\"}",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -437,7 +437,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "harbor_health{instance=~\"$instance\",job=\"harbor-exporter\"}",
+              "expr": "harbor_health{instance=~\"$instance\",job=\"harbor\"}",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -530,7 +530,7 @@ data:
               },
               "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "harbor_up{instance=~\"$instance\",job=\"harbor-exporter\"}",
+              "expr": "harbor_up{instance=~\"$instance\",job=\"harbor\"}",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
               "instant": false,
@@ -622,7 +622,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum (harbor_project_total{instance=~\"$instance\",job=\"harbor-exporter\"})",
+              "expr": "sum (harbor_project_total{instance=~\"$instance\",job=\"harbor\"})",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -688,7 +688,7 @@ data:
               "disableTextWrap": false,
               "editorMode": "builder",
               "exemplar": false,
-              "expr": "sum(changes(harbor_project_total{instance=~\"$instance\", job=\"harbor-exporter\"}[24h]))",
+              "expr": "sum(changes(harbor_project_total{instance=~\"$instance\", job=\"harbor\"}[24h]))",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
               "instant": true,
@@ -751,7 +751,7 @@ data:
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "sum (harbor_project_total{instance=~\"192.168.110.131:9090\",job=\"harbor-exporter\"})"
+                  "options": "sum (harbor_project_total{instance=~\"192.168.110.131:9090\",job=\"harbor\"})"
                 },
                 "properties": [
                   {
@@ -793,7 +793,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum (harbor_project_total{instance=~\"$instance\",job=\"harbor-exporter\"})",
+              "expr": "sum (harbor_project_total{instance=~\"$instance\",job=\"harbor\"})",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -871,7 +871,7 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum (harbor_project_quota_usage_byte{instance=~\"$instance\",job=\"harbor-exporter\"})",
+              "expr": "sum (harbor_project_quota_usage_byte{instance=~\"$instance\",job=\"harbor\"})",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
