@@ -14,9 +14,6 @@
           - files/sa_jenkins_agent_k8s.yml
           - files/pvc_jenkins_controller.yml
           - files/pvc_jenkins_maven.yml
-          - files/pvc_jenkins_gradle.yml
-          - files/pvc_jenkins_npm.yml
-          - files/pvc_jenkins_workspace.yml
           - files/pvc_jenkins_sonar_cache.yml
           - files/pvc_jenkins_sonar_cache_maven.yml
 

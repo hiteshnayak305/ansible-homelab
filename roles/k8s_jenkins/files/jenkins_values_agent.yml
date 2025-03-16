@@ -178,10 +178,7 @@ agent:
               claimName: pvc-jenkins-sonar-cache-maven
               mountPath: /root/.sonar/cache
               readOnly: false
-          - persistentVolumeClaim:
-              claimName: pvc-jenkins-gradle
-              mountPath: /root/.gradle
-              readOnly: false
+
     jdk21: |
       - name: jdk21
         label: jenkins-jdk21
@@ -207,10 +204,7 @@ agent:
               claimName: pvc-jenkins-sonar-cache-maven
               mountPath: /root/.sonar/cache
               readOnly: false
-          - persistentVolumeClaim:
-              claimName: pvc-jenkins-gradle
-              mountPath: /root/.gradle
-              readOnly: false
+
     jdk23: |
       - name: jdk23
         label: jenkins-jdk23
@@ -236,10 +230,7 @@ agent:
               claimName: pvc-jenkins-sonar-cache-maven
               mountPath: /root/.sonar/cache
               readOnly: false
-          - persistentVolumeClaim:
-              claimName: pvc-jenkins-gradle
-              mountPath: /root/.gradle
-              readOnly: false
+
     node22: |
       - name: node22
         label: jenkins-node22
