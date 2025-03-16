@@ -11,11 +11,9 @@
       vars:
         utility_k8s_install_ymls:
           - files/jenkins_namespace.yml
+          - files/sa_jenkins_agent_k8s.yml
           - files/pvc_jenkins_controller.yml
           - files/pvc_jenkins_maven.yml
-          - files/pvc_jenkins_gradle.yml
-          - files/pvc_jenkins_npm.yml
-          - files/pvc_jenkins_workspace.yml
           - files/pvc_jenkins_sonar_cache.yml
           - files/pvc_jenkins_sonar_cache_maven.yml
 
@@ -29,7 +27,6 @@
           - secret/git_gitea_secret.j2
           - secret/docker_harbor_secret.j2
           - secret/helm_harbor_secret.j2
-          - secret/kubectl_default_secret.j2
           - secret/sonarqube_sonarqube_secret.j2
           - secret/mail_gmail_selfhost_secret.j2
           - secret/nvd_api_secret.j2

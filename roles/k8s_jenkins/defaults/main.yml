@@ -19,9 +19,6 @@ k8s_jenkins_docker_config_json: ""
 # helm registry
 k8s_jenkins_helm_config_json: ""
 
-# kubectl
-k8s_jenkins_kubectl_config: ""
-
 # sonarqube token
 k8s_jenkins_sonarqube_token: ""
 

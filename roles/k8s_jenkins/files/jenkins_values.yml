@@ -156,8 +156,6 @@ controller:
       keyName: config-json
     - name: helm-harbor-secret
       keyName: config-json
-    - name: kubectl-default-secret
-      keyName: config
     - name: sonarqube-sonarqube-secret
       keyName: token
     - name: mail-gmail-selfhost-secret
