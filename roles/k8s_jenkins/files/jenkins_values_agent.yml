@@ -14,7 +14,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "hiteshnayak305/inbound-agent"
     # -- Tag of the image to pull
-    tag: "3283.v92c105e0f819-9-alpine"
+    tag: "3299.v0d0d06908537-1-alpine"
 
   # -- Resources allocation (Requests and Limits)
   resources:
