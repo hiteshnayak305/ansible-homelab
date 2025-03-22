@@ -70,7 +70,7 @@
       kubernetes.core.helm:
         name: kubernetes-event-exporter
         chart_ref: bitnami/kubernetes-event-exporter
-        chart_version: 3.3.5
+        chart_version: 3.4.4
         update_repo_cache: true
         release_namespace: loki-system
         create_namespace: false
