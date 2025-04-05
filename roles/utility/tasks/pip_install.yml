@@ -14,4 +14,5 @@
         name: "{{ item }}"
         state: present
         umask: "0022"
+        break_system_packages: true
       with_items: "{{ utility_pip_install }}"
