@@ -14,7 +14,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "hiteshnayak305/inbound-agent"
     # -- Tag of the image to pull
-    tag: "3299.v0d0d06908537-1-alpine"
+    tag: "3301.v4363ddcca_4e7-3-alpine"
 
   # -- Resources allocation (Requests and Limits)
   resources:
@@ -100,7 +100,7 @@ agent:
             resourceLimitCpu: "500m"
             resourceLimitMemory: "256Mi"
           - name: buildkit
-            image: hiteshnayak305/buildkit:v0.20.1
+            image: hiteshnayak305/buildkit:v0.20.2
             args: |
               --addr "unix:///run/buildkit/buildkitd.sock"
               --addr "tcp://127.0.0.1:1234"
