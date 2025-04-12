@@ -31,7 +31,7 @@
       kubernetes.core.helm:
         name: sonarqube-postgresql
         chart_ref: bitnami/postgresql
-        chart_version: 16.5.5
+        chart_version: 16.6.3
         update_repo_cache: true
         release_namespace: sonarqube-system
         create_namespace: false
@@ -73,7 +73,7 @@
       kubernetes.core.helm:
         name: sonarqube
         chart_ref: sonarqube/sonarqube
-        chart_version: 2025.1.1
+        chart_version: 2025.2.0
         update_repo_cache: true
         release_namespace: sonarqube-system
         create_namespace: false

@@ -47,7 +47,7 @@
       kubernetes.core.helm:
         name: gitea
         chart_ref: gitea-charts/gitea
-        chart_version: 11.0.0
+        chart_version: 11.0.1
         update_repo_cache: true
         release_namespace: gitea-system
         create_namespace: false
