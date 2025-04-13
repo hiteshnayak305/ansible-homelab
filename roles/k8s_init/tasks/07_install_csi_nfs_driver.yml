@@ -15,7 +15,7 @@
   kubernetes.core.helm:
     name: csi-driver-nfs
     chart_ref: csi-driver-nfs/csi-driver-nfs
-    chart_version: 4.10.0
+    chart_version: 4.11.0
     update_repo_cache: true
     release_namespace: kube-csi-driver-nfs
     create_namespace: true

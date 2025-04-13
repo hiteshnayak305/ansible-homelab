@@ -39,6 +39,6 @@
 - name: Install Helm diff 3.x.x
   kubernetes.core.helm_plugin:
     plugin_path: https://github.com/databus23/helm-diff
-    plugin_version: v3.10.0
+    plugin_version: v3.11.0
     state: present
   changed_when: false

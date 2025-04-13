@@ -27,7 +27,7 @@ controller:
     # tag:
 
     # -- Controller image tag label
-    tagLabel: alpine
+    tagLabel: alpine-jdk21
 
   # -- Disable use of remember me
   disableRememberMe: false
