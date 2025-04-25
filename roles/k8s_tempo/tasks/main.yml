@@ -20,7 +20,7 @@
       kubernetes.core.helm:
         name: tempo
         chart_ref: grafana/tempo
-        chart_version: 1.20.0
+        chart_version: 1.21.0
         update_repo_cache: true
         release_namespace: tempo-system
         create_namespace: true

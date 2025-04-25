@@ -10,7 +10,7 @@ env:
   CPU_CORES: "2"
 
 image:
-  tag: v1.131.3
+  tag: v1.132.1
 
 immich:
   metrics:

@@ -14,7 +14,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "hiteshnayak305/inbound-agent"
     # -- Tag of the image to pull
-    tag: "3301.v4363ddcca_4e7-3-alpine"
+    tag: "3307.v632ed11b_3a_c7-2-alpine"
 
   # -- Resources allocation (Requests and Limits)
   resources:
@@ -144,7 +144,7 @@ agent:
         inheritFrom: default
         containers:
           - name: k8s
-            image: hiteshnayak305/k8s:1.31.4
+            image: hiteshnayak305/k8s:1.32.4
             command: "/bin/bash -c"
             args: "cat"
             alwaysPullImage: false
