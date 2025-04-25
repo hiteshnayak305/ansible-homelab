@@ -11,11 +11,11 @@ This collection provides management of homelab infrastructure and k8s cluster.
 - [ ] Install [`kubernetes-sigs/descheduler`](https://github.com/kubernetes-sigs/descheduler) for optimized pods distribution.
 - [ ] Enable dependabot autometic dependency updates.
 - [ ] Cleanup fixed parameters for public release.
-- [ ] Upgrade k8s nodes to Ubuntu 24.04 lts from 22.04 lts
 
 ### Completed
 
 - [x] Upgrade k8s nodes to v1.32.4 from v1.31.4
+- [x] Upgrade k8s nodes to Ubuntu 24.04 lts from 22.04 lts
 - [x] Docker buildx-buildkit instead of kaniko for image building
 - [x] Remove and Clean [`kubernetes-sigs/nfs-subdir-external-provisioner`](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) installation.
 - [x] Migrate manually created application `PVC`s to [`kubernetes-csi/csi-driver-nfs`](https://github.com/kubernetes-csi/csi-driver-nfs).
