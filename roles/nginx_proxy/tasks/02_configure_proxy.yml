@@ -14,13 +14,13 @@
     owner: "root"
     group: "root"
     mode: "0755"
-  register: config0
+  register: nginx_proxy_config0
 
 - name: Disable default http config file
   ansible.builtin.file:
     path: "{{ nginx_proxy_enabled_sites_config_file_path }}/default"
     state: absent
-  register: config1
+  register: nginx_proxy_config1
 
 - name: Enable custom config file
   ansible.builtin.file:
@@ -30,11 +30,11 @@
     group: "root"
     mode: "0755"
     state: link
-  register: config2
+  register: nginx_proxy_config2
 
 - name: Test Configuration
   ansible.builtin.command: "nginx -t"
-  when: config0 is changed or config1 is changed or config2 is changed
-  changed_when: config0 is changed or config1 is changed or config2 is changed
+  when: nginx_proxy_config0 is changed or nginx_proxy_config1 is changed or nginx_proxy_config2 is changed
+  changed_when: nginx_proxy_config0 is changed or nginx_proxy_config1 is changed or nginx_proxy_config2 is changed
   notify:
     - Restart Nginx

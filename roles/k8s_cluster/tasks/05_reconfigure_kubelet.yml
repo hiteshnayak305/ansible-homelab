@@ -12,7 +12,7 @@
     state: present
     src: "{{ k8s_cluster_tmpdir }}/kubelet_config.yml"
     wait: true
-  register: config
+  register: k8s_cluster_config
   when: not ansible_check_mode and inventory_hostname == 'k8s-master-01'
 
 - name: Reconfigure and Restart kubelet

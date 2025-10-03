@@ -11,7 +11,7 @@
 - name: Check for existing cluster crt
   ansible.builtin.stat:
     path: /etc/kubernetes/pki/ca.crt
-  register: result
+  register: k8s_cluster_result
   changed_when: false
 
 - name: Initialize the cluster
@@ -21,7 +21,7 @@
   args:
     chdir: $HOME
     creates: cluster_initialized.txt
-  when: not result.stat.exists
+  when: not k8s_cluster_result.stat.exists
 
 - name: Copies admin.conf to user's kube config
   become: true
@@ -33,14 +33,14 @@
     owner: "{{ kubernetes_user }}"
     group: "{{ kubernetes_user }}"
     mode: "0600"
-  when: not result.stat.exists
+  when: not k8s_cluster_result.stat.exists
 
 - name: Copies config to user's local
   ansible.builtin.fetch:
     src: "/home/{{ kubernetes_user }}/.kube/config"
     dest: /home/hitesh/.kube/config
     flat: true
-  when: not result.stat.exists
+  when: not k8s_cluster_result.stat.exists
 
 - name: Correct Permission of kube config
   become: true
@@ -51,7 +51,7 @@
     owner: hitesh
     group: hitesh
     mode: "0600"
-  when: not result.stat.exists
+  when: not k8s_cluster_result.stat.exists
 
 - name: Get the cert for joining the master nodes
   become: true
@@ -61,7 +61,7 @@
       set -o pipefail
       kubeadm init phase upload-certs --upload-certs | grep -vw -e certificate -e Namespace
     executable: /bin/bash
-  register: kubernetes_join_cert_key
+  register: k8s_cluster_kubernetes_join_cert_key
   when: true
   changed_when: false
 
@@ -69,13 +69,13 @@
   become: true
   become_user: root
   ansible.builtin.command: kubeadm token create  --print-join-command
-  register: kubernetes_join_command
+  register: k8s_cluster_kubernetes_join_command
   when: true
   changed_when: false
 
 - name: Copy master join command to nfs location => /home/kube/nfs/ssd_0/kubernetes_master_join_command
   ansible.builtin.copy:
-    content: "{{ kubernetes_join_command.stdout_lines[0] }} --control-plane --certificate-key {{ kubernetes_join_cert_key.stdout }}"
+    content: "{{ k8s_cluster_kubernetes_join_command.stdout_lines[0] }} --control-plane --certificate-key {{ k8s_cluster_kubernetes_join_cert_key.stdout }}"
     dest: "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_master_join_command"
     mode: "0777"
   when: true and not ansible_check_mode
@@ -83,7 +83,7 @@
 
 - name: Copy worker join command to nfs location => /home/kube/nfs/ssd_0/kubernetes_join_command
   ansible.builtin.copy:
-    content: "{{ kubernetes_join_command.stdout_lines[0] }}"
+    content: "{{ k8s_cluster_kubernetes_join_command.stdout_lines[0] }}"
     dest: "/home/{{ kubernetes_user }}/nfs/ssd_0/kubernetes_join_command"
     mode: "0777"
   when: true and not ansible_check_mode

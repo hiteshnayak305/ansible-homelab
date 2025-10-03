@@ -8,18 +8,18 @@
         dest: "{{ utility_sshd_config_path }}"
         regexp: "#Banner /etc/issue.net"
         line: "Banner /etc/issue.net"
-      register: config
+      register: utility_config
 
     - name: Update ssh banner
       ansible.builtin.template:
         src: etc/ssh_banner.j2
         dest: /etc/issue.net
         mode: "0644"
-      register: template
+      register: utility_template
 
 - name: Restart SSH Service
   ansible.builtin.include_tasks: systemctl_restart.yml
   vars:
     utility_systemctl_restart:
       - ssh
-  when: config is changed or template is changed
+  when: utility_config is changed or utility_template is changed
