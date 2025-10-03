@@ -7,7 +7,7 @@
     - name: Check for existing cluster crt
       ansible.builtin.stat:
         path: /etc/kubernetes/pki/ca.crt
-      register: result
+      register: k8s_teardown_result
       changed_when: false
 
     - name: Restart containerd
@@ -15,11 +15,11 @@
         name: "containerd"
         state: "restarted"
         enabled: true
-      when: result.stat.exists
+      when: k8s_teardown_result.stat.exists
 
     - name: Reset kubeadm node
       ansible.builtin.command: kubeadm reset -f
-      when: result.stat.exists
+      when: k8s_teardown_result.stat.exists
       changed_when: true
 
     - name: Clean IP tables
@@ -28,27 +28,27 @@
         iptables -t nat -F
         iptables -t mangle -F
         iptables -X
-      when: result.stat.exists
+      when: k8s_teardown_result.stat.exists
       changed_when: true
 
     # - name: Reset IPVS tables
     #   command: ipvsadm -C
-    #   when: result.stat.exists
+    #   when: k8s_teardown_result.stat.exists
 
     - name: Remove file => /home/kube/.kube/config
       ansible.builtin.file:
         path: /home/kube/.kube/config
         state: absent
-      when: result.stat.exists
+      when: k8s_teardown_result.stat.exists
 
     - name: Delete local kube config
       delegate_to: localhost
       ansible.builtin.file:
         path: /home/hitesh/.kube/config
         state: absent
-      when: result.stat.exists
+      when: k8s_teardown_result.stat.exists
 
     - name: Reboot
       ansible.builtin.reboot:
-      when: result.stat.exists
+      when: k8s_teardown_result.stat.exists
       changed_when: false

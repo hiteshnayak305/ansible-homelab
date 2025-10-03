@@ -19,5 +19,5 @@
     owner: "{{ item }}"
     group: "{{ item }}"
     mode: "0664"
-  register: installed_hosts
+  register: utility_installed_hosts
   with_items: "{{ utility_htop_users }}"
