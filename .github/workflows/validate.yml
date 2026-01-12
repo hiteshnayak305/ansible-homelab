@@ -20,4 +20,4 @@ jobs:
       - name: yaml-lint
         uses: ibiqlik/action-yamllint@v3
       - name: ansible-lint
-        uses: ansible/ansible-lint@v25
+        uses: ansible/ansible-lint@v26
